@@ -5,6 +5,8 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import render
 
+from .models import MatriculaCpf
+
 
 def cadastro(request):
     if request.method == "GET":
@@ -39,6 +41,23 @@ def login(request):
             return HttpResponse("Email ou senha inválidos")
 
 
-@login_required(login_url="/projeto/login")
+def matricula(request):
+    if request.method == "GET":
+        return render(request, "matricula.html")
+    else:
+        nova_matricula = MatriculaCpf()
+        nova_matricula.num_matricula = request.POST.get("matricula")
+        nova_matricula.cpf = request.POST.get("cpf")
+
+        if MatriculaCpf.objects.filter(
+            num_matricula=nova_matricula.num_matricula, cpf=nova_matricula.cpf
+        ).exists:
+            return HttpResponse("Matricula ou cpf existente")
+        else:
+            nova_matricula.save()
+            return HttpResponse("Matricula salva")
+
+
+# @login_required(login_url="/projeto/login")
 def plataforma(request):
     return HttpResponse("Plataforma")
