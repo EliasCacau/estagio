@@ -1,18 +1,64 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-</head>
-<body>
-    <form action="{% url 'login' %}" method="POST"> {% csrf_token %}
-        <input type="text" name="username" placeholder="Username...">
-        <br>
-        <input type="password" name="senha" placeholder="Senha...">
-        <br>
-        <br>
-        <input type="submit" value="logar">
-    </form>
-</body>
-</html>
+{% extends 'index.html' %}
+
+{% block title %} Login {% endblock %} 
+
+{% block content %}
+<div class="container">    
+    <div id="loginbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">                    
+        <div class="panel panel-info" >
+            <div class="panel-heading">
+                <div class="panel-title">Login</div>
+                
+            </div>     
+
+            <div style="padding-top:30px" class="panel-body" >
+
+                <div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
+                    
+                <form action="{% url 'login' %}" method="POST"> 
+                    {{ error }}
+                    {% csrf_token %}
+                            
+                    <div style="margin-bottom: 25px" class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                <input type="text" class="form-control" name="username" placeholder="Nome de usuário">                                        
+                            </div>
+                        
+                    <div style="margin-bottom: 25px" class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                <input type="password" class="form-control" name="password" placeholder="Senha">
+                            </div>
+                    
+                    <div style="float:right; font-size: 100%; position: relative; top:-10px"><a href="#">Esqueceu a senha?</a></div>
+
+                        
+                    <div class="input-group">
+                            <div class="checkbox">
+                                <label>
+                                <input id="login-remember" type="checkbox" name="remember" value="1"> Lembrar-me
+                                </label>
+                            </div>
+                    </div>
+
+
+                    <div style="margin-top:10px;" class="form-group">
+                        <!-- Button -->
+
+                        <div class="col-sm-12 controls;" style="width: 100%; margin-bottom: 10px;">
+                            <input type="submit" class="btn btn-success btn-block" value="logar">
+                        </div>
+                        
+                        <div class="col-md-12 control">
+                            <div style="border-top: 1px solid#888; padding-top:3%; font-size:100%;" >
+                                Não possui conta! 
+                                <a href="/cadastro">
+                                Cadastre-se Aqui
+                                </a>
+                            </div>
+                        </div>
+                    </div>    
+                </form>     
+            </div>                     
+        </div>  
+</div>
+{% endblock %}
