@@ -1,0 +1,42 @@
+{% extends 'index.html' %}
+
+{% block title %} Confirmar matrícula {% endblock %} 
+
+{% block content %}
+<div class="container">
+    <div id="signupbox" style="margin-top:50px" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <div class="panel-title">Confirmar Matrícula ou CPF</div>
+            </div>  
+            <div class="panel-body" >
+                <form action="{% url 'confirma_matricula' %}" method="POST"> 
+                    {{ error }}
+                    {% csrf_token %}
+                    <div id="signupalert" style="display:none" class="alert alert-danger">
+                        <p>Error:</p>
+                        <span></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cpf_matricula" class="row-md-3 control-label">Insira o CPF ou Número da Matrícula</label>
+                        <div class="row-md-9">
+                            <input type="text" class="form-control" name="cpf_matricula" placeholder="CPF ou Matrícula">
+                        </div>
+                    </div> 
+
+
+                    <div style="margin-top: 20px;" class="form-group">
+                        <!-- Button -->
+                        <div class="row-md-3 constrols" style="width: 100%; margin-bottom: 10px;">
+                            <input type="submit" class="btn btn-primary btn-block" value="Confirmar">
+                        </div>
+                    </div>                                      
+                            
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
