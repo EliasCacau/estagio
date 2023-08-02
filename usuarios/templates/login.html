@@ -3,15 +3,15 @@
 {% block title %} Login {% endblock %} 
 
 {% block content %}
-<div class="container">    
-    <div id="loginbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">                    
-        <div class="panel panel-info" >
-            <div class="panel-heading">
-                <div class="panel-title">Login</div>
+<div class="container col-md-7 offset-md-4">    
+    <div id="loginbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-5">                    
+        <div class="card card-body" >
+            <div class="card-header">
+                <div class="card-title" style="font-size:130%;">Login</div>
                 
             </div>     
 
-            <div style="padding-top:30px" class="panel-body" >
+            <div style="padding-top:30px" class="card-body" >
 
                 <div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
                     
@@ -20,32 +20,32 @@
                     {% csrf_token %}
                             
                     <div style="margin-bottom: 25px" class="input-group">
-                                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                <input type="text" class="form-control" name="username" placeholder="Nome de usuário">                                        
-                            </div>
+                        <span class="input-group-text" ><i class="fa-regular fa-user"></i></span>
+                        <input type="text" class="form-control" name="cpf" placeholder="CPF" required>                                        
+                    </div>
                         
                     <div style="margin-bottom: 25px" class="input-group">
-                                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                <input type="password" class="form-control" name="password" placeholder="Senha">
-                            </div>
+                        <span class="input-group-text"><i class="fa-solid fa-lock"></i></span>
+                        <input type="password" class="form-control" name="password" placeholder="Senha" required>
+                    </div>
                     
                     <div style="float:right; font-size: 100%; position: relative; top:-10px"><a href="#">Esqueceu a senha?</a></div>
 
                         
-                    <div class="input-group">
+                    {% comment %} <div class="input-group">
                             <div class="checkbox">
                                 <label>
                                 <input id="login-remember" type="checkbox" name="remember" value="1"> Lembrar-me
                                 </label>
                             </div>
-                    </div>
+                    </div> {% endcomment %}
 
 
                     <div style="margin-top:10px;" class="form-group">
                         <!-- Button -->
 
-                        <div class="col-sm-12 controls;" style="width: 100%; margin-bottom: 10px;">
-                            <input type="submit" class="btn btn-success btn-block" value="logar">
+                        <div class="d-grid gap-2 mx-auto" style="width: 100%; margin-top:60px; margin-bottom: 10px;">
+                            <input type="submit" class="btn btn-success" value="Logar">
                         </div>
                         
                         <div class="col-md-12 control">

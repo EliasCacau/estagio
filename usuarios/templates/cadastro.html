@@ -3,57 +3,54 @@
 {% block title %} Cadastro {% endblock %} 
 
 {% block content %}
-<div class="container">
+<div class="container col-md-7 offset-md-4">
     <div id="signupbox" style="margin-top:50px" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
-        <div class="panel panel-info">
-            <div class="panel-heading">
-                <div class="panel-title">Cadastro</div>
+        <div class="card card-info">
+            <div class="card-header">
+                <div class="card-title" style="font-size:130%;">Cadastro</div>
             </div>  
-            <div class="panel-body" >
+            <div class="card-body" >
                 <form action="{% url 'cadastro' %}" method="POST"> 
                     {{ error }}
                     {% csrf_token %}
-                    <div id="signupalert" style="display:none" class="alert alert-danger">
-                        <p>Error:</p>
-                        <span></span>
-                    </div>
+                    <div id="signupalert" style="display:none" class="alert alert-danger"></div>
                         
-                    <div class="form-group">
-                        <label for="username" class="row-md-3 control-label">Nome de usuário</label>
+                    <div class="input-group row" style="margin-bottom:10px;">
+                        <label for="cpf" class="row-md-3 control-label">CPF</label>
                         <div class="row-md-9">
-                            <input type="text" class="form-control" name="username" placeholder="Nome de usuário" value="{{ cpf }}">
+                            <input type="text" class="form-control" name="cpf" placeholder="CPF" value="{{ cpf }}" required>
                         </div>
                     </div>
 
-                    <div class="form-group">
+                    <div class="input-group row" style="margin-bottom:10px;">
                         <label for="email" class="row-md-3 control-label">Email</label>
                         <div class="row-md-9">
-                            <input type="text" class="form-control" name="email" placeholder="Email">
+                            <input type="text" class="form-control" name="email" placeholder="Email" required>
                         </div>
                     </div>
 
-                    <div class="form-group">
+                    <div class="input-group row" style="margin-bottom:10px;">
                         <label for="password" class="row-md-3 control-label">Senha</label>
                         <div class="row-md-9">
-                            <input type="password" class="form-control" name="password">
+                            <input type="password" class="form-control" name="password" required>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="input-group row" style="margin-bottom:10px;">
                         <label for="confirm_password" class="row-md-3 control-label">Confirmar senha</label>
                         <div class="row-md-9">
-                            <input type="password" class="form-control" name="confirm_password">
+                            <input type="password" class="form-control" name="confirm_password" required>
                         </div>
                     </div>
 
                     <div style="margin-top: 20px;" class="form-group">
                         <!-- Button -->
-                        <div class="row-md-3 constrols" style="width: 100%; margin-bottom: 10px;">
-                            <input type="submit" class="btn btn-info btn-block" value="Cadastrar">
+                        <div class="d-grid gap-2 mx-auto" style="width: 100%; margin-bottom: 10px;">
+                            <input type="submit" class="btn btn-primary" value="Cadastrar">
                         </div>
                         <div style="padding-top:3%;border-top: 1px solid#888; text-align: center; margin-bottom: 10px;">
                             <span class="row-md-9 constrols">Já possui login?</span>
                         </div>
-                        <div class="row-md-3 controls" style="width: 100%; margin-bottom: 20px;">
+                        <div class="d-grid gap-2 mx-auto" style="width: 100%; margin-bottom: 20px;">
                             <a type="submit" class="btn btn-success btn-block" href="/login">Logar</a>
                         </div>
                     </div>                                      

@@ -19,10 +19,10 @@ def cadastro(request, cpf_matricula=None):
         else:
             return render(request, "cadastro.html")
     else:
-        username = request.POST.get("username")
+        cpf = request.POST.get("cpf")
         email = request.POST.get("email")
         password = request.POST.get("password")
-        if User.objects.filter(username=username).exists():
+        if User.objects.filter(username=cpf).exists():
             return render(
                 request,
                 "cadastro.html",
@@ -43,12 +43,12 @@ def cadastro(request, cpf_matricula=None):
         else:
             if request.POST["password"] == request.POST["confirm_password"]:
                 user = User.objects.create_user(
-                    username=username,
+                    username=cpf,
                     email=email,
                     password=password,
                 )
                 user.save()
-                matricula_cpf = MatriculaCpf.objects.get(cpf=username)
+                matricula_cpf = MatriculaCpf.objects.get(cpf=cpf)
                 matricula_cpf.user = user
                 matricula_cpf.cadastrado = True
                 matricula_cpf.save()
@@ -66,14 +66,14 @@ def login(request):
     if request.method == "GET":
         return render(request, "login.html")
     else:
-        username = request.POST.get("username")
+        cpf = request.POST.get("cpf")
         password = request.POST.get("password")
 
-        user = authenticate(username=username, password=password)
+        user = authenticate(username=cpf, password=password)
 
         if user:
             login_django(request, user)
-            return HttpResponse("Usuário Autenticado")
+            return redirect("formulario")
         else:
             return render(
                 request,
@@ -140,6 +140,7 @@ def confirma_matricula(request):
             )
 
 
-# @login_required(login_url="/projeto/login")
-def plataforma(request):
-    return HttpResponse("Plataforma")
+# @login_required(login_url="/login")
+def sair(request):
+    logout(request)
+    return redirect("login")

@@ -3,32 +3,31 @@
 {% block title %} Confirmar matrícula {% endblock %} 
 
 {% block content %}
-<div class="container">
-    <div id="signupbox" style="margin-top:50px" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
-        <div class="panel panel-info">
-            <div class="panel-heading">
-                <div class="panel-title">Confirmar Matrícula ou CPF</div>
+<div class="container col-md-7 offset-md-4">
+    <div id="matriculabox" style="margin-top:50px" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+        <div class="card card-body" >
+            <div class="card-header">
+                <div class="card-title" style="font-size:130%;">Confirmar Matrícula ou CPF</div>
             </div>  
-            <div class="panel-body" >
+
+            <div style="padding-top:30px" class="card-body" >
+                <div style="display:none" id="matricula-alert" class="alert alert-danger col-sm-12"></div>
+
                 <form action="{% url 'confirma_matricula' %}" method="POST"> 
                     {{ error }}
                     {% csrf_token %}
-                    <div id="signupalert" style="display:none" class="alert alert-danger">
-                        <p>Error:</p>
-                        <span></span>
-                    </div>
 
-                    <div class="form-group">
-                        <label for="cpf_matricula" class="row-md-3 control-label">Insira o CPF ou Número da Matrícula</label>
-                        <div class="row-md-9">
-                            <input type="text" class="form-control" name="cpf_matricula" placeholder="CPF ou Matrícula">
+                    <div class="input-group row">
+                        <label for="cpf_matricula" class="dark-text-emphasis-dark" style="margin-bottom:5px; font-weight: bold;">Necessário o CPF ou Número da Matrícula para se cadastrar</label>
+                        <div class="">
+                            <input type="text" class="form-control" name="cpf_matricula" placeholder="CPF ou Matrícula" required>
                         </div>
                     </div> 
 
 
                     <div style="margin-top: 20px;" class="form-group">
                         <!-- Button -->
-                        <div class="row-md-3 constrols" style="width: 100%; margin-bottom: 10px;">
+                        <div class="row mx-auto">
                             <input type="submit" class="btn btn-primary btn-block" value="Confirmar">
                         </div>
                     </div>                                      
