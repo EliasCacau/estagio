@@ -3,7 +3,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
 
-from .models import DadosCandidato
+from .models import DadosCandidato, DadosCandidato2
 
 
 def validate_not_empty(value):
@@ -36,7 +36,7 @@ class RegisterForm(forms.ModelForm):
 
 class RegisterForm2(forms.ModelForm):
     class Meta:
-        model = DadosCandidato
+        model = DadosCandidato2
         fields = "__all__"
         errors = {"nome_candidato": "Insira o nome do candidato"}
         labels = {
