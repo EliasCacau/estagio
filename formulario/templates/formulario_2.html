@@ -30,7 +30,7 @@
                         {% if field.help_text %}
                             <p class="help-text">{{ field.help_text }}</p>
                         {% endif %}
-                        {{ form.errors }}  
+                        {% comment %} {{ form.errors }}   {% endcomment %}
                     </div>                        
                 {% endfor %}               
 
