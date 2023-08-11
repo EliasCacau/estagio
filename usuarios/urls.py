@@ -9,4 +9,5 @@ urlpatterns = [
     path("matricula/", views.matricula, name="matricula"),
     path("confirma_matricula/", views.confirma_matricula, name="confirma_matricula"),
     path("sair/", views.sair, name="sair"),
+    # path("formulario/", views.formulario, name="formulario"),
 ]

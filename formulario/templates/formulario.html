@@ -1,5 +1,5 @@
 {% extends 'menu.html' %}
-
+{% load bootstrap %}
 {% block title %} Formulário {% endblock %}
 
 {% block content %}
@@ -8,8 +8,8 @@
         <li class="page-item active" aria-current="page">
             <span class="page-link">1</span>
         </li>
-        <li class="page-item"><a class="page-link" href="/formulario">2</a></li>
-        <li class="page-item"><a class="page-link" href="/formulario_dois">3</a></li>
+        <li class="page-item"><a class="page-link" href="/formulario_2">2</a></li>
+        <li class="page-item" aria-current="page"><a class="page-link" href="">3</a></li>
     </ul>
 </nav>
     
@@ -17,17 +17,23 @@
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <h1 style="font-size:190%">Formulário</h1>
-                <form action="{% url 'formulario' %}" method="POST">
+                
+                <form action="{% url 'formulario:formulario_enviado' %}" method="POST">
                     {% csrf_token %}
-                    <div class="input-group mb-3">
-                        {% comment %} <span class="input-group-text" id="basic-addon1">@</span> {% endcomment %}
-                        <input name="nome_candidato" type="text" class="form-control" placeholder="Nome Completo" required>
-                    </div>
-                    
-                    <div class="input-group mb-3">
-                        <input name="data_nasc" type="date" class="form-control" placeholder="Date" required>
-                    </div>
-            
+
+                    {% for field in form %}
+                        <div class="input-group">
+                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            <div class="input-group mb-3">
+                                {{field}}
+                            </div>
+                            {% if field.help_text %}
+                                <p class="help-text">{{ field.help_text }}</p>
+                            {% endif %}
+                            {{ form.errors }}  
+                        </div>                        
+                    {% endfor %}               
+
                     <div style="margin-top: 20px;" class="form-group">
                         <!-- Button -->
                         {% comment %} <div class="position-fixed bottom-0 end-0 p-3"> {% endcomment %}
