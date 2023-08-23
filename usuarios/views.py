@@ -140,7 +140,7 @@ def confirma_matricula(request):
             )
 
 
-# @login_required(login_url="/login")
+@login_required(login_url="/login")
 def sair(request):
     logout(request)
     return redirect("login")

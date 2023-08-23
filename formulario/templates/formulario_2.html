@@ -30,8 +30,8 @@
                         {% if field.help_text %}
                             <p class="help-text">{{ field.help_text }}</p>
                         {% endif %}
-                        {% comment %} {{ form.errors }}   {% endcomment %}
-                    </div>                        
+                    </div>
+                    {{ field.errors }}                         
                 {% endfor %}               
 
                 <div style="margin-top: 20px;" class="form-group">

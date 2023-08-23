@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import DadosCandidato
+from .models.dados_candidato_models import DadosCandidato
 
 
 class DadosCandidatoAdmin(admin.ModelAdmin):

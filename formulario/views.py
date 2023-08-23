@@ -6,15 +6,16 @@ from django.http import Http404
 # from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
-from .forms import RegisterForm, RegisterForm2
-from .models import DadosCandidato
+from formulario.forms.candidato_forms import DadosCandidatoForm, RegisterForm2
+
+from .models.dados_candidato_models import DadosCandidato
 
 
 @login_required(login_url="/login")
 def formulario(request):
     register_form_data = request.session.get("register_form_data", None)
     if register_form_data:
-        form = RegisterForm(register_form_data)
+        form = DadosCandidatoForm(register_form_data)
         return render(
             request,
             "formulario.html",
@@ -23,7 +24,7 @@ def formulario(request):
             },
         )
     else:
-        form = RegisterForm()
+        form = DadosCandidatoForm()
         return render(
             request,
             "formulario.html",
@@ -42,7 +43,6 @@ def formulario_enviado(request):
     dados = DadosCandidato.objects.filter(user=user).first()
     POST = request.POST
     request.session["register_form_data"] = POST
-    form = RegisterForm(POST)
 
     dados = DadosCandidato.objects.create(
         user=user,
@@ -72,34 +72,4 @@ def formulario_enviado_2(request):
         raise Http404()
     POST = request.POST
     request.session["register_form_data"] = POST
-    form = RegisterForm2(POST)
     return redirect("formulario:formulario_2")
-
-
-# @login_required(login_url="/login")
-# def formulario(request):
-#     user = request.user
-#     dados = DadosCandidato.objects.filter(user=user).first()
-
-#     if request.method == "GET":
-#         return render(
-#             request,
-#             "formulario.html",
-#             context={
-#                 "dados": dados,
-#             },
-#         )
-#     else:
-#         dados = DadosCandidato.objects.create(
-#             user=user,
-#             nome_candidato=request.POST.get("nome_candidato"),
-#             data_nasc_candidato=request.POST.get("data_nasc"),
-#         )
-#         # dados.save()
-#         return render(request, "sucesso.html")
-
-
-# @login_required(login_url="/login")
-# def formulario_enviado(request):
-#     if request.method == "GET":
-#         return render(request, "sucesso.html")
