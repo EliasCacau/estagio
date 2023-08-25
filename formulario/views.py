@@ -7,32 +7,35 @@ from django.http import Http404
 # from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
-from formulario.forms.dados_candidato_forms import DadosCandidatoForm, RegisterForm2
+from formulario.forms.dados_candidato_forms import DadosCandidatoForm
+from formulario.forms.email_candidato_forms import EmailCandidatoForm
 
 from .models.dados_candidato_models import DadosCandidato
+from .models.email_candidato_models import EmailCandidato
 
 
 @login_required(login_url="/login")
 def formulario(request):
-    register_form_data = request.session.get("register_form_data", None)
-    if register_form_data:
-        form = DadosCandidatoForm(register_form_data)
-        return render(
-            request,
-            "formulario.html",
-            {
-                "form": form,
-            },
-        )
-    else:
-        form = DadosCandidatoForm()
-        return render(
-            request,
-            "formulario.html",
-            {
-                "form": form,
-            },
-        )
+    if request.method == "GET":
+        register_form_data = request.session.get("register_form_data", None)
+        if register_form_data:
+            form = DadosCandidatoForm(register_form_data)
+            return render(
+                request,
+                "formulario.html",
+                {
+                    "form": form,
+                },
+            )
+        else:
+            form = DadosCandidatoForm()
+            return render(
+                request,
+                "formulario.html",
+                {
+                    "form": form,
+                },
+            )
 
 
 @login_required(login_url="/login")
@@ -66,26 +69,47 @@ def formulario_enviado(request):
             serie_carteira_prof=request.POST.get("serie_carteira_prof"),
         )
         dados.save()
-    return redirect("formulario:formulario")
+    return redirect("formulario:formulario_2")
 
 
 @login_required(login_url="/login")
 def formulario_2(request):
-    register_form_data = request.session.get("register_form_data", None)
-    form = RegisterForm2(register_form_data)
-    return render(
-        request,
-        "formulario_2.html",
-        {
-            "form": form,
-        },
-    )
+    if request.method == "GET":
+        email_data = request.session.get("register_form_data", None)
+        if email_data:
+            form = EmailCandidatoForm(email_data)
+            return render(
+                request,
+                "formulario_2.html",
+                {
+                    "form": form,
+                },
+            )
+        else:
+            form = EmailCandidatoForm()
+            return render(
+                request,
+                "formulario_2.html",
+                {
+                    "form": form,
+                },
+            )
 
 
 @login_required(login_url="/login")
 def formulario_enviado_2(request):
     if not request.POST:
         raise Http404()
+
+    user = request.user
+    dados = EmailCandidato.objects.filter(user=user).first()
     POST = request.POST
     request.session["register_form_data"] = POST
+    form = EmailCandidatoForm(request.POST, instance=dados)
+    if form.is_valid():
+        dados = EmailCandidato.objects.create(
+            user=user,
+            email_candidato=request.POST.get("email_candidato"),
+        )
+        dados.save()
     return redirect("formulario:formulario_2")

@@ -16,7 +16,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-6">
-                <h1 style="font-size:190%">Formulário</h1>
+                <h1 style="font-size:190%">Formulário Dados do Candidato</h1>
                 
                 <form action="{% url 'formulario:formulario_enviado' %}" method="POST">
                     {% csrf_token %}
@@ -39,7 +39,7 @@
                         <!-- Button -->
                         {% comment %} <div class="position-fixed bottom-0 end-0 p-3"> {% endcomment %}
                         <div class="d-grid gap-2">
-                            <input type="submit" class="btn btn-primary" value="Enviar">
+                            <input type="submit" class="btn btn-primary" value="Próximo">
                         </div>  
                     </div>
                 </form>

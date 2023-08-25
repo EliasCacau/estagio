@@ -1,6 +1,7 @@
 from django.contrib import admin
 
 from .models.dados_candidato_models import DadosCandidato
+from .models.email_candidato_models import EmailCandidato
 
 
 class DadosCandidatoAdmin(admin.ModelAdmin):
@@ -50,3 +51,18 @@ class DadosCandidatoAdmin(admin.ModelAdmin):
 
 
 admin.site.register(DadosCandidato, DadosCandidatoAdmin)
+
+
+class EmailCandidatoAdmin(admin.ModelAdmin):
+    list_display = [
+        "user",
+        "email_candidato",
+    ]
+
+    search_fields = [
+        "user",
+        "email_candidato",
+    ]
+
+
+admin.site.register(EmailCandidato, EmailCandidatoAdmin)
