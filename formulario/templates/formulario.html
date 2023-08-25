@@ -22,7 +22,7 @@
                     {% csrf_token %}
 
                     {% for field in form %}
-                        <div class="input-group">
+                        <div class="input-group col-md-6">
                             <label for="{{ field.id_for_label }}">{{ field.label }}</label>
                             <div class="input-group mb-3">
                                 {{field}}
@@ -32,8 +32,9 @@
                             {% endif %}
                             {{ field.errors }}  
                         </div>                        
-                    {% endfor %}               
+                    {% endfor %}
 
+                        
                     <div style="margin-top: 20px;" class="form-group">
                         <!-- Button -->
                         {% comment %} <div class="position-fixed bottom-0 end-0 p-3"> {% endcomment %}
