@@ -56,9 +56,16 @@ class DadosCandidatoForm(forms.ModelForm):
             "num_carteira_profissional": "Número da Carteira Profissional",
             "serie_carteira_prof": "Série da Carteira Profissional",
         }
+
+        label_attr = {"nome_candidato": {"for": "floatingInputValue"}}
+
         widgets = {
             "nome_candidato": forms.TextInput(
-                attrs={"class": "form-control", "placeholder": "Nome Completo"}
+                attrs={
+                    "class": "form-control",
+                    "id": "floatingInputValue",
+                    "placeholder": "Nome Completo",
+                }
             ),
             "data_nasc_candidato": forms.DateInput(
                 attrs={"class": "form-control", "type": "date"}

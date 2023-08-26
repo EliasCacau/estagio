@@ -16,11 +16,12 @@
                 <form action="{% url 'confirma_matricula' %}" method="POST"> 
                     {{ error }}
                     {% csrf_token %}
+                    <label for="cpf_matricula" class="dark-text-emphasis-dark" style="margin-bottom:5px; font-weight: bold;">Necessário o CPF ou Número da Matrícula para se cadastrar</label>
 
-                    <div class="input-group row">
-                        <label for="cpf_matricula" class="dark-text-emphasis-dark" style="margin-bottom:5px; font-weight: bold;">Necessário o CPF ou Número da Matrícula para se cadastrar</label>
-                        <div class="">
-                            <input type="text" class="form-control" name="cpf_matricula" placeholder="CPF ou Matrícula" required>
+                    <div class="input-group">
+                        <div class="form-floating">
+                            <input type="text" class="form-control"  id="floatingInputGroup1" name="cpf_matricula" placeholder="CPF ou Matrícula" required>                                        
+                            <label for="floatingInputGroup1">CPF ou N° da Matrícula</label>
                         </div>
                     </div> 
 

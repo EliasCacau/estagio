@@ -11,12 +11,14 @@ class EmailCandidatoForm(forms.ModelForm):
         model = EmailCandidato
         fields = ["email_candidato"]
         labels = {"email_candidato": "Email"}
+        label_attr = {"email_candidato": {"for": "floatingInputValue"}}
+
         widgets = {
-            "email_candidato": forms.TextInput(
+            "email_candidato": forms.EmailInput(
                 attrs={
                     "class": "form-control",
                     "placeholder": "Email",
-                    "required": "False",
+                    "id": "floatingInputValue",
                 }
             ),
         }
