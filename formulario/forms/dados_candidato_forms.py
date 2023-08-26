@@ -6,6 +6,9 @@ import re
 from django import forms
 from django.core.exceptions import ValidationError
 
+from utils.cidades import cidades_brasil
+from utils.estados import estados_brasil
+
 from ..models.dados_candidato_models import DadosCandidato
 
 OPCOES = [
@@ -14,6 +17,35 @@ OPCOES = [
     ("Divorciado", "Divorciado"),
     ("Viúvo", "Viúvo"),
 ]
+ESTADOS_BRASILEIROS = (
+    ("AC", "Acre"),
+    ("AL", "Alagoas"),
+    ("AP", "Amapá"),
+    ("AM", "Amazonas"),
+    ("BA", "Bahia"),
+    ("CE", "Ceará"),
+    ("DF", "Distrito Federal"),
+    ("ES", "Espírito Santo"),
+    ("GO", "Goiás"),
+    ("MA", "Maranhão"),
+    ("MT", "Mato Grosso"),
+    ("MS", "Mato Grosso do Sul"),
+    ("MG", "Minas Gerais"),
+    ("PA", "Pará"),
+    ("PB", "Paraíba"),
+    ("PR", "Paraná"),
+    ("PE", "Pernambuco"),
+    ("PI", "Piauí"),
+    ("RJ", "Rio de Janeiro"),
+    ("RN", "Rio Grande do Norte"),
+    ("RS", "Rio Grande do Sul"),
+    ("RO", "Rondônia"),
+    ("RR", "Roraima"),
+    ("SC", "Santa Catarina"),
+    ("SP", "São Paulo"),
+    ("SE", "Sergipe"),
+    ("TO", "Tocantins"),
+)
 
 
 class DadosCandidatoForm(forms.ModelForm):
@@ -25,8 +57,8 @@ class DadosCandidatoForm(forms.ModelForm):
             "estado_civil",
             "apelido_candidato",
             "nacionalidade",
-            "natural",
             "uf_natural",
+            "natural",
             "nome_pai",
             "nome_mae",
             "idiomas",
@@ -57,8 +89,6 @@ class DadosCandidatoForm(forms.ModelForm):
             "serie_carteira_prof": "Série da Carteira Profissional",
         }
 
-        label_attr = {"nome_candidato": {"for": "floatingInputValue"}}
-
         widgets = {
             "nome_candidato": forms.TextInput(
                 attrs={
@@ -77,11 +107,14 @@ class DadosCandidatoForm(forms.ModelForm):
             "nacionalidade": forms.TextInput(
                 attrs={"class": "form-control", "placeholder": "Nacionalidade"}
             ),
-            "natural": forms.TextInput(
-                attrs={"class": "form-control", "placeholder": "Naturalidade"}
+            "natural": forms.Select(
+                attrs={
+                    "class": "form-select",
+                    "id": "natural",
+                },
             ),
-            "uf_natural": forms.TextInput(
-                attrs={"class": "form-control", "placeholder": "Estado Naturalidade"}
+            "uf_natural": forms.Select(
+                attrs={"class": "form-select", "id": "uf_natural"},
             ),
             "nome_pai": forms.TextInput(
                 attrs={"class": "form-control", "placeholder": "Nome Pai"}
