@@ -1,12 +1,14 @@
+from django.contrib import messages
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as login_django
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.models import User
-from django.http import HttpResponse
-from django.shortcuts import get_object_or_404, redirect, render
-from django.urls import reverse
+from django.http import Http404, HttpResponse
+from django.shortcuts import redirect, render
+
+from usuarios.foms import MatriculaCpfForm
 
 from .models import MatriculaCpf
 
@@ -84,20 +86,36 @@ def login(request):
 
 def matricula(request):
     if request.method == "GET":
-        return render(request, "matricula.html")
+        form = MatriculaCpfForm()
+        return render(
+            request,
+            "matricula.html",
+            {
+                "form": form,
+            },
+        )
     else:
-        nova_matricula = MatriculaCpf()
-        nova_matricula.num_matricula = request.POST.get("matricula")
-        nova_matricula.cpf = request.POST.get("cpf")
-        if MatriculaCpf.objects.filter(
-            num_matricula=nova_matricula.num_matricula
-        ).exists():
-            return HttpResponse("Matricula já cadastrada")
-        elif MatriculaCpf.objects.filter(cpf=nova_matricula.cpf).exists():
-            return HttpResponse("CPF já cadastrado")
+        return HttpResponse(status=405)
+
+
+def matricula_enviado(request):
+    if request.method == "POST":
+        form = MatriculaCpfForm(data=request.POST)
+
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Seu formulário foi enviado com sucesso!")
+            return redirect("matricula")
         else:
-            nova_matricula.save()
-            return HttpResponse("Matricula salva")
+            return render(
+                request,
+                "matricula.html",
+                {
+                    "form": form,
+                },
+            )
+    else:
+        raise Http404()
 
 
 def confirma_matricula(request):

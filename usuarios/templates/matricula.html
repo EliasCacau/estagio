@@ -15,25 +15,27 @@
 
                 <div style="display:none" id="matricula-alert" class="alert alert-danger col-sm-12"></div>
                     
-                <form action="{% url 'matricula' %}" method="POST"> 
-                    {{ error }}
+                <form action="{% url 'matricula_enviado' %}" method="POST"> 
                     {% csrf_token %}
+                    {% if messages %}
+                        <ul class="messages">
+                            {% for message in messages %}
+                            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                    {% for field in form %}
+                        <div class="form-floating mb-3">
+                            {{field}}
+                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
                             
-                    <div style="margin-bottom: 25px" class="input-group">
-                        <span class="input-group-text" ><i class="fa-regular fa-address-card"></i></span>
-                            <div class="form-floating">
-                                <input type="text" class="form-control"  id="floatingInputGroup1" name="matricula" placeholder="N° Matricula" required>                                        
-                                <label for="floatingInputGroup1">N° da Matrícula</label>
-                            </div>                                      
-                    </div>
-                        
-                    <div style="margin-bottom: 25px" class="input-group">
-                        <span class="input-group-text"><i class="fa-solid fa-address-card"></i></span>
-                        <div class="form-floating">
-                            <input type="text" class="form-control"  id="floatingInputGroup1" name="cpf" placeholder="CPF" required>                                        
-                            <label for="floatingInputGroup1">CPF</label>
+
+                            {% if field.help_text %}
+                                <p class="help-text">{{ field.help_text }}</p>
+                            {% endif %}
                         </div>
-                    </div>
+                        {{ field.errors }}                         
+                    {% endfor %}               
                     
 
                     <div style="margin-top:10px;" class="form-group">
