@@ -18,11 +18,11 @@
                 <form action="{% url 'matricula_enviado' %}" method="POST"> 
                     {% csrf_token %}
                     {% if messages %}
-                        <ul class="messages">
+                        <div class="alert alert-success" role="alert">
                             {% for message in messages %}
-                            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                                {{ message }}
                             {% endfor %}
-                        </ul>
+                        </div>
                     {% endif %}
                     {% for field in form %}
                         <div class="form-floating mb-3">

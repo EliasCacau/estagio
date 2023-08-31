@@ -87,8 +87,20 @@ class MatriculaCpfForm(forms.ModelForm):
             },
         }
 
+    def clean_num_matricula(self):  # validaespecifico do campo
+        num_matricula = self.cleaned_data.get("num_matricula")
+
+        if MatriculaCpf.objects.filter(num_matricula=num_matricula).exists():
+            raise forms.ValidationError(
+                "Número de matricula já registrado", code="cpf_exists"
+            )
+        return num_matricula
+
     def clean_cpf(self):  # validaespecifico do campo
         cpf = self.cleaned_data.get("cpf")
         if not valida_cpf(cpf):
             raise ValidationError("CPF inválido", code="invalid")
+
+        if MatriculaCpf.objects.filter(cpf=cpf).exists():
+            raise forms.ValidationError("CPF já registrado", code="cpf_exists")
         return cpf
