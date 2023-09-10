@@ -1,0 +1,56 @@
+{% extends 'menu.html' %}
+
+{% block title %} Formulário {% endblock %}
+
+{% block content %}
+<nav aria-label="...">
+    <ul class="pagination pagination justify-content-center" style="margin-top:30px">
+        <li class="page-item " aria-current="page">
+            <a class="page-link" title="Dados do Candidato" href="/formulario">1</a>
+        </li>
+        <li class="page-item active"><span class="page-link">2</span></li>
+        <li class="page-item" title="Dados Bancarios"><a class="page-link" href="/formulario_dados_bancarios">3</a></li>
+    </ul>
+</nav>
+    
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h1 style="font-size:190%">Email e Redes Sociais</h1>
+            
+            <form action="{% url 'formulario:formulario_email_redes_sociais_enviado' %}" method="POST">
+                {% csrf_token %}
+
+                {% for field in form %}
+                    <div class="input-group col-md-6">
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        <div class="input-group mb-3">
+                            {{field}}
+                        </div>
+                        {% if field.help_text %}
+                            <p class="help-text">{{ field.help_text }}</p>
+                        {% endif %}
+                        {{ field.errors }}  
+                    </div>                        
+                {% endfor %}             
+                
+                
+                <div style="margin-top: 20px; display: flex; justify-content: space-between;">
+                    <input type="button" class="btn btn-secondary btn-block" value="Anterior" style="flex: .4; margin-right: 5px" onclick="irParaFormulario()">
+                    <input type="submit" class="btn btn-primary btn-block" value="Próximo" style="flex: .4;margin-left: 5px">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    function irParaFormulario() {
+        // Coloque aqui a lógica da função que deseja executar ao clicar em "Anterior"
+        
+        // Redireciona para a página "/formulario"
+        window.location.href = "/formulario";
+    }
+</script>
+
+{% endblock %}

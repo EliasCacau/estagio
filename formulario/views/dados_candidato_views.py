@@ -14,8 +14,8 @@ from formulario.forms.dados_candidato_forms import DadosCandidatoForm
 from formulario.forms.email_candidato_forms import EmailCandidatoForm
 from utils.cidades_estado import obter_cidades_do_estado
 
-from .models.dados_candidato_models import DadosCandidato
-from .models.email_candidato_models import EmailCandidato
+from ..models.dados_candidato_models import DadosCandidato
+from ..models.email_candidato_models import EmailCandidato
 
 
 @login_required(login_url="/login")
@@ -51,47 +51,6 @@ def formulario_enviado(request):
             return render(
                 request,
                 "formulario.html",
-                {
-                    "form": form,
-                },
-            )
-    else:
-        raise Http404()
-
-
-@login_required(login_url="/login")
-def formulario_email(request):
-    if request.method == "GET":
-        dados = EmailCandidato.objects.filter(user=request.user).first()
-
-        if not dados:
-            form = EmailCandidatoForm()
-        else:
-            form = EmailCandidatoForm(instance=dados)
-
-        return render(
-            request,
-            "formulario_email.html",
-            {
-                "form": form,
-            },
-        )
-
-
-@login_required(login_url="/login")
-def formulario_email_enviado(request):
-    if request.method == "POST":
-        user = request.user
-        dados, created = EmailCandidato.objects.get_or_create(user=user)
-        form = EmailCandidatoForm(data=request.POST, instance=dados)
-
-        if form.is_valid():
-            form.save()
-            return redirect("formulario:formulario_email")
-        else:
-            return render(
-                request,
-                "formulario_email.html",
                 {
                     "form": form,
                 },

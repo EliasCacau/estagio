@@ -10,26 +10,6 @@
   
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-  <script>
-    $(document).ready(function () {
-        $("#uf_natural").change(function () {
-            var estado = $(this).val();
-            $.ajax({
-                url: "{% url 'formulario:get_cidades' %}",
-                data: {estado: estado},
-                dataType: "json",
-                success: function (data) {
-                    var options = "<option value=''>Selecione a cidade</option>";
-                    data.cidades.forEach(function (cidade) {
-                        options += "<option value='" + cidade + "'>" + cidade + "</option>";
-                    });
-                    $("#natural").html(options);
-                }
-            });
-        });
-    });
-  </script>
-
   <title>{% block title %} {% endblock %}</title>
   <style>
     .errorlist {
@@ -37,6 +17,12 @@
       list-style-type: none;
       color: #da525d;
     }
+    {% comment %} body {
+      background: linear-gradient(to right, #808080 0%, #808080 33%, #FFFFFF 30%, #FFFFFF 68%, #808080 68%, #808080 100%); 
+    }
+    .container{
+      background: linear-gradient(to right, #808080 0%, #808080 25%, #FFFFFF 25%, #FFFFFF 75%, #808080 75%, #808080 100%); 
+    } {% endcomment %}
   </style>
 </head>
 <body>

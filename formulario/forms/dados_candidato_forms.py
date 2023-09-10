@@ -71,22 +71,22 @@ class DadosCandidatoForm(forms.ModelForm):
         ]
 
         labels = {
-            "nome_candidato": "Nome do Candidato",
-            "data_nasc_candidato": "Data de Nascimento",
-            "estado_civil": "Estado Civil",
-            "apelido_candidato": "Apelido Candidato",
-            "nacionalidade": "Nacionalidade",
-            "natural": "Natural",
-            "uf_natural": "Estado Naturalidade",
-            "nome_pai": "Nome do Pai",
-            "nome_mae": "Nome da Mãe",
-            "idiomas": "Idiomas Falantes",
-            "num_identidade": "Número da Identidade",
-            "orgao_emissor": "Orgão Emissor",
-            "num_titulo_eleitor": "Número do Título de Eleitor",
-            "zona_titulo": "Zona do Título de Eleitor",
-            "num_carteira_profissional": "Número da Carteira Profissional",
-            "serie_carteira_prof": "Série da Carteira Profissional",
+            "nome_candidato": "Nome do Candidato *",
+            "data_nasc_candidato": "Data de Nascimento *",
+            "estado_civil": "Estado Civil *",
+            "apelido_candidato": "Apelido Candidato *",
+            "nacionalidade": "Nacionalidade *",
+            "natural": "Natural *",
+            "uf_natural": "Estado Naturalidade *",
+            "nome_pai": "Nome do Pai *",
+            "nome_mae": "Nome da Mãe *",
+            "idiomas": "Idiomas Falantes *",
+            "num_identidade": "Número da Identidade *",
+            "orgao_emissor": "Orgão Emissor *",
+            "num_titulo_eleitor": "Número do Título de Eleitor *",
+            "zona_titulo": "Zona do Título de Eleitor *",
+            "num_carteira_profissional": "Número da Carteira Profissional *",
+            "serie_carteira_prof": "Série da Carteira Profissional *",
         }
 
         widgets = {

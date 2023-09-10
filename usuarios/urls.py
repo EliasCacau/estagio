@@ -5,6 +5,7 @@ from . import views
 urlpatterns = [
     path("cadastro/", views.cadastro, name="cadastro"),
     path("cadastro/<str:cpf_matricula>/", views.cadastro, name="cadastro"),
+    path("", views.login, name="login"),
     path("login/", views.login, name="login"),
     path("matricula/", views.matricula, name="matricula"),
     path("matricula_enviado/", views.matricula_enviado, name="matricula_enviado"),
