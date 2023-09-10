@@ -1,0 +1,15 @@
+asgiref==3.7.2
+Django==4.2.3
+django-bootstrap-form==3.4
+django-bootstrap5==23.3
+django-formtools==2.4.1
+flake8==6.0.0
+mccabe==0.7.0
+mypy==1.4.1
+mypy-extensions==1.0.0
+pycodestyle==2.10.0
+pyflakes==3.0.1
+pyUFbr==0.1.0
+sqlparse==0.4.4
+typing_extensions==4.7.1
+tzdata==2023.3
