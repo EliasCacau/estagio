@@ -11,12 +11,14 @@ from django.shortcuts import redirect, render
 
 from formulario.forms.email_redes_sociais_forms import EmailRedesSociaisForm
 from formulario.models.email_redes_sociais_models import EmailRedesSociais
+from formulario.models.paginations_models import Pagination
 
 
 @login_required(login_url="/login")
 def formulario_email_redes_sociais(request):
     if request.method == "GET":
         dados = EmailRedesSociais.objects.filter(user=request.user).first()
+        pagination = Pagination.objects.filter(user=request.user).first()
 
         if not dados:
             form = EmailRedesSociaisForm()
@@ -28,6 +30,7 @@ def formulario_email_redes_sociais(request):
             "email_redes_sociais.html",
             {
                 "form": form,
+                "pagination": pagination,
             },
         )
 
@@ -38,15 +41,18 @@ def formulario_email_redes_sociais_enviado(request):
         user = request.user
         dados, created = EmailRedesSociais.objects.get_or_create(user=user)
         form = EmailRedesSociaisForm(data=request.POST, instance=dados)
+        pagination = Pagination.objects.filter(user=request.user).first()
 
         if form.is_valid():
             form.save()
+            pagination.page_3 = "used"
+            pagination.save()
             return redirect("formulario:formulario_dados_bancarios")
         else:
             return render(
                 request,
                 "email_redes_sociais.html",
-                {
+                context={
                     "form": form,
                 },
             )

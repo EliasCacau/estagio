@@ -94,18 +94,18 @@ class EmailRedesSociaisForm(forms.ModelForm):
             raise forms.ValidationError("Insira um email válido", code="invalid")
         return email
 
-    def clean_email_2(self):  # validaespecifico do campo
-        regex = re.compile(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")
-        email = self.cleaned_data.get("email_2")
+    # def clean_email_2(self):  # validaespecifico do campo
+    #     regex = re.compile(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")
+    #     email = self.cleaned_data.get("email_2")
 
-        if not regex.match(email):
-            raise forms.ValidationError("Insira um email válido", code="invalid")
-        return email
+    #     if not regex.match(email):
+    #         raise forms.ValidationError("Insira um email válido", code="invalid")
+    #     return email
 
-    def clean_email_3(self):  # validaespecifico do campo
-        regex = re.compile(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")
-        email = self.cleaned_data.get("email_3")
+    # def clean_email_3(self):  # validaespecifico do campo
+    #     regex = re.compile(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")
+    #     email = self.cleaned_data.get("email_3")
 
-        if not regex.match(email):
-            raise forms.ValidationError("Insira um email válido", code="invalid")
-        return email
+    #     if not regex.match(email):
+    #         raise forms.ValidationError("Insira um email válido", code="invalid")
+    #     return email

@@ -11,18 +11,16 @@ from django.http import Http404, JsonResponse
 from django.shortcuts import redirect, render
 
 from formulario.forms.dados_candidato_forms import DadosCandidatoForm
-from formulario.forms.email_candidato_forms import EmailCandidatoForm
+from formulario.models.dados_candidato_models import DadosCandidato
+from formulario.models.paginations_models import Pagination
 from utils.cidades_estado import obter_cidades_do_estado
-
-from ..models.dados_candidato_models import DadosCandidato
-from ..models.email_candidato_models import EmailCandidato
 
 
 @login_required(login_url="/login")
 def formulario(request):
     if request.method == "GET":
         dados = DadosCandidato.objects.filter(user=request.user).first()
-
+        pagination = Pagination.objects.filter(user=request.user).first()
         if not dados:
             form = DadosCandidatoForm()
         else:
@@ -33,6 +31,7 @@ def formulario(request):
             "formulario.html",
             {
                 "form": form,
+                "pagination": pagination,
             },
         )
 
@@ -43,10 +42,14 @@ def formulario_enviado(request):
         user = request.user
         dados, created = DadosCandidato.objects.get_or_create(user=user)
         form = DadosCandidatoForm(data=request.POST, instance=dados)
+        pagination = Pagination.objects.filter(user=request.user).first()
 
         if form.is_valid():
             form.save()
-            return redirect("formulario:formulario_email")
+            pagination.page_1 = "used"
+            pagination.page_2 = "used"
+            pagination.save()
+            return redirect("formulario:formulario_email_redes_sociais")
         else:
             return render(
                 request,

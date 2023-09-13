@@ -5,11 +5,10 @@
 {% block content %}
 <nav aria-label="..." class="paginator">
     <ul class="pagination pagination justify-content-center" style="margin-top:30px">
-        <li class="page-item active" aria-current="page">
-            <span class="page-link">1</span>
-        </li>
-        <li class="page-item"><a class="page-link" title="Redes sociais e emails" href="/formulario_email_redes_sociais">2</a></li>
-        <li class="page-item" title="Dados Bancarios"><a class="page-link" href="/formulario_dados_bancarios">3</a></li>
+        <li class="page-item active" aria-current="page"><span class="page-link">1</span></li>
+        <li class="page-item {{pagination.page_2}}"><a class="page-link" title="Redes sociais e emails" href="/formulario_email_redes_sociais">2</a></li>
+        <li class="page-item {{pagination.page_3}}"><a class="page-link" title="Dados Bancarios" href="/formulario_dados_bancarios">3</a></li>
+
     </ul>
 </nav>
     
