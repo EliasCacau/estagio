@@ -2,8 +2,8 @@
 *.log
 *.pot
 *.pyc
-#__pycache__
-#db.sqlite3
+__pycache__
+db.sqlite3
 media
 
 # Backup files #
@@ -116,15 +116,15 @@ GitHub.sublime-settings
 .history
 
 # Personal additions
-#__pycache__/
-#*.pyc
+__pycache__/
+*.pyc
 __localcode
 venv
 env
 .DS_Store
 local_settings.py
-#_local_settings.py
+_local_settings.py
 gunicorn-error-log
-#db.sqlite3
-#db copy.sqlite3
+db.sqlite3
+db copy.sqlite3
 static/
