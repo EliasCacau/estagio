@@ -4,7 +4,9 @@ from django.db import models
 
 
 class EmailRedesSociais(models.Model):
-    user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        User, null=True, blank=True, on_delete=models.CASCADE, verbose_name="Usuário"
+    )
     email = models.CharField(max_length=100, null=False)
     email_2 = models.CharField(max_length=100, null=True, blank=True)
     email_3 = models.CharField(max_length=100, null=True, blank=True)

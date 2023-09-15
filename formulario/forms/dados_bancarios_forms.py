@@ -39,19 +39,19 @@ class DadosBancariosForm(forms.ModelForm):
         }
 
         widgets = {
-            "banco": forms.EmailInput(
+            "banco": forms.TextInput(
                 attrs={
                     "class": "form-control",
                     "placeholder": "Insira o nome da agência",
                 }
             ),
-            "num_conta": forms.EmailInput(
+            "num_conta": forms.TextInput(
                 attrs={
                     "class": "form-control",
                     "placeholder": "000000000000-0",
                 }
             ),
-            "num_agencia": forms.EmailInput(
+            "num_agencia": forms.TextInput(
                 attrs={
                     "class": "form-control",
                     "placeholder": "00000000",
@@ -63,19 +63,19 @@ class DadosBancariosForm(forms.ModelForm):
                     "placeholder": "Insira o endereço do banco",
                 }
             ),
-            "banco_2": forms.EmailInput(
+            "banco_2": forms.TextInput(
                 attrs={
                     "class": "form-control",
                     "placeholder": "Insira o nome do banco",
                 }
             ),
-            "num_conta_2": forms.EmailInput(
+            "num_conta_2": forms.TextInput(
                 attrs={
                     "class": "form-control",
                     "placeholder": "000000000000-0",
                 }
             ),
-            "num_agencia_2": forms.EmailInput(
+            "num_agencia_2": forms.TextInput(
                 attrs={
                     "class": "form-control",
                     "placeholder": "00000000",
@@ -87,19 +87,19 @@ class DadosBancariosForm(forms.ModelForm):
                     "placeholder": "Insira o endereço do banco",
                 }
             ),
-            "banco_3": forms.EmailInput(
+            "banco_3": forms.TextInput(
                 attrs={
                     "class": "form-control",
                     "placeholder": "Insira o nome do banco",
                 }
             ),
-            "num_conta_3": forms.EmailInput(
+            "num_conta_3": forms.TextInput(
                 attrs={
                     "class": "form-control",
                     "placeholder": "000000000000-0",
                 }
             ),
-            "num_agencia_3": forms.EmailInput(
+            "num_agencia_3": forms.TextInput(
                 attrs={
                     "class": "form-control",
                     "placeholder": "00000000",

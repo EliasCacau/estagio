@@ -1,5 +1,6 @@
 from django.contrib import admin
 
+from formulario.models.dados_bancarios_models import DadosBancarios
 from formulario.models.dados_candidato_models import DadosCandidato
 from formulario.models.email_candidato_models import EmailCandidato
 from formulario.models.email_redes_sociais_models import EmailRedesSociais
@@ -15,8 +16,8 @@ class DadosCandidatoAdmin(admin.ModelAdmin):
         "estado_civil",
         "apelido_candidato",
         "nacionalidade",
-        "natural",
         "uf_natural",
+        "natural",
         "nome_pai",
         "nome_mae",
         "idiomas",
@@ -55,22 +56,6 @@ class DadosCandidatoAdmin(admin.ModelAdmin):
 admin.site.register(DadosCandidato, DadosCandidatoAdmin)
 
 
-# class EmailCandidatoAdmin(admin.ModelAdmin):
-#     list_display = [
-#         "user",
-#         "email_candidato",
-#     ]
-
-#     search_fields = [
-#         "user",
-#         "email_candidato",
-#     ]
-
-
-# admin.site.register(EmailCandidato, EmailCandidatoAdmin)
-
-
-# ('Usuário', "E-mail", )
 class EmailRedesSociaisAdmin(admin.ModelAdmin):
     list_display = [
         "user",
@@ -98,6 +83,43 @@ class EmailRedesSociaisAdmin(admin.ModelAdmin):
 
 
 admin.site.register(EmailRedesSociais, EmailRedesSociaisAdmin)
+
+
+class DadosBancariosAdmin(admin.ModelAdmin):
+    list_display = [
+        "user",
+        "banco",
+        "num_conta",
+        "num_agencia",
+        "endereco_banco",
+        "banco_2",
+        "num_conta_2",
+        "num_agencia_2",
+        "endereco_banco_2",
+        "banco_3",
+        "num_conta_3",
+        "num_agencia_3",
+        "endereco_banco_3",
+    ]
+
+    search_fields = [
+        "user",
+        "banco",
+        "num_conta",
+        "num_agencia",
+        "endereco_banco",
+        "banco_2",
+        "num_conta_2",
+        "num_agencia_2",
+        "endereco_banco_2",
+        "banco_3",
+        "num_conta_3",
+        "num_agencia_3",
+        "endereco_banco_3",
+    ]
+
+
+admin.site.register(DadosBancarios, DadosBancariosAdmin)
 
 
 class PaginationAdmin(admin.ModelAdmin):

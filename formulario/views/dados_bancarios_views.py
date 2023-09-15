@@ -12,6 +12,7 @@ from django.shortcuts import redirect, render
 
 from formulario.forms.dados_bancarios_forms import DadosBancariosForm
 from formulario.models.dados_bancarios_models import DadosBancarios
+from formulario.models.paginations_models import Pagination
 
 
 @login_required(login_url="/login")
@@ -39,14 +40,14 @@ def dados_bancarios_enviado(request):
         user = request.user
         dados, created = DadosBancarios.objects.get_or_create(user=user)
         form = DadosBancariosForm(data=request.POST, instance=dados)
-        # pagination = Pagination.objects.filter(user=request.user).first()
+        pagination = Pagination.objects.filter(user=request.user).first()
 
         if form.is_valid():
             form.save()
             form.save()
-            # pagination.page_3 = "used"
-            # pagination.save()
-            return redirect("formulario:dados_bancarios")
+            pagination.page_3 = "used"
+            pagination.save()
+            return redirect("formulario:formulario_dados_bancarios")
         else:
             return render(
                 request,
