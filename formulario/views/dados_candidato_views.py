@@ -33,7 +33,6 @@ def formulario(request):
             pagination = Pagination()
             pagination.user = request.user
             pagination.save()
-        print(dados.data_nasc_candidato)
         return render(
             request,
             "formulario.html",
@@ -54,8 +53,7 @@ def formulario_enviado(request):
 
         if form.is_valid():
             form.save()
-            pagination.page_1 = "used"
-            pagination.page_2 = "used"
+            pagination.page_3 = "used"
             pagination.save()
             return redirect("formulario:formulario_email_redes_sociais")
 

@@ -11,43 +11,6 @@ from utils.estados import estados_brasil
 
 from ..models.dados_candidato_models import DadosCandidato
 
-OPCOES = [
-    ("Solteiro", "Solteiro"),
-    ("Casado", "Casado"),
-    ("Divorciado", "Divorciado"),
-    ("Viúvo", "Viúvo"),
-]
-ESTADOS_BRASILEIROS = (
-    ("AC", "Acre"),
-    ("AL", "Alagoas"),
-    ("AP", "Amapá"),
-    ("AM", "Amazonas"),
-    ("BA", "Bahia"),
-    ("CE", "Ceará"),
-    ("DF", "Distrito Federal"),
-    ("ES", "Espírito Santo"),
-    ("GO", "Goiás"),
-    ("MA", "Maranhão"),
-    ("MT", "Mato Grosso"),
-    ("MS", "Mato Grosso do Sul"),
-    ("MG", "Minas Gerais"),
-    ("PA", "Pará"),
-    ("PB", "Paraíba"),
-    ("PR", "Paraná"),
-    ("PE", "Pernambuco"),
-    ("PI", "Piauí"),
-    ("RJ", "Rio de Janeiro"),
-    ("RN", "Rio Grande do Norte"),
-    ("RS", "Rio Grande do Sul"),
-    ("RO", "Rondônia"),
-    ("RR", "Roraima"),
-    ("SC", "Santa Catarina"),
-    ("SP", "São Paulo"),
-    ("SE", "Sergipe"),
-    ("TO", "Tocantins"),
-)
-
-
 class DadosCandidatoForm(forms.ModelForm):
     class Meta:
         model = DadosCandidato
@@ -88,7 +51,6 @@ class DadosCandidatoForm(forms.ModelForm):
             "num_carteira_profissional": "Número da Carteira Profissional *",
             "serie_carteira_prof": "Série da Carteira Profissional *",
         }
-        input_formats = [f"%d/%m/%Y"]
         widgets = {
             "nome_candidato": forms.TextInput(
                 attrs={

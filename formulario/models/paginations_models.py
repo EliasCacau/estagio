@@ -7,3 +7,7 @@ class Pagination(models.Model):
     page_1 = models.CharField(max_length=100, null=True, blank=True, default="disabled")
     page_2 = models.CharField(max_length=100, null=True, blank=True, default="disabled")
     page_3 = models.CharField(max_length=100, null=True, blank=True, default="disabled")
+    page_4 = models.CharField(max_length=100, null=True, blank=True, default="disabled")
+    page_5 = models.CharField(max_length=100, null=True, blank=True, default="disabled")
+    page_6 = models.CharField(max_length=100, null=True, blank=True, default="disabled")
+    page_7 = models.CharField(max_length=100, null=True, blank=True, default="disabled")

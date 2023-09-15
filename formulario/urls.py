@@ -4,6 +4,7 @@ from .views import (
     dados_bancarios_views,
     dados_candidato_views,
     email_redes_sociais_views,
+    informacao_candidato_views,
 )
 
 app_name = "formulario"
@@ -35,5 +36,15 @@ urlpatterns = [
         "formulario_dados_bancarios/enviado/",
         dados_bancarios_views.dados_bancarios_enviado,
         name="formulario_dados_bancarios_enviado",
+    ),
+    path(
+        "formulario_informacao_candidato/",
+        informacao_candidato_views.informacao_candidato,
+        name="formulario_informacao_candidato",
+    ),
+    path(
+        "formulario_informacao_candidato/enviado/",
+        informacao_candidato_views.informacao_candidato_enviado,
+        name="formulario_informacao_candidato_enviado",
     ),
 ]

@@ -4,6 +4,7 @@ from formulario.models.dados_bancarios_models import DadosBancarios
 from formulario.models.dados_candidato_models import DadosCandidato
 from formulario.models.email_candidato_models import EmailCandidato
 from formulario.models.email_redes_sociais_models import EmailRedesSociais
+from formulario.models.informacao_candidato_models import InformacaoCandidato
 from formulario.models.paginations_models import Pagination
 
 
@@ -120,6 +121,15 @@ class DadosBancariosAdmin(admin.ModelAdmin):
 
 
 admin.site.register(DadosBancarios, DadosBancariosAdmin)
+
+
+class InformacaoCandidatoAdmin(admin.ModelAdmin):
+    list_display = ["user", "cargo", "portador_necess_especial", "num_cid", "foto"]
+
+    search_fields = ["user", "cargo", "portador_necess_especial", "num_cid", "foto"]
+
+
+admin.site.register(InformacaoCandidato, InformacaoCandidatoAdmin)
 
 
 class PaginationAdmin(admin.ModelAdmin):

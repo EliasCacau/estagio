@@ -75,7 +75,7 @@ def login(request):
 
         if user:
             login_django(request, user)
-            return redirect("formulario:formulario")
+            return redirect("formulario:formulario_informacao_candidato")
         else:
             return render(
                 request,

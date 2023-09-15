@@ -5,9 +5,10 @@
 {% block content %}
 <nav aria-label="...">
     <ul class="pagination pagination justify-content-center" style="margin-top:30px">
-        <li class="page-item {{pagination.page_3}}" aria-current="page"><a class="page-link" title="Dados do Candidato" href="/formulario">1</a></li>
-        <li class="page-item {{pagination.page_2}}"><a class="page-link" title="Redes sociais e emails" href="/formulario_email_redes_sociais">2</a></li>
-        <li class="page-item active"><a class="page-link" title="Dados Bancarios" href="/formulario_dados_bancarios">3</a></li>
+        <li class="page-item {{pagination.page_1}}" aria-current="page"><a class="page-link" title="Informações do Candidato" href="/formulario_informacao_candidato">1</a></li>
+        <li class="page-item {{pagination.page_2}}" aria-current="page"><a class="page-link" title="Dados do Candidato" href="/formulario">2</a></li>
+        <li class="page-item {{pagination.page_3}}"><a class="page-link" title="Redes sociais e emails" href="/formulario_email_redes_sociais">3</a></li>
+        <li class="page-item active"><span class="page-link">4</span></li>
     </ul>
 </nav>
     
@@ -33,10 +34,34 @@
                 {% endfor %}             
                 
                 
-                <div style="margin-top: 20px; display: flex; justify-content: space-between;">
+                <div style="margin-top: 20px; display: flex; justify-content: space-between; margin-bottom: 35px;">
                     <input type="button" class="btn btn-secondary btn-block" value="Anterior" style="flex: .4; margin-right: 5px" onclick="irParaFormulario()">
-                    <input type="submit" class="btn btn-primary btn-block" value="Próximo" style="flex: .4;margin-left: 5px">
+                    <input type="button" class="btn btn-primary" value="Enviar" data-bs-toggle="modal" data-bs-target="#exampleModal" style="flex: .4;margin-left: 5px">
+                    {% comment %} <input type="" class="btn btn-primary btn-block" value="Próximo" style="flex: .4;margin-left: 5px"> {% endcomment %}
                 </div>
+
+                 <!-- Modal -->
+                 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Enviar o formulário?</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Declaro, sob as penas da Lei, ínsitas no art. 299, do CPB, que todas as informações aqui prestadas são verdadeiras, e que não omiti nenhum fato
+                            que impossibilitasse minha matrícula no Curso de Formação, bem como autorizo a Polícia Civil do Estado do Acre a realizar investigação social
+                            em minha vida pretérita para confirmar as informações prestadas e verificar se possuo conduta irrepreensível e idoneidade moral inatacável para
+                            exercer o cargo pretendido.
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Enviar Formulário</button>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
             </form>
         </div>
     </div>

@@ -45,7 +45,7 @@ def dados_bancarios_enviado(request):
         if form.is_valid():
             form.save()
             form.save()
-            pagination.page_3 = "used"
+            pagination.page_5 = "used"
             pagination.save()
             return redirect("formulario:formulario_dados_bancarios")
         else:
