@@ -2,6 +2,7 @@
 
 from django.contrib.auth.models import User
 from django.db import models
+from django.utils import formats
 
 from utils.cidades import cidades_brasil
 from utils.estados import estados_brasil
@@ -38,3 +39,8 @@ class DadosCandidato(models.Model):
 
     num_carteira_profissional = models.CharField(max_length=60, null=True)
     serie_carteira_prof = models.CharField(max_length=60, null=True)
+
+    # def data_nasc_formatada(self):
+    #     if self.data_nasc_candidato:
+    #         return formats.date_format(self.data_nasc_candidato, "SHORT_DATE_FORMAT")
+    #     return ""

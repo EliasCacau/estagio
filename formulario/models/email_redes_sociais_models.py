@@ -13,3 +13,8 @@ class EmailRedesSociais(models.Model):
     twitter = models.CharField(max_length=100, null=True, blank=True)
     tiktok = models.CharField(max_length=100, null=True, blank=True)
     outros = models.CharField(max_length=100, null=True, blank=True)
+
+    class Meta:
+        verbose_name = "Email e redes sociais"
+        verbose_name_plural = "Emails e redes sociais"
+        # ordering = ["-data"]

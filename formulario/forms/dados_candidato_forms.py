@@ -88,7 +88,7 @@ class DadosCandidatoForm(forms.ModelForm):
             "num_carteira_profissional": "Número da Carteira Profissional *",
             "serie_carteira_prof": "Série da Carteira Profissional *",
         }
-
+        input_formats = [f"%d/%m/%Y"]
         widgets = {
             "nome_candidato": forms.TextInput(
                 attrs={

@@ -1,7 +1,5 @@
 # python -m venv venv
 # venv\Scripts\activate
-# pip install django
-# Pip install django-bootstrap-form
-# Pip install Django-bootstrap5
+# pip install -r requeriments.txt
 # .env secret KEY
 # DEBUG = 1

@@ -39,9 +39,13 @@ def dados_bancarios_enviado(request):
         user = request.user
         dados, created = DadosBancarios.objects.get_or_create(user=user)
         form = DadosBancariosForm(data=request.POST, instance=dados)
+        # pagination = Pagination.objects.filter(user=request.user).first()
 
         if form.is_valid():
             form.save()
+            form.save()
+            # pagination.page_3 = "used"
+            # pagination.save()
             return redirect("formulario:dados_bancarios")
         else:
             return render(

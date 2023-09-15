@@ -70,6 +70,7 @@ admin.site.register(DadosCandidato, DadosCandidatoAdmin)
 # admin.site.register(EmailCandidato, EmailCandidatoAdmin)
 
 
+# ('Usuário', "E-mail", )
 class EmailRedesSociaisAdmin(admin.ModelAdmin):
     list_display = [
         "user",
