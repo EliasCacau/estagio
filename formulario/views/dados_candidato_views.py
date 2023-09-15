@@ -20,19 +20,13 @@ from utils.cidades_estado import obter_cidades_do_estado
 def formulario(request):
     if request.method == "GET":
         dados = DadosCandidato.objects.filter(user=request.user).first()
-        # pagination = Pagination.objects.filter(user=request.user).first()
+        pagination = Pagination.objects.filter(user=request.user).first()
+
         if not dados:
             form = DadosCandidatoForm()
         else:
             form = DadosCandidatoForm(instance=dados)
 
-        user_pagination = Pagination.objects.filter(user=request.user).exists()
-        if user_pagination:
-            pagination = Pagination.objects.filter(user=request.user).first()
-        else:
-            pagination = Pagination()
-            pagination.user = request.user
-            pagination.save()
         return render(
             request,
             "formulario.html",

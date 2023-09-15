@@ -18,12 +18,19 @@ from formulario.models.paginations_models import Pagination
 def informacao_candidato(request):
     if request.method == "GET":
         dados = InformacaoCandidato.objects.filter(user=request.user).first()
-        pagination = Pagination.objects.filter(user=request.user).first()
 
         if not dados:
             form = InformacaoCandidatoForm()
         else:
             form = InformacaoCandidatoForm(instance=dados)
+
+        user_pagination = Pagination.objects.filter(user=request.user).exists()
+        if user_pagination:
+            pagination = Pagination.objects.filter(user=request.user).first()
+        else:
+            pagination = Pagination()
+            pagination.user = request.user
+            pagination.save()
 
         return render(
             request,

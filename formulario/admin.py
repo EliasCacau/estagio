@@ -138,6 +138,10 @@ class PaginationAdmin(admin.ModelAdmin):
         "page_1",
         "page_2",
         "page_3",
+        "page_4",
+        "page_5",
+        "page_6",
+        "page_7",
     ]
 
     search_fields = [
@@ -145,6 +149,10 @@ class PaginationAdmin(admin.ModelAdmin):
         "page_1",
         "page_2",
         "page_3",
+        "page_4",
+        "page_5",
+        "page_6",
+        "page_7",
     ]
 
 
