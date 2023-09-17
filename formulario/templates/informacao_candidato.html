@@ -17,21 +17,11 @@
         <div class="col-md-6">
             <h1 style="font-size:190%">Informações do Candidato</h1>
             
-            <form action="{% url 'formulario:formulario_informacao_candidato_enviado' %}" method="POST">
+            <form action="{% url 'formulario:formulario_informacao_candidato_enviado' %}" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
 
                 {% for field in form %}
-                    {% if field.name == "portador_necess_especial" %}
-                        
-                        <div class="input-group col-md-6">
-                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                            <div class="form-check form-check-inline">
-                                {{field}}
-                            </div>
-                            {{ field.errors }}  
-                        </div>
-                        <br><br><br>
-                    {% else %}
+                    {% if field != "id_portador_necess_especial_0" %}
                         <div class="input-group col-md-6">
                             <label for="{{ field.id_for_label }}">{{ field.label }}</label>
                             <div class="input-group mb-3">
@@ -43,8 +33,15 @@
                             {{ field.errors }}  
                         </div>
                     {% endif %}
-                {% endfor %}             
+                {% endfor %}  
+                {% if imagem %}
+                    Imagem atualmente escolhida: <br>
+                    <a href="{{image}}">{{ imagem }}</a>
+                    <br>
+                    <img src="{{ image }}" alt="Imagem escolhida">
+                {% endif %}
                 
+
                 
                 <div style="margin-top: 20px; margin-bottom: 20px;" class="form-group">
                     <!-- Button -->
@@ -59,7 +56,21 @@
         </div>
     </div>
 </div>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var fieldToHide = document.getElementById("id_portador_necess_especial_0");
+        if (fieldToHide) {
+            fieldToHide.style.display = "none";
 
+            // Encontre o rótulo associado ao campo
+            var labelForField = document.querySelector("label[for='" + fieldToHide.id + "']");
+            if (labelForField) {
+                labelForField.style.display = "none";
+            }
+        }
+    });
+
+</script>
 
 
 {% endblock %}

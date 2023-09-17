@@ -23,6 +23,11 @@ def informacao_candidato(request):
             form = InformacaoCandidatoForm()
         else:
             form = InformacaoCandidatoForm(instance=dados)
+            image = dados.foto
+            print(image)
+            imagem = str(dados.foto)
+            parts = imagem.split("/")
+            imagem = "/".join(parts[3:])
 
         user_pagination = Pagination.objects.filter(user=request.user).exists()
         if user_pagination:
@@ -35,10 +40,7 @@ def informacao_candidato(request):
         return render(
             request,
             "informacao_candidato.html",
-            {
-                "form": form,
-                "pagination": pagination,
-            },
+            {"form": form, "pagination": pagination, "imagem": imagem, "image": image},
         )
 
 
@@ -47,7 +49,7 @@ def informacao_candidato_enviado(request):
     if request.method == "POST":
         user = request.user
         dados, created = InformacaoCandidato.objects.get_or_create(user=user)
-        form = InformacaoCandidatoForm(data=request.POST, instance=dados)
+        form = InformacaoCandidatoForm(request.POST, request.FILES, instance=dados)
         pagination = Pagination.objects.filter(user=request.user).first()
 
         if form.is_valid():

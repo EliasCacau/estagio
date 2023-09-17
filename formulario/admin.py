@@ -2,44 +2,21 @@ from django.contrib import admin
 
 from formulario.models.dados_bancarios_models import DadosBancarios
 from formulario.models.dados_candidato_models import DadosCandidato
-from formulario.models.email_candidato_models import EmailCandidato
 from formulario.models.email_redes_sociais_models import EmailRedesSociais
 from formulario.models.informacao_candidato_models import InformacaoCandidato
 from formulario.models.paginations_models import Pagination
 
 
 class DadosCandidatoAdmin(admin.ModelAdmin):
-    # Defina quais campos do modelo serão exibidos na listagem
-    list_display = [
-        "" "user",
-        "nome_candidato",
-        "data_nasc_candidato",
-        "estado_civil",
-        "apelido_candidato",
-        "nacionalidade",
-        "uf_natural",
-        "natural",
-        "nome_pai",
-        "nome_mae",
-        "idiomas",
-        "num_identidade",
-        "orgao_emissor",
-        "num_titulo_eleitor",
-        "zona_titulo",
-        "num_carteira_profissional",
-        "serie_carteira_prof",
-    ]
-
-    # Defina campos que poderão ser usados para pesquisa
-    search_fields = [
+    dados_candidatos = [
         "user",
         "nome_candidato",
         "data_nasc_candidato",
         "estado_civil",
         "apelido_candidato",
         "nacionalidade",
-        "natural",
         "uf_natural",
+        "natural",
         "nome_pai",
         "nome_mae",
         "idiomas",
@@ -51,14 +28,21 @@ class DadosCandidatoAdmin(admin.ModelAdmin):
         "serie_carteira_prof",
     ]
 
+    list_display = dados_candidatos
+
+    # Defina campos que poderão ser usados para pesquisa
+    search_fields = dados_candidatos[1:]
+
     # Outras configurações personalizadas, se necessário...
+
+    raw_id_fields = ["user"]
 
 
 admin.site.register(DadosCandidato, DadosCandidatoAdmin)
 
 
 class EmailRedesSociaisAdmin(admin.ModelAdmin):
-    list_display = [
+    email_redes_sociais = [
         "user",
         "email",
         "email_2",
@@ -70,24 +54,16 @@ class EmailRedesSociaisAdmin(admin.ModelAdmin):
         "outros",
     ]
 
-    search_fields = [
-        "user",
-        "email",
-        "email_2",
-        "email_3",
-        "instagram",
-        "facebook",
-        "twitter",
-        "tiktok",
-        "outros",
-    ]
+    list_display = email_redes_sociais
+
+    search_fields = email_redes_sociais[1:]
 
 
 admin.site.register(EmailRedesSociais, EmailRedesSociaisAdmin)
 
 
 class DadosBancariosAdmin(admin.ModelAdmin):
-    list_display = [
+    dados_bancarios = [
         "user",
         "banco",
         "num_conta",
@@ -103,37 +79,36 @@ class DadosBancariosAdmin(admin.ModelAdmin):
         "endereco_banco_3",
     ]
 
-    search_fields = [
-        "user",
-        "banco",
-        "num_conta",
-        "num_agencia",
-        "endereco_banco",
-        "banco_2",
-        "num_conta_2",
-        "num_agencia_2",
-        "endereco_banco_2",
-        "banco_3",
-        "num_conta_3",
-        "num_agencia_3",
-        "endereco_banco_3",
-    ]
+    list_display = dados_bancarios
+
+    search_fields = dados_bancarios[1:]
 
 
 admin.site.register(DadosBancarios, DadosBancariosAdmin)
 
 
 class InformacaoCandidatoAdmin(admin.ModelAdmin):
-    list_display = ["user", "cargo", "portador_necess_especial", "num_cid", "foto"]
+    informacao_candidato = [
+        "user",
+        "cargo",
+        "portador_necess_especial",
+        "num_cid",
+        "foto",
+    ]
+    list_display = informacao_candidato
 
-    search_fields = ["user", "cargo", "portador_necess_especial", "num_cid", "foto"]
+    search_fields = informacao_candidato[1:]
+
+    list_filter = ["cargo", "portador_necess_especial"]
+
+    raw_id_fields = ["user"]
 
 
 admin.site.register(InformacaoCandidato, InformacaoCandidatoAdmin)
 
 
 class PaginationAdmin(admin.ModelAdmin):
-    list_display = [
+    pagination = [
         "user",
         "page_1",
         "page_2",
@@ -144,16 +119,12 @@ class PaginationAdmin(admin.ModelAdmin):
         "page_7",
     ]
 
-    search_fields = [
-        "user",
-        "page_1",
-        "page_2",
-        "page_3",
-        "page_4",
-        "page_5",
-        "page_6",
-        "page_7",
-    ]
+    list_display = pagination
+
+    search_fields = pagination[1:]
+
+    # list_display_links = pagination
+    # search_fields = ("nome", "descricao")
 
 
 admin.site.register(Pagination, PaginationAdmin)

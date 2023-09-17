@@ -76,3 +76,7 @@ class DadosCandidato(models.Model):
     #     if self.data_nasc_candidato:
     #         return formats.date_format(self.data_nasc_candidato, "SHORT_DATE_FORMAT")
     #     return ""
+
+    class Meta:
+        verbose_name = "Dados do candidato"
+        verbose_name_plural = "Dados dos candidatos"

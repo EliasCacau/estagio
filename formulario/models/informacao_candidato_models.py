@@ -15,6 +15,12 @@ OPCOES_CARGO = [
 ]
 
 
+def user_directory_path(instance, filename):
+    # A função recebe uma instância do modelo e o nome do arquivo
+    # Aqui, usamos o username do usuário para criar um subdiretório
+    return f"formulario/images/{instance.user.username}/{filename}"
+
+
 class InformacaoCandidato(models.Model):
     user = models.ForeignKey(
         User, null=True, blank=True, on_delete=models.CASCADE, verbose_name="Usuário"
@@ -25,8 +31,8 @@ class InformacaoCandidato(models.Model):
         null=True,
         verbose_name="Cargo",
     )
-    portador_necess_especial = models.BooleanField(
-        default=False, verbose_name="Portador de Necessidade Especial - P.N.E"
+    portador_necess_especial = models.CharField(
+        max_length=3, choices=(("Sim", "Sim"), ("Não", "Não"))
     )
     num_cid = models.CharField(
         max_length=20,
@@ -35,7 +41,8 @@ class InformacaoCandidato(models.Model):
         verbose_name="N° C.I.D",
     )
     foto = models.ImageField(
-        upload_to="formulario/images/",
+        # upload_to=f"formulario/images/{user}",
+        upload_to=user_directory_path,
         null=True,
         blank=True,
     )
@@ -43,4 +50,3 @@ class InformacaoCandidato(models.Model):
     class Meta:
         verbose_name = "Informações do candidato"
         verbose_name_plural = "Informações dos candidatos"
-
