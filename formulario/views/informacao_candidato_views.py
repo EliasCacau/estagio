@@ -8,6 +8,7 @@ from django.http import Http404
 
 # from django.http import HttpResponse
 from django.shortcuts import redirect, render
+from PIL import Image
 
 from formulario.forms.informacao_candidato_forms import InformacaoCandidatoForm
 from formulario.models.informacao_candidato_models import InformacaoCandidato
@@ -21,10 +22,11 @@ def informacao_candidato(request):
 
         if not dados:
             form = InformacaoCandidatoForm()
+            image = ""  # Define um valor padrão vazio para image
+            imagem = ""  # Define um valor padrão vazio para imagem
         else:
             form = InformacaoCandidatoForm(instance=dados)
             image = dados.foto
-            print(image)
             imagem = str(dados.foto)
             parts = imagem.split("/")
             imagem = "/".join(parts[3:])
@@ -32,9 +34,18 @@ def informacao_candidato(request):
         user_pagination = Pagination.objects.filter(user=request.user).exists()
         if user_pagination:
             pagination = Pagination.objects.filter(user=request.user).first()
+            for (
+                field_name
+            ) in pagination._meta.fields:  # Itera pelos campos do objeto Pagination
+                field_value = getattr(pagination, field_name.attname)
+                if field_value == "active":
+                    setattr(pagination, field_name.attname, "used")
+            pagination.page_1 = "active"
+            pagination.save()
         else:
             pagination = Pagination()
             pagination.user = request.user
+            pagination.page_1 = "active"
             pagination.save()
 
         return render(
@@ -57,7 +68,7 @@ def informacao_candidato_enviado(request):
             pagination.page_1 = "used"
             pagination.page_2 = "used"
             pagination.save()
-            return redirect("formulario:formulario")
+            return redirect("formulario:dados_candidato")
         else:
             return render(
                 request,

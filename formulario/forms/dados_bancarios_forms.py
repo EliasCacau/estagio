@@ -24,10 +24,10 @@ class DadosBancariosForm(forms.ModelForm):
             "endereco_banco_3",
         ]
         labels = {
-            "banco": "Nome da agência bancária *",
-            "num_conta": "Número da conta *",
-            "num_agencia": "Número da agencia *",
-            "endereco_banco": "Endereço do estabelecimento *",
+            "banco": "Nome da agência bancária",
+            "num_conta": "Número da conta",
+            "num_agencia": "Número da agencia",
+            "endereco_banco": "Endereço do estabelecimento",
             "banco_2": "Nome da agência bancária 2",
             "num_conta_2": "Número da conta 2",
             "num_agencia_2": "Número da agencia 2",

@@ -16,9 +16,9 @@ OPCOES_CARGO = [
 
 
 def user_directory_path(instance, filename):
-    # A função recebe uma instância do modelo e o nome do arquivo
-    # Aqui, usamos o username do usuário para criar um subdiretório
-    return f"formulario/images/{instance.user.username}/{filename}"
+    path = f"formulario/informacao_candidato/{instance.user.username}/{filename}"
+    print("Caminho gerado:", path)  # Adicione esta linha para depuração
+    return path
 
 
 class InformacaoCandidato(models.Model):
@@ -41,7 +41,6 @@ class InformacaoCandidato(models.Model):
         verbose_name="N° C.I.D",
     )
     foto = models.ImageField(
-        # upload_to=f"formulario/images/{user}",
         upload_to=user_directory_path,
         null=True,
         blank=True,

@@ -12,11 +12,15 @@ from .views import (
 app_name = "formulario"
 
 urlpatterns = [
-    path("formulario/", dados_candidato_views.formulario, name="formulario"),
     path(
-        "formulario/enviado/",
-        dados_candidato_views.formulario_enviado,
-        name="formulario_enviado",
+        "dados_candidato/",
+        dados_candidato_views.dados_candidato,
+        name="dados_candidato",
+    ),
+    path(
+        "dados_candidato/enviado/",
+        dados_candidato_views.dados_candidato_enviado,
+        name="dados_candidato_enviado",
     ),
     path("get_cidades/", dados_candidato_views.get_cidades, name="get_cidades"),
     path(

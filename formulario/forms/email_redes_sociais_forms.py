@@ -20,7 +20,7 @@ class EmailRedesSociaisForm(forms.ModelForm):
             "outros",
         ]
         labels = {
-            "email": "Email 1 *",
+            "email": "Email 1",
             "email_2": "Email 2",
             "email_3": "Email 3",
             "instagram": "Instagram",
@@ -34,43 +34,43 @@ class EmailRedesSociaisForm(forms.ModelForm):
             "email": forms.EmailInput(
                 attrs={
                     "class": "form-control",
-                    "placeholder": "example@email.com",
+                    "placeholder": "Ex: example@email.com",
                 }
             ),
             "email_2": forms.EmailInput(
                 attrs={
                     "class": "form-control",
-                    "placeholder": "example@email.com",
+                    "placeholder": "Ex: example@email.com",
                 }
             ),
             "email_3": forms.EmailInput(
                 attrs={
                     "class": "form-control",
-                    "placeholder": "example@email.com",
+                    "placeholder": "Ex: example@email.com",
                 }
             ),
             "instagram": forms.TextInput(
                 attrs={
                     "class": "form-control",
-                    "placeholder": "https://www.facebook.com/nomeusuario/",
+                    "placeholder": "Ex: https://www.facebook.com/nomeusuario/",
                 }
             ),
             "facebook": forms.TextInput(
                 attrs={
                     "class": "form-control",
-                    "placeholder": "https://www.instagram.com/nomeusuario/",
+                    "placeholder": "Ex: https://www.instagram.com/nomeusuario/",
                 }
             ),
             "tiktok": forms.TextInput(
                 attrs={
                     "class": "form-control",
-                    "placeholder": "https://www.tiktok.com/@nomeusuario",
+                    "placeholder": "Ex: https://www.tiktok.com/@nomeusuario",
                 }
             ),
             "twitter": forms.TextInput(
                 attrs={
                     "class": "form-control",
-                    "placeholder": "https://www.twitter.com/nomeusuario",
+                    "placeholder": "Ex: https://www.twitter.com/nomeusuario",
                 }
             ),
             "outros": forms.TextInput(

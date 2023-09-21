@@ -20,6 +20,15 @@ def formulario_email_redes_sociais(request):
         dados = EmailRedesSociais.objects.filter(user=request.user).first()
         pagination = Pagination.objects.filter(user=request.user).first()
 
+        for (
+            field_name
+        ) in pagination._meta.fields:  # Itera pelos campos do objeto Pagination
+            field_value = getattr(pagination, field_name.attname)
+            if field_value == "active":
+                setattr(pagination, field_name.attname, "used")
+        pagination.page_3 = "active"
+        pagination.save()
+
         if not dados:
             form = EmailRedesSociaisForm()
         else:

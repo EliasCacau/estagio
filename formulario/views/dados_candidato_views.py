@@ -17,10 +17,19 @@ from utils.cidades_estado import obter_cidades_do_estado
 
 
 @login_required(login_url="/login")
-def formulario(request):
+def dados_candidato(request):
     if request.method == "GET":
         dados = DadosCandidato.objects.filter(user=request.user).first()
         pagination = Pagination.objects.filter(user=request.user).first()
+
+        for (
+            field_name
+        ) in pagination._meta.fields:  # Itera pelos campos do objeto Pagination
+            field_value = getattr(pagination, field_name.attname)
+            if field_value == "active":
+                setattr(pagination, field_name.attname, "used")
+        pagination.page_2 = "active"
+        pagination.save()
 
         if not dados:
             form = DadosCandidatoForm()
@@ -29,7 +38,7 @@ def formulario(request):
 
         return render(
             request,
-            "formulario.html",
+            "dados_candidato.html",
             {
                 "form": form,
                 "pagination": pagination,
@@ -38,7 +47,7 @@ def formulario(request):
 
 
 @login_required(login_url="/login")
-def formulario_enviado(request):
+def dados_candidato_enviado(request):
     if request.method == "POST":
         user = request.user
         dados, created = DadosCandidato.objects.get_or_create(user=user)
@@ -47,6 +56,7 @@ def formulario_enviado(request):
 
         if form.is_valid():
             form.save()
+            pagination.page_2 = "used"
             pagination.page_3 = "used"
             pagination.save()
             return redirect("formulario:formulario_email_redes_sociais")
@@ -54,7 +64,7 @@ def formulario_enviado(request):
         else:
             return render(
                 request,
-                "formulario.html",
+                "dados_candidato.html",
                 {
                     "form": form,
                 },

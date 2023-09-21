@@ -7,7 +7,8 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
   <script src="https://kit.fontawesome.com/adb3475fcc.js" crossorigin="anonymous"></script>
-  
+  <script>const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))</script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
   <title>{% block title %} {% endblock %}</title>
@@ -28,7 +29,7 @@
 <body>
   <nav class="navbar navbar-dark bg-dark">
       <div class="container">
-        <a class="navbar-brand" href="/formulario">F.I.C - Polícia Cívil</a>
+        <a class="navbar-brand" href="/formulario_informacao_candidato">F.I.C - Polícia Cívil</a>
         
         <div class="navbar-brand">
           <a class="navbar-brand" href="/sair">Sair <i class="fa-solid fa-right-from-bracket"></i></a>
@@ -36,10 +37,29 @@
       
       </div>
   </nav>
+  
+  <nav aria-label="..." class="paginator">
+    <ul class="pagination pagination justify-content-center" style="margin-top:30px">
+        <li class="page-item {{pagination.page_1}}"><a class="page-link" title="Informações do Candidato" href="/formulario_informacao_candidato" data-toggle="tooltip">1</a></li>
+        <li class="page-item {{pagination.page_2}}"><a class="page-link" title="Dados do Candidato" href="/dados_candidato" data-toggle="tooltip">2</a></li>
+        <li class="page-item {{pagination.page_3}}"><a class="page-link" title="Redes sociais e emails" href="/formulario_email_redes_sociais" data-toggle="tooltip">3</a></li>
+        <li class="page-item {{pagination.page_4}}"><a class="page-link" title="Dados Bancarios" href="/formulario_dados_bancarios" data-toggle="tooltip">4</a></li>
+
+    </ul>
+  </nav>
+
+  {% comment %} <div class="d-flex justify-content-center">
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div> {% endcomment %}
   {% block content %}
   {% endblock %}
     
 </body>
-
-
+<script>
+  $(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();
+  });
+</script>
 </html>

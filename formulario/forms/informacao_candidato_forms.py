@@ -43,7 +43,11 @@ class InformacaoCandidatoForm(forms.ModelForm):
                 },
             ),
             "num_cid": forms.TextInput(
-                attrs={"class": "form-control", "placeholder": "Ex. H54"}
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Ex. H54",
+                    "disabled": "False",
+                }
             ),
             "portador_necess_especial": forms.RadioSelect(
                 choices=((True, "Sim"), (False, "Não")),

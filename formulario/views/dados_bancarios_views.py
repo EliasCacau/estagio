@@ -19,6 +19,16 @@ from formulario.models.paginations_models import Pagination
 def dados_bancarios(request):
     if request.method == "GET":
         dados = DadosBancarios.objects.filter(user=request.user).first()
+        pagination = Pagination.objects.filter(user=request.user).first()
+
+        for (
+            field_name
+        ) in pagination._meta.fields:  # Itera pelos campos do objeto Pagination
+            field_value = getattr(pagination, field_name.attname)
+            if field_value == "active":
+                setattr(pagination, field_name.attname, "used")
+        pagination.page_4 = "active"
+        pagination.save()
 
         if not dados:
             form = DadosBancariosForm()
@@ -30,6 +40,7 @@ def dados_bancarios(request):
             "dados_bancarios.html",
             {
                 "form": form,
+                "pagination": pagination,
             },
         )
 
@@ -57,6 +68,7 @@ def dados_bancarios_enviado(request):
                 "dados_bancarios.html",
                 {
                     "form": form,
+                    "pagination": pagination,
                 },
             )
     else:
