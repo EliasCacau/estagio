@@ -280,3 +280,34 @@ class DadosBancarios(models.Model):
     class Meta:
         verbose_name = "Dados bancarios"
         verbose_name_plural = "Dados bancarios"
+
+
+class Familiares(models.Model):
+    candidato = models.ForeignKey(
+        Candidato, on_delete=models.CASCADE, related_name="familiares"
+    )
+    grau_parentesco = models.CharField(
+        max_length=100, null=True, verbose_name="Grau de parentesco"
+    )
+
+    nome_parente = models.CharField(
+        max_length=100, null=True, verbose_name="Nome do parente"
+    )
+
+    endereco_parente = models.CharField(
+        max_length=250, null=True, verbose_name="Endereco parente do parente"
+    )
+
+    profissao = models.CharField(
+        max_length=100, null=True, verbose_name="Profissão do parente"
+    )
+
+    idade = models.CharField(max_length=100, null=True, verbose_name="Nome do parente")
+
+    vivo_morto = models.CharField(
+        max_length=5, choices=(("Vivo", "Vivo"), ("Morto", "Morto"))
+    )
+
+    class Meta:
+        verbose_name = "Familiar"
+        verbose_name_plural = "Familiares"

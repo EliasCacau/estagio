@@ -71,7 +71,6 @@ def dados_bancarios_enviado(request):
                 "dados_bancarios.html",
                 {
                     "form": form,
-                    "pagination": pagination,
                 },
             )
     else:

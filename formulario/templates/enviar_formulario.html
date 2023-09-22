@@ -1,15 +1,77 @@
-{% extends 'menu.html' %}
+{% load static %}
 
-{% block title %} Formulário {% endblock %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+  <script src="https://kit.fontawesome.com/adb3475fcc.js" crossorigin="anonymous"></script>
+  <script>const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))</script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-{% block content %}
+  <title>Formulário Enviado</title>
+  <style>
+    body {
+      position: relative;
+      min-height: 100vh; /* Defina uma altura mínima de 100% da altura da janela do navegador */
+    }
+    footer {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      padding: 2px;
+    }
     
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <h1 style="font-size:190%">Enviado com sucesso!</h1>
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-dark bg-dark" style="height: 57px">
+      <div class="container">
+        <a class="navbar-brand" href="/formulario_informacao_candidato">F.I.C - Polícia Cívil</a>
+        
+        {% comment %} <div class="navbar-brand">
+          <p>024.631.012-02</p>
+        </div> {% endcomment %}
+        <div class="navbar-brand">
+          <a class="navbar-brand" href="/sair">Sair <i class="fa-solid fa-right-from-bracket"></i></a>
+        </div>
+      
+      </div>
+  </nav>
+  
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <h1 style="font-size:190%">Enviado com sucesso!</h1>
+            </div>
         </div>
     </div>
-</div>
+  
+  <footer>
+    <p>&copy; 2023 Elias Cacau</p>
+  </footer>
 
-{% endblock %}
+
+  <script>
+    $(document).ready(function(){
+      $('[data-toggle="tooltip"]').tooltip();
+    });
+  </script>
+  <script src={% static 'jquery-3.5.1.min.js' %}></script>
+  <script src={% static 'jquery.formset.js' %}></script>
+
+</body>
+</html>
+
+
+
+
+

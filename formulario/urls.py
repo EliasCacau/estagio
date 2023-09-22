@@ -20,7 +20,7 @@ urlpatterns = [
     ),
     path(
         "formulario_dados_adicionais/enviado/",
-        dados_adicionais_views.formulario_dados_adicionais,
+        dados_adicionais_views.formulario_dados_adicionais_enviado,
         name="formulario_dados_adicionais_enviado",
     ),
     path("get_cidades/", dados_adicionais_views.get_cidades, name="get_cidades"),
