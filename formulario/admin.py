@@ -1,13 +1,34 @@
 from django.contrib import admin
 
-from formulario.models import (
-    DadosAdicionais,
-    DadosBancarios,
-    EmailRedesSociais,
-    InformacaoCandidato,
-    Pagination,
-)
+from formulario.models import (DadosAdicionais, DadosBancarios, DadosCandidato,
+                               EmailRedesSociais, InformacaoCandidato,
+                               Pagination)
 
+
+class DadosCandidatoAdmin(admin.ModelAdmin):
+    dados_candidato = [
+            "user",
+            "nome_candidato",
+            "apelido",
+            "endereco",
+            "numero",
+            "complemento",
+            "cep",
+            "estado",
+            "cidade",
+        ]
+
+    list_display = dados_candidato
+
+    # Defina campos que poderão ser usados para pesquisa
+    search_fields = dados_candidato[1:]
+
+    # Outras configurações personalizadas, se necessário...
+
+    raw_id_fields = ["user"]
+
+
+admin.site.register(DadosCandidato, DadosCandidatoAdmin)
 
 class DadosAdicionaisAdmin(admin.ModelAdmin):
     dados_adicionais = [

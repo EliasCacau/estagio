@@ -2,16 +2,15 @@ from audioop import reverse
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-
 # from django.core.paginator import Paginator
 from django.http import Http404
-
 # from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from PIL import Image
 
 from formulario.forms import InformacaoCandidatoForm
-from formulario.models import Candidato, DadosCandidato, InformacaoCandidato, Pagination
+from formulario.models import (Candidato, DadosCandidato, InformacaoCandidato,
+                               Pagination)
 from usuarios.models import MatriculaCpf
 
 
@@ -83,11 +82,7 @@ def informacao_candidato_enviado(request):
             pagination.page_2 = "used"
             pagination.save()
             objeto = Candidato.objects.filter(user=user).first()
-            if objeto is None:
-                return redirect("formulario:formulario_dados_candidato")
-            else:
-                return redirect(
-                    "formulario:formulario_dados_candidato_editar", objeto.id
+            return redirect("formulario:formulario_dados_candidato", objeto.id
                 )
         else:
             return render(

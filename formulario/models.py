@@ -209,8 +209,8 @@ class DadosAdicionais(models.Model):
     )
 
     class Meta:
-        verbose_name = "Dados do candidato"
-        verbose_name_plural = "Dados dos candidatos"
+        verbose_name = "Dados adicionais"
+        verbose_name_plural = "Dados adicionais"
 
 
 class EmailRedesSociais(models.Model):

@@ -66,7 +66,7 @@
         {% if  pagination.page_2 == "disabled" %}
         <li class="page-item {{pagination.page_2}}"><a class="page-link" title="Dados do Candidato" href="/formulario_dados_candidato" data-toggle="tooltip">2</a></li>
         {% else %}
-          <li class="page-item {{pagination.page_2}}"><a class="page-link" title="Dados do Candidato" href="{% url 'formulario:formulario_dados_candidato_editar' to_page.id %}" data-toggle="tooltip">2</a></li>
+          <li class="page-item {{pagination.page_2}}"><a class="page-link" title="Dados do Candidato" href="{% url 'formulario:formulario_dados_candidato' to_page.id %}" data-toggle="tooltip">2</a></li>
         {% endif %}
         <li class="page-item {{pagination.page_3}}"><a class="page-link" title="Dados Adicionais" href="/formulario_dados_adicionais" data-toggle="tooltip">3</a></li>
         <li class="page-item {{pagination.page_4}}"><a class="page-link" title="Redes sociais e emails" href="/formulario_email_redes_sociais" data-toggle="tooltip">4</a></li>

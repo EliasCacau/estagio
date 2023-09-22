@@ -2,13 +2,9 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path
 
-from .views import (
-    dados_adicionais_views,
-    dados_bancarios_views,
-    dados_candidato_views,
-    email_redes_sociais_views,
-    informacao_candidato_views,
-)
+from .views import (dados_adicionais_views, dados_bancarios_views,
+                    dados_candidato_views, email_redes_sociais_views,
+                    informacao_candidato_views)
 
 app_name = "formulario"
 
@@ -56,13 +52,13 @@ urlpatterns = [
     ),
     path("lista/", dados_candidato_views.lista, name="inlineform_lista"),
     path(
-        "formulario_dados_candidato/",
+        "formulario_dados_candidato/<int:candidato_id>/",
         dados_candidato_views.dados_candidato,
-        name="formulario_dados_candidato_inserir",
+        name="formulario_dados_candidato",
     ),
     path(
-        "formulario_dados_candidato/<int:candidato_id>/",
-        dados_candidato_views.dados_candidato_editar,
-        name="formulario_dados_candidato_editar",
+        "formulario_dados_candidato_enviado/<int:candidato_id>/",
+        dados_candidato_views.dados_candidato_eviado,
+        name="formulario_dados_candidato_enviado",
     ),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

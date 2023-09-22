@@ -9,7 +9,7 @@
                 <h1 style="font-size:190%">Dados do Candidato</h1>
                 
                 
-                <form method="POST">
+                <form action="{% url 'formulario:formulario_dados_candidato_enviado' to_page.id %}" method="POST">
                     {% csrf_token %}
 
                     {% comment %} {{ form.as_p }} {% endcomment %}
