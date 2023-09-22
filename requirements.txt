@@ -8,6 +8,7 @@ flake8==6.0.0
 mccabe==0.7.0
 mypy==1.4.1
 mypy-extensions==1.0.0
+Pillow==10.0.0
 pycodestyle==2.10.0
 pyflakes==3.0.1
 pyUFbr==0.1.0
