@@ -1,8 +1,31 @@
 from django.contrib import admin
 
-from formulario.models import (DadosAdicionais, DadosBancarios, DadosCandidato,
-                               EmailRedesSociais, InformacaoCandidato,
-                               Pagination)
+from formulario.models import (Candidato, DadosAdicionais, DadosBancarios,
+                               DadosCandidato, EmailRedesSociais,
+                               InformacaoCandidato, Pagination, Telefone)
+
+
+class CandidatoAdmin(admin.ModelAdmin):
+    list_display = ["user", "matricula_cpf"]
+    search_fields = ["user__username"]
+   
+class TelefoneAdmin(admin.ModelAdmin):
+    telefone = [
+            "candidato",
+            "tipo_telefone",
+            "telefone",
+        ]
+
+    list_display = telefone
+
+    # Defina campos que poderão ser usados para pesquisa
+    search_fields = telefone[1:]
+
+    # Outras configurações personalizadas, se necessário...
+
+    raw_id_fields = ["candidato"]
+
+admin.site.register(Telefone, TelefoneAdmin)
 
 
 class DadosCandidatoAdmin(admin.ModelAdmin):
@@ -30,10 +53,10 @@ class DadosCandidatoAdmin(admin.ModelAdmin):
 
 admin.site.register(DadosCandidato, DadosCandidatoAdmin)
 
+
 class DadosAdicionaisAdmin(admin.ModelAdmin):
     dados_adicionais = [
         "user",
-        "nome_candidato",
         "data_nasc_candidato",
         "estado_civil",
         "apelido_candidato",
@@ -127,7 +150,6 @@ class InformacaoCandidatoAdmin(admin.ModelAdmin):
     raw_id_fields = ["user"]
 
 
-admin.site.register(InformacaoCandidato, InformacaoCandidatoAdmin)
 
 
 class PaginationAdmin(admin.ModelAdmin):
@@ -150,4 +172,6 @@ class PaginationAdmin(admin.ModelAdmin):
     # search_fields = ("nome", "descricao")
 
 
+admin.site.register(InformacaoCandidato, InformacaoCandidatoAdmin)
 admin.site.register(Pagination, PaginationAdmin)
+admin.site.register(Candidato, CandidatoAdmin)

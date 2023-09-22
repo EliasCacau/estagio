@@ -4,14 +4,9 @@ import re
 from django import forms
 from django.core.exceptions import ValidationError
 
-from formulario.models import (
-    DadosAdicionais,
-    DadosBancarios,
-    DadosCandidato,
-    EmailRedesSociais,
-    InformacaoCandidato,
-    Telefone,
-)
+from formulario.models import (DadosAdicionais, DadosBancarios, DadosCandidato,
+                               EmailRedesSociais, InformacaoCandidato,
+                               Telefone)
 
 SIM_NAO_CHOICES = ((True, "Sim"), (False, "Não"))
 
@@ -61,17 +56,6 @@ class DadosCandidatoForm(forms.ModelForm):
             "estado",
             "cidade",
         ]
-        labels = {
-            "nome_candidato": "Nome do Candidato",
-            "apelido": "Apelido",
-            "endereco": "Endereço",
-            "numero": "Número",
-            "complemento": "Complemento",
-            "cep": "CEP",
-            "estado": "Estado",
-            "cidade": "Cidade",
-        }
-
         widgets = {
             "estado": forms.Select(attrs={"class": "form-select", "id": "uf_natural"}),
             "cidade": forms.Select(attrs={"class": "form-select", "id": "natural"}),
@@ -90,14 +74,6 @@ class DadosCandidatoForm(forms.ModelForm):
             self.fields[campo].widget.attrs[
                 "placeholder"
             ] = f"Insira o {self.fields[campo].label.lower()}"
-
-        # if campo in placeholders:
-        #     self.fields[campo].widget.attrs["placeholder"] = placeholders[campo][
-        #         "placeholder"
-        #     ]
-
-        # self.fields[campo].widget.attrs["type"] = tipos_de_campos[campo]
-
 
 class TelefoneForm(forms.ModelForm):
     class Meta:
@@ -155,7 +131,6 @@ class DadosAdicionaisForm(forms.ModelForm):
     class Meta:
         model = DadosAdicionais
         fields = [
-            "nome_candidato",
             "data_nasc_candidato",
             "estado_civil",
             "apelido_candidato",
@@ -174,7 +149,6 @@ class DadosAdicionaisForm(forms.ModelForm):
         ]
 
         labels = {
-            "nome_candidato": "Nome do Candidato",
             "data_nasc_candidato": "Data de Nascimento",
             "estado_civil": "Estado Civil",
             "apelido_candidato": "Apelido Candidato",
@@ -192,13 +166,6 @@ class DadosAdicionaisForm(forms.ModelForm):
             "serie_carteira_prof": "Série da Carteira Profissional",
         }
         widgets = {
-            "nome_candidato": forms.TextInput(
-                attrs={
-                    "class": "form-control",
-                    "id": "floatingInputValue",
-                    "placeholder": "Nome Completo",
-                }
-            ),
             "data_nasc_candidato": forms.DateInput(
                 attrs={"class": "form-control", "type": "date"}
             ),
@@ -258,7 +225,6 @@ class DadosAdicionaisForm(forms.ModelForm):
                 }
             ),
         }
-        help_text = {"nome_candidato": "Digite o nome completo"}
         # error_messages = {
         #     "nome_candidato": {
         #         "required": "Insira o nome do candidato",

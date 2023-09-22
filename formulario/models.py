@@ -49,6 +49,8 @@ class Candidato(models.Model):
         verbose_name="Matrícula e CPF",
     )
 
+    def __str__(self):
+        return str(self.user)
 
 class InformacaoCandidato(models.Model):
     user = models.ForeignKey(
@@ -100,13 +102,13 @@ class DadosCandidato(models.Model):
         max_length=60,
         choices=estados_brasil(),
         null=True,
-        verbose_name="Estado de naturalidade",
+        verbose_name="Estado",
     )
     cidade = models.CharField(
         max_length=60,
         choices=cidades_brasil(),
         null=True,
-        verbose_name="Cidade de naturalidade",
+        verbose_name="Cidade",
     )
 
     class Meta:
@@ -129,12 +131,13 @@ class Telefone(models.Model):
         max_length=11,
         choices=OPCOES_TELEFONE,
         null=True,
+        blank=True,
         verbose_name="tipo de telefone",
     )
-    telefone = models.CharField(max_length=11)
+    telefone = models.CharField(max_length=11, null=True, blank=True)
 
     def __str__(self):
-        return self.numero
+        return self.telefone
 
     class Meta:
         verbose_name = "Telefone"
@@ -152,9 +155,6 @@ OPCOES_ESTADO_CIVIL = [
 class DadosAdicionais(models.Model):
     user = models.ForeignKey(
         User, null=True, blank=True, on_delete=models.CASCADE, verbose_name="usuário"
-    )
-    nome_candidato = models.CharField(
-        max_length=100, null=True, verbose_name="nome do candidato"
     )
     data_nasc_candidato = models.DateField(null=True, verbose_name="data de nascimento")
     estado_civil = models.CharField(
@@ -283,40 +283,47 @@ class DadosBancarios(models.Model):
 
 
 class Familiares(models.Model):
-    candidato = models.ForeignKey(
-        Candidato, on_delete=models.CASCADE, related_name="familiares"
-    )
-    grau_parentesco = models.CharField(
-        max_length=100, null=True, verbose_name="Grau de parentesco"
-    )
-
-    nome_parente = models.CharField(
-        max_length=100, null=True, verbose_name="Nome do parente"
-    )
-
-    endereco_parente = models.CharField(
-        max_length=250, null=True, verbose_name="Endereco do parente"
-    )
-
-    profissao = models.CharField(
-        max_length=100, null=True, verbose_name="Profissão do parente"
-    )
-
-    idade = models.CharField(max_length=100, null=True, verbose_name="Nome do parente")
-
-    vivo_morto = models.CharField(
-        max_length=5, choices=(("Vivo", "Vivo"), ("Morto", "Morto"))
-    )
+    candidato = models.ForeignKey(Candidato, on_delete=models.CASCADE, related_name="familiares")
+    grau_parentesco = models.CharField(max_length=100, null=True, verbose_name="Grau de parentesco")
+    nome_parente = models.CharField(max_length=100, null=True, verbose_name="Nome do parente")
+    endereco_parente = models.TextField(max_length=250, null=True, verbose_name="Endereco do parente")
+    profissao = models.CharField(max_length=100, null=True, verbose_name="Profissão do parente")
+    idade = models.CharField(max_length=100, null=True, verbose_name="Idade do parente")
+    vivo_morto = models.CharField(max_length=5, choices=(("Vivo", "Vivo"), ("Morto", "Morto")), verbose_name="Vivo ou Morto")
 
     class Meta:
         verbose_name = "Familiar"
         verbose_name_plural = "Familiares"
 
 
-class CandidatoPossui(models.Model):
+class Dados(models.Model):
     user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
-    possui_filho = models.BooleanField(default=False, verbose_name="Possui filho")
-    possui_conjuge = models.BooleanField(default=False, verbose_name="Possui cônjuge")
+    possui_filho = models.CharField(max_length=3, choices=(("Sim", "Sim"), ("Não", "Não")), verbose_name="Possui filho")
+    # Observar 20 no modelo FIC
+    detalhes_filho = models.TextField(null=True, blank=True, verbose_name="Detalhes do filho")
+
+    # Tabela filhos
+
+    #Observar 22 no modelo FIC
+    sustentando_filho = models.CharField(max_length=3, choices=(("Sim", "Sim"), ("Não", "Não")), verbose_name="Sustentando filho")
+    detalhes_nao_sustentando_filho = models.TextField(null=True, blank=True, verbose_name="Não sustentando filho")
+
+    possui_conjuge = models.CharField(max_length=3, blank=True, choices=(("Sim", "Sim"), ("Não", "Não")), verbose_name="Possui cônjuge")
+    nome_conjuge = models.CharField(max_length=100, blank=True, verbose_name="Nome do cônjuge")
+    data_nasc_conjuge = models.DateField(null=True, blank=True, verbose_name="Data de nascimento do cônjuge")
+    data_casamento = models.DateField(null=True, blank=True, verbose_name="Data do casamento")
+    local_casamento = models.TextField(null=True, blank=True, verbose_name="Local do casamento")
+    
+    morando_juntos = models.CharField(max_length=3, blank=True, choices=(("Sim", "Sim"), ("Não", "Não")), verbose_name="Morando com o cônjuge")
+    detalhes_nao_morando_juntos = models.TextField(null=True, blank=True, verbose_name="Explique o motivo e forneça o endereço do cônjuge")
+
+    conjuge_empregado = models.CharField(max_length=3, blank=True, choices=(("Sim", "Sim"), ("Não", "Não")), verbose_name="Conjuge está empregado")
+    empresa_conjuge = models.CharField(max_length=100, blank=True, verbose_name="Empresa que trabalha")
+    endereco_emprego_conjuge = models.CharField(max_length=100, blank=True, verbose_name="Endereço emprego cônjuge")
+    salário = models.CharField(max_length=100, blank=True, verbose_name="Salário cônjuge")
+    funcao_conjuge = models.CharField(max_length=100, blank=True, verbose_name="Função do cônjuge")
+
+    
     possui_parente_perito = models.BooleanField(default=False, verbose_name="Possui parente perito")
     possui_afiliacao_politica = models.BooleanField(default=False, verbose_name="Possui afiliação política")
     possui_processo = models.BooleanField(default=False, verbose_name="Possui processo")
@@ -348,10 +355,10 @@ OPCOES_SITUACAO_FILHO = [
 ]
 
 class Filho(models.Model):
-    candidato_possui = models.ForeignKey(CandidatoPossui, on_delete=models.CASCADE, related_name="filhos")
+    candidato_possui = models.ForeignKey(Dados, on_delete=models.CASCADE, related_name="filhos")
     nome_filho = models.CharField(max_length=100, null=True, verbose_name="Profissão do parente")
     data_nasc_filho = models.DateField(null=True, verbose_name="data de nascimento filho")
-    endereco_filho = models.CharField(max_length=250, null=True, verbose_name="Endereco do filho")
+    endereco_filho = models.TextField(null=True, verbose_name="Endereco do filho")
     responsavel_filho = models.CharField(max_length=250, null=True, verbose_name="Responsáveis do filho")
     situacao_filho = models.CharField(max_length=20, choices=OPCOES_SITUACAO_FILHO, verbose_name="Situação do filho")
     

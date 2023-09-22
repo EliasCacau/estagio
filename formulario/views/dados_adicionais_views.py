@@ -65,9 +65,8 @@ def formulario_dados_adicionais_enviado(request):
             return render(
                 request,
                 "dados_adicionais.html",
-                {
+                context={
                     "form": form,
-                    "pagination": pagination,
                 },
             )
     else:

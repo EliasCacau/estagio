@@ -50,6 +50,7 @@ def dados_candidato(request, candidato_id):
         }
         return render(request, "dados_candidato.html", context)
     
+
     
 @login_required(login_url="/login")
 def dados_candidato_eviado(request, candidato_id):

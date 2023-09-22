@@ -1,5 +1,4 @@
 # python -m venv venv
 # venv\Scripts\activate
 # pip install -r requerements.txt
-# .env secret KEY
-# DEBUG = 1
+
