@@ -406,4 +406,4 @@ class parente_policial(models.Model):
     nome_parente_policial = models.CharField(max_length=100, null=True, verbose_name="Nome parente policial")
     cargo_parente_policial = models.CharField(max_length=100, null=True, verbose_name="Cargo ou função parente policial")
     endereco_parente_policial = models.CharField(max_length=100, null=True, verbose_name="Endereço do parrente policial")
-    grau_parentesco = = models.CharField(max_length=100, null=True, verbose_name="Grau de parentesco")
+    grau_parentesco = models.CharField(max_length=100, null=True, verbose_name="Grau de parentesco")
