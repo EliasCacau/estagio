@@ -54,8 +54,8 @@ def cadastro(request, cpf_matricula=None):
                 matricula_cpf.user = user
                 matricula_cpf.cadastrado = True
                 matricula_cpf.save()
-
-                return HttpResponse("Usuário cadastrado com sucesso")
+                messages.success(request, "Usuário cadastrado com sucesso!")
+                return redirect("login")
             else:
                 return render(
                     request,

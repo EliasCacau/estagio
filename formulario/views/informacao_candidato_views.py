@@ -10,14 +10,22 @@ from django.http import Http404
 from django.shortcuts import redirect, render
 from PIL import Image
 
-from formulario.forms.informacao_candidato_forms import InformacaoCandidatoForm
-from formulario.models.informacao_candidato_models import InformacaoCandidato
-from formulario.models.paginations_models import Pagination
+from formulario.forms import InformacaoCandidatoForm
+from formulario.models import Candidato, DadosCandidato, InformacaoCandidato, Pagination
+from usuarios.models import MatriculaCpf
 
 
 @login_required(login_url="/login")
 def informacao_candidato(request):
     if request.method == "GET":
+        to_page = Candidato.objects.filter(user=request.user).first()
+        user = request.user
+        matricula_cpf = MatriculaCpf.objects.filter(user=request.user).first()
+        candidato, created = Candidato.objects.get_or_create(
+            user=user, matricula_cpf_id=matricula_cpf.id
+        )
+        candidato.save()
+
         dados = InformacaoCandidato.objects.filter(user=request.user).first()
 
         if not dados:
@@ -51,7 +59,13 @@ def informacao_candidato(request):
         return render(
             request,
             "informacao_candidato.html",
-            {"form": form, "pagination": pagination, "imagem": imagem, "image": image},
+            {
+                "form": form,
+                "pagination": pagination,
+                "imagem": imagem,
+                "image": image,
+                "to_page": to_page,
+            },
         )
 
 
@@ -68,7 +82,13 @@ def informacao_candidato_enviado(request):
             pagination.page_1 = "used"
             pagination.page_2 = "used"
             pagination.save()
-            return redirect("formulario:dados_candidato")
+            objeto = Candidato.objects.filter(user=user).first()
+            if objeto is None:
+                return redirect("formulario:formulario_dados_candidato")
+            else:
+                return redirect(
+                    "formulario:formulario_dados_candidato_editar", objeto.id
+                )
         else:
             return render(
                 request,

@@ -3,6 +3,7 @@
 {% block title %} Formulário {% endblock %}
 
 {% block content %}
+
     
 <div class="container">
     <div class="row justify-content-center">
@@ -16,7 +17,7 @@
                     <div class="input-group col-md-6">
                         <label for="{{ field.id_for_label }}">{{ field.label }}
                             {% if field.field.required %}
-                                <a style="color: #FF0000; text-decoration: none; font-size: 20px;" href="#" title="Este campo é obrigatório" data-toggle="tooltip">*</a>
+                              <b style="color: #FF0000; text-decoration: none; font-size: 18px;" href="#" title="Este campo é obrigatório" data-toggle="tooltip">*</b>
                             {% endif %}
                         </label>
                         <div class="input-group mb-3">
@@ -41,10 +42,7 @@
 
 <script>
     function irParaFormulario() {
-        // Coloque aqui a lógica da função que deseja executar ao clicar em "Anterior"
-        
-        // Redireciona para a página "/formulario"
-        window.location.href = "/formulario";
+        window.location.href = "/formulario_dados_adicionais";
     }
 </script>
 

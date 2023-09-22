@@ -1,14 +1,16 @@
 from django.contrib import admin
 
-from formulario.models.dados_bancarios_models import DadosBancarios
-from formulario.models.dados_candidato_models import DadosCandidato
-from formulario.models.email_redes_sociais_models import EmailRedesSociais
-from formulario.models.informacao_candidato_models import InformacaoCandidato
-from formulario.models.paginations_models import Pagination
+from formulario.models import (
+    DadosAdicionais,
+    DadosBancarios,
+    EmailRedesSociais,
+    InformacaoCandidato,
+    Pagination,
+)
 
 
-class DadosCandidatoAdmin(admin.ModelAdmin):
-    dados_candidatos = [
+class DadosAdicionaisAdmin(admin.ModelAdmin):
+    dados_adicionais = [
         "user",
         "nome_candidato",
         "data_nasc_candidato",
@@ -28,17 +30,17 @@ class DadosCandidatoAdmin(admin.ModelAdmin):
         "serie_carteira_prof",
     ]
 
-    list_display = dados_candidatos
+    list_display = dados_adicionais
 
     # Defina campos que poderão ser usados para pesquisa
-    search_fields = dados_candidatos[1:]
+    search_fields = dados_adicionais[1:]
 
     # Outras configurações personalizadas, se necessário...
 
     raw_id_fields = ["user"]
 
 
-admin.site.register(DadosCandidato, DadosCandidatoAdmin)
+admin.site.register(DadosAdicionais, DadosAdicionaisAdmin)
 
 
 class EmailRedesSociaisAdmin(admin.ModelAdmin):

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block conteudo %}
+<div class="row">
+    <h1>Lista de Clientes</h1>
+</div>
+<div class="row top-buffer">
+    <a class="btn btn-primary" href={% url 'formulario:inlineform_inserir' %} role="button">Cadastrar novo Cliente</a>
+</div>
+<div class="row top-buffer">
+    <table class="table table-bordered">
+        {% for candidato in lista %}
+        <tr>
+            <td>
+                {{ candidato.matricula_cpf }}
+                <ul>
+                    {% for t in candidato.telefones.all %}
+                    <li>{{ t.tipo_telefone }} : {{ t.telefone }} </li>
+                    {% endfor %}
+                </ul>
+            </td>
+            <td>
+                <a class="btn btn-sm btn-warning" href={% url 'formulario:inlineform_editar' candidato_id=candidato.id %} >Editar</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td>Nenhum cliente na base</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock conteudo %}

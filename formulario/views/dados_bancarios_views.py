@@ -10,14 +10,14 @@ from django.http import Http404, JsonResponse
 # from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
-from formulario.forms.dados_bancarios_forms import DadosBancariosForm
-from formulario.models.dados_bancarios_models import DadosBancarios
-from formulario.models.paginations_models import Pagination
+from formulario.forms import DadosBancariosForm
+from formulario.models import Candidato, DadosBancarios, Pagination
 
 
 @login_required(login_url="/login")
 def dados_bancarios(request):
     if request.method == "GET":
+        to_page = Candidato.objects.filter(user=request.user).first()
         dados = DadosBancarios.objects.filter(user=request.user).first()
         pagination = Pagination.objects.filter(user=request.user).first()
 
@@ -27,7 +27,7 @@ def dados_bancarios(request):
             field_value = getattr(pagination, field_name.attname)
             if field_value == "active":
                 setattr(pagination, field_name.attname, "used")
-        pagination.page_4 = "active"
+        pagination.page_5 = "active"
         pagination.save()
 
         if not dados:
@@ -41,6 +41,8 @@ def dados_bancarios(request):
             {
                 "form": form,
                 "pagination": pagination,
+                "dados": dados,
+                "to_page": to_page,
             },
         )
 
@@ -57,6 +59,7 @@ def dados_bancarios_enviado(request):
             form.save()
             form.save()
             pagination.page_5 = "used"
+            pagination.page_6 = "used"
             pagination.save()
             return render(
                 request,

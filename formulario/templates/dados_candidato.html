@@ -1,22 +1,24 @@
 {% extends 'menu.html' %}
-{% load bootstrap %}
+
 {% block title %} Formulário {% endblock %}
 
 {% block content %}
-
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <h1 style="font-size:190%">Dados do Candidato</h1>
                 
-                <form action="{% url 'formulario:dados_candidato_enviado' %}" method="POST">
+                
+                <form method="POST">
                     {% csrf_token %}
+
+                    {% comment %} {{ form.as_p }} {% endcomment %}
 
                     {% for field in form %}
                         <div class="input-group col-md-6">
                             <label for="{{ field.id_for_label }}">{{ field.label }}
                                 {% if field.field.required %}
-                                    <a style="color: #FF0000; text-decoration: none; font-size: 20px;" href="#" title="Este campo é obrigatório" data-toggle="tooltip">*</a>
+                                    <b style="color: #FF0000; text-decoration: none; font-size: 18px;" href="#" title="Este campo é obrigatório" data-toggle="tooltip">*</b>
                                 {% endif %}
                             </label>
                             <div class="input-group mb-3">
@@ -28,17 +30,89 @@
                             {{ field.errors }}  
                         </div>                        
                     {% endfor %}
-                       
+
+                    {{ form_telefone.management_form }}
+                    <div class="errorlist">
+                        {% if form_telefone.errors %}
+                            {% for error in form_telefone.errors %}
+                                {% if forloop.first %}
+                                    {{ error }}
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    
+                    <table class="table">
+                        {% for ft in form_telefone %}                        
+                                {% if forloop.first %}
+                                    <tr> 
+                                        {% for f in ft.visible_fields %}
+                                            <th>{{ f.label }} 
+                                                {% if f.field.required %}
+                                                    <b style="color: #FF0000; text-decoration: none; font-size: 18px;" href="#" title="Este campo é obrigatório" data-toggle="tooltip">*</b>
+                                                {% endif %}
+                                            </th>
+                                        {%endfor%}
+                                    </tr>
+                                {% endif %}
+                                <tr class="inlineform"> 
+                                    {% for f in ft.hidden_fields %}
+                                        {{ f }}
+                                    {%endfor%} 
+                                    {% for f in ft.visible_fields %}
+                                        <td>{{ f }}</td>
+                                    {%endfor%}                                
+                                </tr>
+                            
+                        {%endfor%}                        
+                    </table>
+
+                    {% comment %} {% for ft in form_telefone %}
+                        <div class="inlineform">
+                            <div class="input-group col-md-6">
+
+                                <div class="input-group mb-3">
+                                    <label for="{{ ft.id_for_label }}">{{ ft.label }} </label>
+                                    
+                                </div>
+                                <br>
+                                <div class="input-group col-md-6">
+                                    {{ft}}
+                                </div>  
+
+                                {% if ft.help_text %}
+                                    <p class="help-text">{{ ft.help_text }}</p>
+                                {% endif %}
+
+                                {{ ft.errors }}  
+                            </div>   
+
+                        </div>                     
+                    {% endfor %}  {% endcomment %}
+
+
                     <div style="margin-top: 20px; display: flex; justify-content: space-between; margin-bottom: 35px;">
                         <input type="button" class="btn btn-secondary btn-block" value="Anterior" style="flex: .4; margin-right: 5px" onclick="irParaFormulario()">
                         <input type="submit" class="btn btn-primary btn-block" value="Próximo" style="flex: .4;margin-left: 5px">
                     </div>
-
+                
                 </form>
             </div>
         </div>
     </div>
 
+{% endblock content %}
+
+{% block scripts %}
+    <script type="text/javascript">
+        $(function() {
+            $('.inlineform').formset({
+                prefix: '{{ form_telefone.prefix }}',
+                addText: "Adicionar novo Telefone",
+                deleteText: "Remover este Telefone",                
+            });
+        })
+    </script>
     <script>
         $(document).ready(function () {
             $("#uf_natural").change(function () {
@@ -57,15 +131,10 @@
                 });
             });
         });
-    
+    </script>
+    <script>
         function irParaFormulario() {
-            // Coloque aqui a lógica da função que deseja executar ao clicar em "Anterior"
-            
-            // Redireciona para a página "/formulario"
             window.location.href = "/formulario_informacao_candidato";
         }
-        
-      </script>
-
-      
-{% endblock %}
+    </script>
+{% endblock scripts %}

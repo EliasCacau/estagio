@@ -1,0 +1,71 @@
+{% extends 'menu.html' %}
+{% load bootstrap %}
+{% block title %} Formulário {% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <h1 style="font-size:190%">Dados Adicionais</h1>
+                
+                <form action="{% url 'formulario:formulario_dados_adicionais_enviado' %}" method="POST">
+                    {% csrf_token %}
+
+                    {% for field in form %}
+                        <div class="input-group col-md-6">
+                            <label for="{{ field.id_for_label }}">{{ field.label }}
+                                {% if field.field.required %}
+                                    <b style="color: #FF0000; text-decoration: none; font-size: 18px;" href="#" title="Este campo é obrigatório" data-toggle="tooltip">*</b>
+                                {% endif %}
+                            </label>
+                            <div class="input-group mb-3">
+                                {{field}}
+                            </div>
+                            {% if field.help_text %}
+                                <p class="help-text">{{ field.help_text }}</p>
+                            {% endif %}
+                            {{ field.errors }}  
+                        </div>                        
+                    {% endfor %}
+                       
+                    <div style="margin-top: 20px; display: flex; justify-content: space-between; margin-bottom: 35px;">
+                        <input type="button" class="btn btn-secondary btn-block" value="Anterior" style="flex: .4; margin-right: 5px" onclick="irParaFormulario()">
+                        <input type="submit" class="btn btn-primary btn-block" value="Próximo" style="flex: .4;margin-left: 5px">
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $("#uf_natural").change(function () {
+                var estado = $(this).val();
+                $.ajax({
+                    url: "{% url 'formulario:get_cidades' %}",
+                    data: {estado: estado},
+                    dataType: "json",
+                    success: function (data) {
+                        var options = "<option value=''>Selecione a cidade</option>";
+                        data.cidades.forEach(function (cidade) {
+                            options += "<option value='" + cidade + "'>" + cidade + "</option>";
+                        });
+                        $("#natural").html(options);
+                    }
+                });
+            });
+        });
+    
+        function irParaFormulario() {
+            // Coloque aqui a lógica da função que deseja executar ao clicar em "Anterior"
+            
+            // Redireciona para a página "/formulario"
+            window.location.href = "{% url 'formulario:formulario_dados_candidato_editar' to_page.id %}";
+        }
+        
+      </script>
+
+      
+{% endblock %}
