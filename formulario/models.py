@@ -295,7 +295,7 @@ class Familiares(models.Model):
     )
 
     endereco_parente = models.CharField(
-        max_length=250, null=True, verbose_name="Endereco parente do parente"
+        max_length=250, null=True, verbose_name="Endereco do parente"
     )
 
     profissao = models.CharField(
@@ -311,3 +311,47 @@ class Familiares(models.Model):
     class Meta:
         verbose_name = "Familiar"
         verbose_name_plural = "Familiares"
+
+
+class CandidatoPossui(models.Model):
+    user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
+    possui_filho = models.BooleanField(default=False, verbose_name="Possui filho")
+    possui_conjuge = models.BooleanField(default=False, verbose_name="Possui cônjuge")
+    possui_parente_perito = models.BooleanField(default=False, verbose_name="Possui parente perito")
+    possui_afiliacao_politica = models.BooleanField(default=False, verbose_name="Possui afiliação política")
+    possui_processo = models.BooleanField(default=False, verbose_name="Possui processo")
+    possui_passagem = models.BooleanField(default=False, verbose_name="Possui passagem")
+    possui_arma_de_fogo = models.BooleanField(default=False, verbose_name="Possui arma de fogo")
+    possui_habilidade_util = models.BooleanField(default=False, verbose_name="Possui habilidade útil")
+    possui_tentativa_ingresso = models.BooleanField(default=False, verbose_name="Possui tentativa de ingresso")
+    possui_emprego_publico = models.BooleanField(default=False, verbose_name="Possui emprego público")
+    prestou_servico_militar = models.BooleanField(default=False, verbose_name="Prestou serviço militar")
+    possui_pos_graduacao = models.BooleanField(default=False, verbose_name="Possui pós-graduação")
+    possui_expulsao_ensino = models.BooleanField(default=False, verbose_name="Possui expulsão do ensino")
+    possui_habilitacao = models.BooleanField(default=False, verbose_name="Possui habilitação")
+    possui_habilitacao_suspensa_cassada = models.BooleanField(default=False, verbose_name="Possui habilitação suspensa/cassada")
+    possui_acidente_transito = models.BooleanField(default=False, verbose_name="Possui acidente de trânsito")
+    possui_cheque_titulos_protestados = models.BooleanField(default=False, verbose_name="Possui cheques/títulos protestados")
+    possui_prestacoes_dividas = models.BooleanField(default=False, verbose_name="Possui prestações de dívidas")
+    possui_bem_imovel_movel_capital = models.BooleanField(default=False, verbose_name="Possui bem imóvel/móvel de grande valor")
+    possui_veiculo = models.BooleanField(default=False, verbose_name="Possui veículo")
+    participa_sindicato = models.BooleanField(default=False, verbose_name="Participa de sindicato")
+    socio_clube = models.BooleanField(default=False, verbose_name="É sócio de clube")
+    possui_inquerito_investigacao = models.BooleanField(default=False, verbose_name="Possui inquérito de investigação")
+    possui_inquerito_forca_armadas = models.BooleanField(default=False, verbose_name="Possui inquérito das Forças Armadas")
+
+OPCOES_SITUACAO_FILHO = [
+    ("Filho legítimo", "Filho legítimo"),
+    ("Filho legitimado", "Filho legitimado"),
+    ("Filho adotivo", "Filho adotivo"),
+    ("Enteado", "Enteado"),
+]
+
+class Filho(models.Model):
+    candidato_possui = models.ForeignKey(CandidatoPossui, on_delete=models.CASCADE, related_name="filhos")
+    nome_filho = models.CharField(max_length=100, null=True, verbose_name="Profissão do parente")
+    data_nasc_filho = models.DateField(null=True, verbose_name="data de nascimento filho")
+    endereco_filho = models.CharField(max_length=250, null=True, verbose_name="Endereco do filho")
+    responsavel_filho = models.CharField(max_length=250, null=True, verbose_name="Responsáveis do filho")
+    situacao_filho = models.CharField(max_length=20, choices=OPCOES_SITUACAO_FILHO, verbose_name="Situação do filho")
+    
