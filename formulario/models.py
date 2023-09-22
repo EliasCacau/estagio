@@ -163,9 +163,6 @@ class DadosAdicionais(models.Model):
         null=True,
         verbose_name="estado civil",
     )
-    apelido_candidato = models.CharField(
-        max_length=60, null=True, verbose_name="apelido"
-    )
     nacionalidade = models.CharField(
         max_length=60, null=True, verbose_name="nacionalidade"
     )
@@ -319,12 +316,54 @@ class Dados(models.Model):
 
     conjuge_empregado = models.CharField(max_length=3, blank=True, choices=(("Sim", "Sim"), ("Não", "Não")), verbose_name="Conjuge está empregado")
     empresa_conjuge = models.CharField(max_length=100, blank=True, verbose_name="Empresa que trabalha")
-    endereco_emprego_conjuge = models.CharField(max_length=100, blank=True, verbose_name="Endereço emprego cônjuge")
+    endereco_emprego_conjuge = models.TextField(null=True, verbose_name="Endereço emprego cônjuge")
     salário = models.CharField(max_length=100, blank=True, verbose_name="Salário cônjuge")
     funcao_conjuge = models.CharField(max_length=100, blank=True, verbose_name="Função do cônjuge")
 
+    # 24 modelo fic
+    caso_disturbio_familia = models.CharField(max_length=3, blank=True, choices=(("Sim", "Sim"), ("Não", "Não")), verbose_name="Caso de distúrbio(s) na família")
+    detalhes_caso_disturbio = models.TextField(null=True, blank=True, verbose_name="Detalhes do caso de distúbio")
+
+    candidato_internado = models.CharField(max_length=3, blank=True, choices=(("Sim", "Sim"), ("Não", "Não")), verbose_name="Você já foi internado")
+    detalhes_internamento = models.TextField(null=True, blank=True, verbose_name="Datas, locais e motivos do(s) internamentos")
     
-    possui_parente_perito = models.BooleanField(default=False, verbose_name="Possui parente perito")
+    ingere_alcool = models.CharField(max_length=3, blank=True, choices=(("Sim", "Sim"), ("Não", "Não")), verbose_name="Você já foi internado")
+    bebidas_ingeridas = models.CharField(max_length=200, blank=True, verbose_name="Quais bebidas")
+
+    fumante = models.CharField(max_length=3, blank=True, choices=(("Sim", "Sim"), ("Não", "Não")), verbose_name="Você fuma")
+    
+    utilizou_entorpecentes = models.CharField(max_length=3, blank=True, choices=(("Sim", "Sim"), ("Não", "Não")), verbose_name="Você já fez ou faz uso de substâncias entorpecentes")
+    detalhes_utilizou_entorpecentes = models.TextField(null=True, blank=True, verbose_name="Detalhes uso de entorpecentes")
+
+    familia_substancia_toxica = models.CharField(max_length=3, blank=True, choices=(("Sim", "Sim"), ("Não", "Não")), verbose_name="Familiar já fez ou faz uso de substâncias tóxicas")
+    detalhes_familiar_substiancia = models.TextField(null=True, blank=True, verbose_name="Detalhes do uso de substâncias na família")
+    
+    parente_policial = models.CharField(max_length=3, blank=True, choices=(("Sim", "Sim"), ("Não", "Não")), verbose_name="Possui parentes policiais")
+
+    # 30 modelo fic
+    nome_nao_parentes_01 = models.CharField(max_length=100, null=True, verbose_name="Nome completo")
+    endereco_res_nao_parente_01 = models.TextField(null=True, verbose_name="Endereço residencial")
+    endereco_com_nao_parente_01 = models.TextField(null=True, verbose_name="Endereco comercial")
+    telefone_nao_parente_01 = models.CharField(max_length=100, null=True, verbose_name="Telefone")
+    anos_conhece_nao_parente_01 = models.CharField(max_length=100, null=True, verbose_name="Tempo que o conhece")
+    ocupacao_nao_parente_01 = models.CharField(max_length=100, null=True, verbose_name="Ocupação")
+    
+    nome_nao_parentes_02 = models.CharField(max_length=100, null=True, verbose_name="Nome completo")
+    endereco_res_nao_parente_02 = models.TextField(null=True, verbose_name="Endereço residencial")
+    endereco_com_nao_parente_02 = models.TextField(null=True, verbose_name="Endereco comercial")
+    telefone_nao_parente_02 = models.CharField(max_length=100, null=True, verbose_name="Telefone")
+    anos_conhece_nao_parente_02 = models.CharField(max_length=100, null=True, verbose_name="Tempo que o conhece")
+    ocupacao_nao_parente_02 = models.CharField(max_length=100, null=True, verbose_name="Ocupação")
+    
+    nome_nao_parentes_03 = models.CharField(max_length=100, null=True, verbose_name="Nome completo")
+    endereco_res_nao_parente_03 = models.TextField(null=True, verbose_name="Endereço residencial")
+    endereco_com_nao_parente_03 = models.TextField(null=True, verbose_name="Endereco comercial")
+    telefone_nao_parente_03 = models.CharField(max_length=100, null=True, verbose_name="Telefone")
+    anos_conhece_nao_parente_03 = models.CharField(max_length=100, null=True, verbose_name="Tempo que o conhece")
+    ocupacao_nao_parente_03 = models.CharField(max_length=100, null=True, verbose_name="Ocupação")
+
+    ativ_horas_folga = models.CharField(max_length=100, null=True, verbose_name="Ocupação") 
+
     possui_afiliacao_politica = models.BooleanField(default=False, verbose_name="Possui afiliação política")
     possui_processo = models.BooleanField(default=False, verbose_name="Possui processo")
     possui_passagem = models.BooleanField(default=False, verbose_name="Possui passagem")
@@ -355,10 +394,16 @@ OPCOES_SITUACAO_FILHO = [
 ]
 
 class Filho(models.Model):
-    candidato_possui = models.ForeignKey(Dados, on_delete=models.CASCADE, related_name="filhos")
-    nome_filho = models.CharField(max_length=100, null=True, verbose_name="Profissão do parente")
+    dados = models.ForeignKey(Dados, on_delete=models.CASCADE, related_name="filhos")
+    nome_filho = models.CharField(max_length=100, null=True, verbose_name="Nome do filho")
     data_nasc_filho = models.DateField(null=True, verbose_name="data de nascimento filho")
     endereco_filho = models.TextField(null=True, verbose_name="Endereco do filho")
     responsavel_filho = models.CharField(max_length=250, null=True, verbose_name="Responsáveis do filho")
     situacao_filho = models.CharField(max_length=20, choices=OPCOES_SITUACAO_FILHO, verbose_name="Situação do filho")
     
+class parente_policial(models.Model):
+    dados = models.ForeignKey(Dados, on_delete=models.CASCADE, related_name="parente policial")
+    nome_parente_policial = models.CharField(max_length=100, null=True, verbose_name="Nome parente policial")
+    cargo_parente_policial = models.CharField(max_length=100, null=True, verbose_name="Cargo ou função parente policial")
+    endereco_parente_policial = models.CharField(max_length=100, null=True, verbose_name="Endereço do parrente policial")
+    grau_parentesco = = models.CharField(max_length=100, null=True, verbose_name="Grau de parentesco")

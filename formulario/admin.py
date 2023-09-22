@@ -59,7 +59,6 @@ class DadosAdicionaisAdmin(admin.ModelAdmin):
         "user",
         "data_nasc_candidato",
         "estado_civil",
-        "apelido_candidato",
         "nacionalidade",
         "uf_natural",
         "natural",

@@ -133,7 +133,6 @@ class DadosAdicionaisForm(forms.ModelForm):
         fields = [
             "data_nasc_candidato",
             "estado_civil",
-            "apelido_candidato",
             "nacionalidade",
             "uf_natural",
             "natural",
@@ -151,7 +150,6 @@ class DadosAdicionaisForm(forms.ModelForm):
         labels = {
             "data_nasc_candidato": "Data de Nascimento",
             "estado_civil": "Estado Civil",
-            "apelido_candidato": "Apelido Candidato",
             "nacionalidade": "Nacionalidade",
             "natural": "Natural",
             "uf_natural": "Estado Naturalidade",
