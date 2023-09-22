@@ -71,6 +71,7 @@ def informacao_candidato(request):
 @login_required(login_url="/login")
 def informacao_candidato_enviado(request):
     if request.method == "POST":
+        to_page = Candidato.objects.filter(user=request.user).first()
         user = request.user
         dados, created = InformacaoCandidato.objects.get_or_create(user=user)
         form = InformacaoCandidatoForm(request.POST, request.FILES, instance=dados)
@@ -88,9 +89,7 @@ def informacao_candidato_enviado(request):
             return render(
                 request,
                 "informacao_candidato.html",
-                context={
-                    "form": form,
-                },
+                locals()
             )
     else:
         raise Http404()

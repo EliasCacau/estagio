@@ -49,6 +49,7 @@ def formulario_dados_adicionais(request):
 @login_required(login_url="/login")
 def formulario_dados_adicionais_enviado(request):
     if request.method == "POST":
+        to_page = Candidato.objects.filter(user=request.user).first()
         user = request.user
         dados, created = DadosAdicionais.objects.get_or_create(user=user)
         form = DadosAdicionaisForm(data=request.POST, instance=dados)
@@ -65,9 +66,7 @@ def formulario_dados_adicionais_enviado(request):
             return render(
                 request,
                 "dados_adicionais.html",
-                context={
-                    "form": form,
-                },
+                locals()
             )
     else:
         raise Http404()

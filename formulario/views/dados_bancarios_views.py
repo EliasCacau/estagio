@@ -3,10 +3,8 @@ from audioop import reverse
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-
 # from django.core.paginator import Paginator
 from django.http import Http404, JsonResponse
-
 # from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
@@ -50,6 +48,7 @@ def dados_bancarios(request):
 @login_required(login_url="/login")
 def dados_bancarios_enviado(request):
     if request.method == "POST":
+        to_page = Candidato.objects.filter(user=request.user).first()
         user = request.user
         dados, created = DadosBancarios.objects.get_or_create(user=user)
         form = DadosBancariosForm(data=request.POST, instance=dados)
@@ -69,9 +68,7 @@ def dados_bancarios_enviado(request):
             return render(
                 request,
                 "dados_bancarios.html",
-                {
-                    "form": form,
-                },
+                locals()
             )
     else:
         raise Http404()
