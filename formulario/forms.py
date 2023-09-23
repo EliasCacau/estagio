@@ -164,9 +164,9 @@ class DadosAdicionaisForm(forms.ModelForm):
             "serie_carteira_prof": "Série da Carteira Profissional",
         }
         widgets = {
-            "data_nasc_candidato": forms.DateInput(
-                attrs={"class": "form-control", "type": "date"}
-            ),
+            # "data_nasc_candidato": forms.DateInput(
+            #     attrs={"class": "form-control", "type": "date"}
+            # ),
             "estado_civil": forms.Select(attrs={"class": "form-select"}),
             "apelido_candidato": forms.TextInput(
                 attrs={"class": "form-control", "placeholder": "Apelido"}
@@ -282,6 +282,9 @@ class DadosAdicionaisForm(forms.ModelForm):
             self.fields[campo].error_messages[
                 "required"
             ] = f'Campo "{self.fields[campo].label.lower()}" Obrigatório'
+
+        self.fields["data_nasc_candidato"].widget.attrs['class'] = "form-control datepicker"
+        # self.fields["data_nasc_candidato"].widget.attrs['data-provide'] = "datepicker"
 
     def clean_data_nasc_candidato(self):
         try:

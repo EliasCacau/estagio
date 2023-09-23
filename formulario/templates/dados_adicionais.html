@@ -41,6 +41,14 @@
 
     <script>
         $(document).ready(function () {
+            $('.datepicker').datepicker({
+                format: 'dd/mm/yyyy',
+                language : 'pt-BR'
+                
+            });
+            {% comment %} $('#id_data_nasc_candidato').datepicker({
+                'language' : 'pt-BR',
+            }); {% endcomment %}
             $("#uf_natural").change(function () {
                 var estado = $(this).val();
                 $.ajax({
