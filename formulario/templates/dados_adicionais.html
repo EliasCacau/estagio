@@ -3,6 +3,21 @@
 {% block title %} Formulário {% endblock %}
 
 {% block content %}
+<style>
+    #id_data_nasc_candidato {
+        padding: 6px 12px; 
+    }
+    #calendar_icon {
+        position: absolute;
+        right: 130px;
+        top: 50%;
+        transform: translateY(-50%);
+        border: none; /* Remove a borda do input */
+        box-shadow: none; 
+        background: transparent;
+        pointer-events: none; /* Torna o elemento não interativo */
+    }
+</style>
 
     <div class="container">
         <div class="row justify-content-center">
@@ -19,13 +34,20 @@
                                     <b style="color: #FF0000; text-decoration: none; font-size: 18px;" href="#" title="Este campo é obrigatório" data-toggle="tooltip">*</b>
                                 {% endif %}
                             </label>
-                            <div class="input-group mb-3">
-                                {{field}}
-                            </div>
-                            {% if field.help_text %}
-                                <p class="help-text">{{ field.help_text }}</p>
-                            {% endif %}
-                            {{ field.errors }}  
+                            {% if field.name == "data_nasc_candidato" %}
+                                <div class="input-group mb-3">
+                                    {{ field }}
+                                    <span class="input-group-text" id="calendar_icon"><i class="fa-regular fa-calendar"></i></span><span class="input-group-text" id="basic-addon2">{{ field.help_text }}</span>
+                                </div>
+                            {% else %}
+                                <div class="input-group mb-3">
+                                    {{ field }}
+                                </div>
+                            {% endif %}  
+                    
+                            {{ field.errors }}
+                           
+                              
                         </div>                        
                     {% endfor %}
                        
@@ -46,9 +68,11 @@
                 language : 'pt-BR'
                 
             });
+            
             {% comment %} $('#id_data_nasc_candidato').datepicker({
                 'language' : 'pt-BR',
             }); {% endcomment %}
+
             $("#uf_natural").change(function () {
                 var estado = $(this).val();
                 $.ajax({
@@ -67,12 +91,9 @@
         });
     
         function irParaFormulario() {
-            // Coloque aqui a lógica da função que deseja executar ao clicar em "Anterior"
-            
-            // Redireciona para a página "/formulario"
             window.location.href = "{% url 'formulario:formulario_dados_candidato' to_page.id %}";
-        }
-        
+        }       
+
       </script>
 
       

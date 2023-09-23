@@ -223,57 +223,6 @@ class DadosAdicionaisForm(forms.ModelForm):
                 }
             ),
         }
-        # error_messages = {
-        #     "nome_candidato": {
-        #         "required": "Insira o nome do candidato",
-        #     },
-        #     "data_nasc_candidato": {
-        #         "required": "Insira a data de nascimento",
-        #         "invalid": "Este campo é inválido",
-        #     },
-        #     "estado_civil": {
-        #         "required": "Selecione uma opção",
-        #     },
-        #     "apelido_candidato": {
-        #         "required": 'Campo "Apelido Candidato" obrigatório',
-        #     },
-        #     "nacionalidade": {
-        #         "required": 'Campo "Nacionalidade" obrigatório',
-        #     },
-        #     "natural": {
-        #         "required": 'Campo "Natural" Obrigatório',
-        #     },
-        #     "uf_natural": {
-        #         "required": 'Campo "Estado Naturalidade" Obrigatório',
-        #     },
-        #     "nome_pai": {
-        #         "required": 'Campo "Nome do Pai" Obrigatório',
-        #     },
-        #     "nome_mae": {
-        #         "required": 'Campo "Nome da Mãe" Obrigatório',
-        #     },
-        #     "idiomas": {
-        #         "required": 'Campo "Idiomas Falantes" Obrigatório',
-        #     },
-        #     "num_identidade": {
-        #         "required": 'Campo "Número da Identidade" Obrigatório',
-        #     },
-        #     "orgao_emissor": {
-        #         "required": 'Campo "Orgão Emissor" Obrigatório',
-        #     },
-        #     "num_titulo_eleitor": {
-        #         "required": 'Campo "Número do Título de Eleitor" Obrigatório',
-        #     },
-        #     "zona_titulo": {
-        #         "required": 'Campo "Zona do Título de Eleitor" Obrigatório',
-        #     },
-        #     "num_carteira_profissional": {
-        #         "required": 'Campo "Número da Carteira Profissional" Obrigatório',
-        #     },
-        #     "serie_carteira_prof": {
-        #         "required": 'Campo "Série da Carteira Profissional" Obrigatório',
-        #     },
-        # }
 
     def __init__(self, *args, **kwargs):
         super(DadosAdicionaisForm, self).__init__(*args, **kwargs)
@@ -281,10 +230,11 @@ class DadosAdicionaisForm(forms.ModelForm):
         for campo in self.fields:
             self.fields[campo].error_messages[
                 "required"
-            ] = f'Campo "{self.fields[campo].label.lower()}" Obrigatório'
+            ] = f'Campo "{self.fields[campo].label.lower()}" é obrigatório'
 
         self.fields["data_nasc_candidato"].widget.attrs['class'] = "form-control datepicker"
-        # self.fields["data_nasc_candidato"].widget.attrs['data-provide'] = "datepicker"
+        self.fields["data_nasc_candidato"].widget.attrs['type'] = "date"
+        self.fields["data_nasc_candidato"].help_text = "Ex: 01/01/2000"
 
     def clean_data_nasc_candidato(self):
         try:
