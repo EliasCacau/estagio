@@ -6,7 +6,7 @@ from formulario.models import (Candidato, DadosAdicionais, DadosBancarios,
 
 
 class CandidatoAdmin(admin.ModelAdmin):
-    list_display = ["user", "matricula_cpf"]
+    list_display = ["user_id", "user", "matricula_cpf"]
     search_fields = ["user__username"]
    
 class TelefoneAdmin(admin.ModelAdmin):

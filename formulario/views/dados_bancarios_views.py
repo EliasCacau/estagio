@@ -60,10 +60,9 @@ def dados_bancarios_enviado(request):
             pagination.page_5 = "used"
             pagination.page_6 = "used"
             pagination.save()
-            return render(
-                request,
-                "enviar_formulario.html",
-            )
+            objeto = Candidato.objects.filter(user=user).first()
+            return redirect("formulario:formulario_familiares", objeto.id
+                )
         else:
             return render(
                 request,

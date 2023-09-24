@@ -55,6 +55,8 @@ def dados_candidato(request, candidato_id):
 @login_required(login_url="/login")
 def dados_candidato_eviado(request, candidato_id):
     if request.method == "POST":
+        pagination = Pagination.objects.filter(user=request.user).first()
+        to_page = Candidato.objects.filter(user=request.user).first()
         objeto = Candidato.objects.filter(id=candidato_id).first()
         dados_candidato, created = DadosCandidato.objects.get_or_create(user=request.user)
 
@@ -63,21 +65,16 @@ def dados_candidato_eviado(request, candidato_id):
             Candidato, Telefone, form=TelefoneForm
         )
         form_telefone = form_telefone_factory(request.POST, instance=objeto)
-
         if form.is_valid() and form_telefone.is_valid():
             form.save()
             form_telefone.instance = objeto
             form_telefone.save()
-            pagination = Pagination.objects.filter(user=request.user).first()
             pagination.page_1 = "used"
             pagination.page_2 = "used"
             pagination.save()
-            return redirect(reverse("formulario:formulario_dados_adicionais"))
-        else:
-            context = {
-                "form": form,
-                "form_telefone": form_telefone,
-            }
-            return redirect(
-                    "formulario:formulario_dados_candidato_editar", objeto.id, context
-                )
+            return redirect(reverse("formulario:formulario_dados_adicionais"), locals())
+        else:            
+            pagination.page_2 = "active"
+            pagination.save()
+            return render(request, "dados_candidato.html", locals())
+

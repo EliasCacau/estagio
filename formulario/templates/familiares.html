@@ -1,0 +1,258 @@
+{% extends 'menu.html' %}
+{% load bootstrap %}
+
+{% block title %} Formulário {% endblock %}
+
+#id_data_nasc_candidato {
+    padding: 6px 12px; 
+} 
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <h1 style="font-size:190%">Dados Familiares</h1>
+            
+                <form action="{% url 'formulario:formulario_familiares_enviado' to_page.id %}" method="POST">
+                    {% csrf_token %}
+
+                    {{ form_familiares.management_form }}
+                    <div class="errorlist">
+                        {% if form_familiares.errors %}
+                            {% for error in form_familiares.errors %}
+                                {% if forloop.first %}
+                                    {{ error }}
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    
+                    <table class="table table-sm caption-top">
+                        <caption>Dê completas informações sobre seus pais e irmãos. Se você foi criado por padrastos, tutores legais ou outras pessoas que não eram seus pais,
+                            a informação solicitada deve abrangê-los também.</caption>
+                        {% for ft in form_familiares %}      
+                                {% if forloop.first %}
+                                    <tr> 
+                                        {% for f in ft.visible_fields %}
+                                            <th>{{ f.label }} 
+                                                {% if f.field.required %}
+                                                    <b style="color: #FF0000; text-decoration: none; font-size: 18px;" href="#" title="Este campo é obrigatório" data-toggle="tooltip">*</b>
+                                                {% endif %}
+                                            </th>
+                                        {%endfor%}
+                                    </tr>
+                                {% endif %}
+                                <tr class="inlineform"> 
+                                    {% for f in ft.hidden_fields %}
+                                        {{ f }}
+                                    {%endfor%} 
+                                    {% for f in ft.visible_fields %}
+                                        <td>{{ f }}</td>
+                                    {%endfor%}                                
+                                </tr>
+                        {%endfor%}                        
+                    </table>               
+                    <div class="row justify-content-center">
+                        <div class="col-md-6">
+                            {% for field in form_dados_filho %}
+                                <div class="input-group col-md-6">
+                                    <label for="{{ field.id_for_label }}">{{ field.label }}
+                                        {% if field.field.required %}
+                                            <b style="color: #FF0000; text-decoration: none; font-size: 18px;" href="#" title="Este campo é obrigatório" data-toggle="tooltip">*</b>
+                                        {% endif %}
+                                    </label>
+                                                                        
+                                    <div class="input-group mb-3">
+                                        {{field}}
+                                    </div>
+                                    {% if field.help_text %}
+                                        <p class="help-text">{{ field.help_text }}</p>
+                                    {% endif %}
+                                    {{ field.errors }}  
+                                </div>                        
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-md-10">
+
+                            {{ form_filho.management_form }}
+                            <div class="errorlist">
+                                {% if form_filho.errors %}
+                                    {% for error in form_filho.errors %}
+                                        {% if forloop.first %}
+                                            {{ error }}
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+
+                            <table class="table table-sm caption-top" id="tabela-filho">
+                                <caption>Relacione abaixo todos os seus filhos caso possua</caption>
+                                {% for ft in form_filho %}      
+                                        {% if forloop.first %}
+                                            <tr> 
+                                                {% for f in ft.visible_fields %}
+                                                    <th>{{ f.label }} 
+                                                        {% if f.field.required %}
+                                                            <b style="color: #FF0000; text-decoration: none; font-size: 18px;" href="#" title="Este campo é obrigatório" data-toggle="tooltip">*</b>
+                                                        {% endif %}
+                                                    </th>
+                                                {%endfor%}
+                                            </tr>
+                                        {% endif %}
+                                        <tr class="inlineform-filho"> 
+                                            {% for f in ft.hidden_fields %}
+                                                {{ f }}
+                                            {%endfor%} 
+                                            {% for f in ft.visible_fields %}
+                                                {% if f.name == "data_nasc_filho" %}
+                                                    <div class="input-group">
+                                                        <td>{{ f }}
+                                                        </span><span class="input-group-text" id="basic-addon2">{{ f.help_text }}</span>
+                                                        </td>
+                                                    </div>
+                                                {% else %}
+                                                    <td>{{ f }}</td>
+                                                {% endif %} 
+                                            {%endfor%}                                
+                                        </tr>
+                                {%endfor%}                        
+                            </table> 
+
+                            <div style="margin-top: 20px; display: flex; justify-content: space-between; margin-bottom: 65px;">
+                                <input type="button" class="btn btn-secondary btn-block" value="Anterior" style="flex: .4; margin-right: 5px" onclick="irParaFormulario()">
+                                <input type="submit" class="btn btn-primary btn-block" value="Próximo" style="flex: .4;margin-left: 5px">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
+
+{% block scripts %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.inlineform').formset({
+                prefix: '{{ form_familiares.prefix }}',
+                addText: "Adicionar novo Familiar",
+                deleteText: "Remover este Familiar",                
+            });
+            $('.inlineform-filho').formset({
+                prefix: '{{ form_filho.prefix }}',
+                addText: "Adicionar novo Filho",
+                deleteText: "Remover este Campo",                
+            });        
+            $('.datepicker').datepicker({
+                format: 'dd/mm/yyyy',
+                language : 'pt-BR'
+            }); 
+        });
+    </script>
+    
+
+    <script>
+        function irParaFormulario() {
+            window.location.href = "/formulario_dados_bancarios";
+        }
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+        const fieldToHide = document.getElementById("id_possui_filho_0");
+        
+        if (fieldToHide) {
+            fieldToHide.style.display = "none";
+    
+            const labelForField = document.querySelector(`label[for='${fieldToHide.id}']`);
+            
+            if (labelForField) {
+                labelForField.style.display = "none";
+            }
+        }
+    
+        const simRadio = document.getElementById("id_possui_filho_1");
+        const naoRadio = document.getElementById("id_possui_filho_2");
+        const numDelInput = document.getElementById("id_detalhes_filho");
+    
+        function toggleNumDelInput() {
+            numDelInput.disabled = !simRadio.checked;
+            numDelInput.value = simRadio.checked ? numDelInput.value : "";
+        }
+    
+        simRadio.addEventListener("change", toggleNumDelInput);
+        naoRadio.addEventListener("change", toggleNumDelInput);
+    
+        toggleNumDelInput();
+        });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const fieldToHide = document.getElementById("id_possui_filho_0");
+            
+            if (fieldToHide) {
+                fieldToHide.style.display = "none";
+        
+                const labelForField = document.querySelector(`label[for='${fieldToHide.id}']`);
+                
+                if (labelForField) {
+                    labelForField.style.display = "none";
+                }
+            }
+        
+            const simRadio = document.getElementById("id_possui_filho_1");
+            const naoRadio = document.getElementById("id_possui_filho_2");
+            const numDelInput = document.getElementById("id_detalhes_filho");
+        
+            function toggleNumDelInput() {
+                numDelInput.disabled = !simRadio.checked;
+                numDelInput.value = simRadio.checked ? numDelInput.value : "";
+            }
+        
+            simRadio.addEventListener("change", toggleNumDelInput);
+            naoRadio.addEventListener("change", toggleNumDelInput);
+        
+            toggleNumDelInput();
+            });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const fieldToHide = document.getElementById("id_sustentando_filho_0");
+            
+            if (fieldToHide) {
+                fieldToHide.style.display = "none";
+        
+                const labelForField = document.querySelector(`label[for='${fieldToHide.id}']`);
+                
+                if (labelForField) {
+                    labelForField.style.display = "none";
+                }
+            }
+        
+            const simRadio = document.getElementById("id_sustentando_filho_1");
+            const naoRadio = document.getElementById("id_sustentando_filho_2");
+            const numDelInput = document.getElementById("id_detalhes_nao_sustentando_filho");
+        
+            function toggleNumDelInput() {
+                if (simRadio.checked) {
+                    numDelInput.disabled = true;
+                    numDelInput.value = "";
+                } else {
+                    numDelInput.disabled = false;
+                }
+            }
+        
+            simRadio.addEventListener("change", toggleNumDelInput);
+            naoRadio.addEventListener("change", toggleNumDelInput);
+            
+            // Inicialmente, definir o campo "id_detalhes_nao_sustentando_filho" como desativado
+            numDelInput.disabled = true;
+            toggleNumDelInput();
+        });
+    </script>
+{% endblock scripts %}

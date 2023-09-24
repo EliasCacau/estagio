@@ -4,9 +4,9 @@ import re
 from django import forms
 from django.core.exceptions import ValidationError
 
-from formulario.models import (DadosAdicionais, DadosBancarios, DadosCandidato,
-                               EmailRedesSociais, InformacaoCandidato,
-                               Telefone)
+from formulario.models import (Dados, DadosAdicionais, DadosBancarios,
+                               DadosCandidato, EmailRedesSociais, Familiares,
+                               Filho, InformacaoCandidato, Telefone)
 
 SIM_NAO_CHOICES = ((True, "Sim"), (False, "Não"))
 
@@ -74,6 +74,7 @@ class DadosCandidatoForm(forms.ModelForm):
             self.fields[campo].widget.attrs[
                 "placeholder"
             ] = f"Insira o {self.fields[campo].label.lower()}"
+
 
 class TelefoneForm(forms.ModelForm):
     class Meta:
@@ -164,9 +165,6 @@ class DadosAdicionaisForm(forms.ModelForm):
             "serie_carteira_prof": "Série da Carteira Profissional",
         }
         widgets = {
-            # "data_nasc_candidato": forms.DateInput(
-            #     attrs={"class": "form-control", "type": "date"}
-            # ),
             "estado_civil": forms.Select(attrs={"class": "form-select"}),
             "apelido_candidato": forms.TextInput(
                 attrs={"class": "form-control", "placeholder": "Apelido"}
@@ -478,3 +476,138 @@ class DadosBancariosForm(forms.ModelForm):
                 "required": "Insira o endereço da agência",
             },
         }
+
+
+class FamiliaresForm(forms.ModelForm):
+    class Meta:
+        model = Familiares
+        fields = [
+            "grau_parentesco",
+            "nome_parente",
+            "endereco_parente",
+            "profissao",
+            "idade",
+            "vivo_morto",
+        ]
+
+
+    def __init__(self, *args, **kwargs):
+        super(FamiliaresForm, self).__init__(*args, **kwargs)
+
+        for campo in self.fields:
+            if campo not in ["vivo_morto"]:
+                self.fields[campo].widget.attrs["class"] = "form-control"
+
+            if campo in ["vivo_morto"]:
+                self.fields[campo].widget.attrs["class"] = "form-select"
+
+            self.fields[campo].error_messages[
+                "required"
+            ] = f'Campo "{self.fields[campo].label.lower()}" é obrigatório'
+
+
+class DadosFilhoForm(forms.ModelForm):
+    class Meta:
+        model = Dados
+        fields = [
+            "possui_filho",
+            "detalhes_filho",
+            "sustentando_filho",
+            "detalhes_nao_sustentando_filho",
+        ]
+
+        labels = {
+            "possui_filho": "Você já foi envolvido em algum processo de paternidade ou maternidade?",
+            "detalhes_filho": "Dê detalhes completos",
+            "sustentando_filho": "Está sustentando todos os seus filhos?",
+            "detalhes_nao_sustentando_filho": "Em caso negativo, explique detalhadamente",
+        }
+        widgets = {
+            "possui_filho": forms.RadioSelect(
+                choices=((True, "Sim"), (False, "Não")),
+            ),
+            "detalhes_filho": forms.Textarea(
+                attrs={
+                    "class": "form-control",
+                },
+            ),
+            "sustentando_filho": forms.RadioSelect(
+                choices=((True, "Sim"), (False, "Não")),
+            ),
+            
+            "detalhes_nao_sustentando_filho": forms.Textarea(
+                attrs={
+                    "class": "form-control", "disabled":"true",
+                },
+            ),
+        }
+
+
+class FilhoForm(forms.ModelForm):
+    class Meta:
+        model = Filho
+        fields = [
+            "nome_filho",
+            "data_nasc_filho",
+            "endereco_filho",
+            "responsavel_filho",
+            "situacao_filho",
+        ]
+        widgets = {
+            "nome_filho": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                },
+            ),
+            "endereco_filho": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                },
+            ),
+            "responsavel_filho": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                },
+            ),
+            "situacao_filho": forms.Select(
+                attrs={
+                    "class": "form-select",
+                },
+            ),
+            
+            }
+    
+    def __init__(self, *args, **kwargs):
+        super(FilhoForm, self).__init__(*args, **kwargs)
+
+        for campo in self.fields:
+            self.fields[campo].error_messages[
+                "required"
+            ] = f'Campo "{self.fields[campo].label.lower()}" é obrigatório'
+
+        self.fields["data_nasc_filho"].widget.attrs['class'] = "form-control datepicker"
+        self.fields["data_nasc_filho"].widget.attrs['type'] = "date"
+        self.fields["data_nasc_filho"].help_text = "Ex: 01/01/2000"
+
+    # def clean_data_nasc_filho(self):
+    #     try:
+    #         # Tenta converter a string em uma data válida
+    #         data_nasc_filho = self.cleaned_data.get("data_nasc_filho")
+
+    #         data_nasc_filho_datetime = datetime.datetime(
+    #             year=data_nasc_filho.year,
+    #             month=data_nasc_filho.month,
+    #             day=data_nasc_filho.day,
+    #         )
+
+    #         # Verifica se a data está dentro de um intervalo razoável
+    #         data_atual = datetime.datetime.now()
+    #         idade_maxima = 120  # E a idade máxima razoável
+    #         idade = (data_atual - data_nasc_filho_datetime).days // 365
+
+    #         if idade > idade_maxima:
+    #             raise ValidationError("Data de nascimento inválida")
+    #         return data_nasc_filho
+
+    #     except ValueError:
+    #         raise ValidationError("Data de nascimento inválida")
