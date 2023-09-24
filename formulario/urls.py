@@ -2,9 +2,10 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path
 
-from .views import (dados_adicionais_views, dados_bancarios_views,
-                    dados_candidato_views, email_redes_sociais_views,
-                    familiares_views, informacao_candidato_views)
+from .views import (conjuge_familia_views, dados_adicionais_views,
+                    dados_bancarios_views, dados_candidato_views,
+                    email_redes_sociais_views, familiares_views,
+                    informacao_candidato_views)
 
 app_name = "formulario"
 
@@ -70,5 +71,15 @@ urlpatterns = [
         "formulario_familiares_enviado/<int:candidato_id>/",
         familiares_views.familiares_enviado,
         name="formulario_familiares_enviado",
+    ),
+    path(
+        "formulario_conjuge_familia/",
+        conjuge_familia_views.conjuge_familia,
+        name="formulario_conjuge_familia",
+    ),
+    path(
+        "formulario_conjuge_familia/enviado/",
+        conjuge_familia_views.conjuge_familia_enviado,
+        name="formulario_conjuge_familia_enviado",
     ),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,0 +1,294 @@
+{% extends 'menu.html' %}
+{% load bootstrap %}
+{% block title %} Formulário {% endblock %}
+
+{% block content %}
+<style>
+    #id_data_nasc_candidato {
+        padding: 6px 12px; 
+    }
+    #calendar_icon {
+        position: absolute;
+        right: 130px;
+        top: 50%;
+        transform: translateY(-50%);
+        border: none; /* Remove a borda do input */
+        box-shadow: none; 
+        background: transparent;
+        pointer-events: none; /* Torna o elemento não interativo */
+    }
+</style>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <h1 style="font-size:190%">Dados Familiares</h1>
+                
+                <form action="{% url 'formulario:formulario_conjuge_familia_enviado' %}" method="POST">
+                    {% csrf_token %}
+
+                    {% for field in form %}
+                        <div class="input-group col-md-6">
+                            <label style="text-align: justify;" for="{{ field.id_for_label }}">{{ field.label }}
+                            {% comment %} <label for="{{ field.id_for_label }}">{{ field.label }} {% endcomment %}
+                                {% if field.field.required %}
+                                    <b style="color: #FF0000; text-decoration: none; font-size: 18px;" href="#" title="Este campo é obrigatório" data-toggle="tooltip">*</b>
+                                {% endif %}
+                            </label>
+                            {% if field.name == "data_nasc_conjuge" %}
+                                <div class="input-group mb-3">
+                                    {{ field }}
+                                    <span class="input-group-text" id="calendar_icon"><i class="fa-regular fa-calendar"></i></span><span class="input-group-text" id="basic-addon2">{{ field.help_text }}</span>
+                                </div>
+                            {% elif field.name == "data_casamento" %}
+                                <div class="input-group mb-3">
+                                    {{ field }}
+                                    <span class="input-group-text" id="calendar_icon"><i class="fa-regular fa-calendar"></i></span><span class="input-group-text" id="basic-addon2">{{ field.help_text }}</span>
+                                </div>
+                            {% else %}
+                                <div class="input-group mb-3">
+                                    {{ field }}
+                                </div>
+                            {% endif %}  
+                    
+                            {{ field.errors }}
+                           
+                              
+                        </div>                        
+                    {% endfor %}
+                       
+                    <div style="margin-top: 20px; display: flex; justify-content: space-between; margin-bottom: 35px;">
+                        <input type="button" class="btn btn-secondary btn-block" value="Anterior" style="flex: .4; margin-right: 5px" onclick="irParaFormulario()">
+                        <input type="submit" class="btn btn-primary btn-block" value="Próximo" style="flex: .4;margin-left: 5px">
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            $('.datepicker').datepicker({
+                format: 'dd/mm/yyyy',
+                language : 'pt-BR'
+                
+            });
+            // Lista de IDs dos campos a serem escondidos
+            var camposParaEsconder = [
+                "id_possui_conjuge_0",
+                "id_morando_juntos_0",
+                "id_conjuge_empregado_0",
+                "id_caso_disturbio_familia_0",
+                "id_candidato_internado_0",
+                "id_ingere_alcool_0",
+                "id_fumante_0",
+                "id_utilizou_entorpecentes_0",
+                "id_familia_substancia_toxica_0"
+            ];
+        
+            camposParaEsconder.forEach(function(idCampo) {
+                var fieldToHide = document.getElementById(idCampo);
+                if (fieldToHide) {
+                    fieldToHide.style.display = "none";
+        
+                    // Encontre o rótulo associado ao campo
+                    var labelForField = document.querySelector("label[for='" + idCampo + "']");
+                    if (labelForField) {
+                        labelForField.style.display = "none";
+                    }
+                }
+            });
+            
+            
+            function toggleInputs() {
+                var radioSim = document.getElementById("id_possui_conjuge_1");
+                var input1 = document.getElementById("id_nome_conjuge");
+                var input2 = document.getElementById("id_data_nasc_conjuge");
+                var input3 = document.getElementById("id_data_casamento");
+                var input4 = document.getElementById("id_local_casamento");
+        
+                if (radioSim.checked) {
+                    input1.disabled = false;
+                    input2.disabled = false;
+                    input3.disabled = false;
+                    input4.disabled = false;
+                } else {
+                    input1.disabled = true;
+                    input1.value = radioSim.checked ? input1.value : "";
+                    input2.disabled = true;
+                    input2.value = radioSim.checked ? input1.value : "";
+                    input3.disabled = true;
+                    input3.value = radioSim.checked ? input1.value : "";
+                    input4.disabled = true;
+                    input4.value = radioSim.checked ? input1.value : "";
+                }
+            }
+            var radioSim = document.getElementById("id_possui_conjuge_1");
+            var radioNao = document.getElementById("id_possui_conjuge_2");
+            
+            radioSim.addEventListener("change", toggleInputs);
+            radioNao.addEventListener("change", toggleInputs);           
+
+            toggleInputs();
+
+            function toggleInputs2() {
+                var radioSim = document.getElementById("id_morando_juntos_1");
+                var input1 = document.getElementById("id_detalhes_nao_morando_juntos");
+        
+                if (radioSim.checked) {
+                    input1.disabled = false;
+
+                } else {
+                    input1.disabled = true;
+                    input1.value = radioSim.checked ? input1.value : "";
+                }
+            }
+            var radioSim2 = document.getElementById("id_morando_juntos_1");
+            var radioNao2 = document.getElementById("id_morando_juntos_2");
+            
+            radioSim2.addEventListener("change", toggleInputs2);
+            radioNao2.addEventListener("change", toggleInputs2);
+            
+            toggleInputs2();
+
+            function toggleInputs3() {
+                var radioSim = document.getElementById("id_conjuge_empregado_1");
+                var input1 = document.getElementById("id_empresa_conjuge");
+                var input2 = document.getElementById("id_endereco_emprego_conjuge");
+                var input3 = document.getElementById("id_salário");
+                var input4 = document.getElementById("id_funcao_conjuge");
+        
+                if (radioSim.checked) {
+                    input1.disabled = false;
+                    input2.disabled = false;
+                    input3.disabled = false;
+                    input4.disabled = false;
+                } else {
+                    input1.disabled = true;
+                    input1.value = radioSim.checked ? input1.value : "";
+                    input2.disabled = true;
+                    input2.value = radioSim.checked ? input1.value : "";
+                    input3.disabled = true;
+                    input3.value = radioSim.checked ? input1.value : "";
+                    input4.disabled = true;
+                    input4.value = radioSim.checked ? input1.value : "";
+                }
+            }
+            var radioSim3 = document.getElementById("id_conjuge_empregado_1");
+            var radioNao3 = document.getElementById("id_conjuge_empregado_2");
+            
+            radioSim3.addEventListener("change", toggleInputs3);
+            radioNao3.addEventListener("change", toggleInputs3);
+            
+            toggleInputs3();
+
+            function toggleInputs4() {
+                var radioSim = document.getElementById("id_caso_disturbio_familia_1");
+                var input1 = document.getElementById("id_detalhes_caso_disturbio");
+        
+                if (radioSim.checked) {
+                    input1.disabled = false;
+
+                } else {
+                    input1.disabled = true;
+                    input1.value = radioSim.checked ? input1.value : "";
+                }
+            }
+            var radioSim4 = document.getElementById("id_caso_disturbio_familia_1");
+            var radioNao4 = document.getElementById("id_caso_disturbio_familia_2");
+            
+            radioSim4.addEventListener("change", toggleInputs4);
+            radioNao4.addEventListener("change", toggleInputs4);
+            
+            toggleInputs4();
+
+            function toggleInputs8() {
+                var radioSim = document.getElementById("id_candidato_internado_1");
+                var input1 = document.getElementById("id_detalhes_internamento");
+        
+                if (radioSim.checked) {
+                    input1.disabled = false;
+
+                } else {
+                    input1.disabled = true;
+                    input1.value = radioSim.checked ? input1.value : "";
+                }
+            }
+            var radioSim8 = document.getElementById("id_candidato_internado_1");
+            var radioNao8 = document.getElementById("id_candidato_internado_2");
+            
+            radioSim8.addEventListener("change", toggleInputs8);
+            radioNao8.addEventListener("change", toggleInputs8);
+            
+            toggleInputs8();
+
+            function toggleInputs5() {
+                var radioSim = document.getElementById("id_ingere_alcool_1");
+                var input1 = document.getElementById("id_bebidas_ingeridas");
+        
+                if (radioSim.checked) {
+                    input1.disabled = false;
+
+                } else {
+                    input1.disabled = true;
+                    input1.value = radioSim.checked ? input1.value : "";
+                }
+            }
+            var radioSim5 = document.getElementById("id_ingere_alcool_1");
+            var radioNao5 = document.getElementById("id_ingere_alcool_2");
+            
+            radioSim5.addEventListener("change", toggleInputs5);
+            radioNao5.addEventListener("change", toggleInputs5);
+            
+            toggleInputs5();
+
+            function toggleInputs6() {
+                var radioSim = document.getElementById("id_utilizou_entorpecentes_1");
+                var input1 = document.getElementById("id_detalhes_utilizou_entorpecentes");
+        
+                if (radioSim.checked) {
+                    input1.disabled = false;
+
+                } else {
+                    input1.disabled = true;
+                    input1.value = radioSim.checked ? input1.value : "";
+                }
+            }
+            var radioSim6 = document.getElementById("id_utilizou_entorpecentes_1");
+            var radioNao6 = document.getElementById("id_utilizou_entorpecentes_2");
+            
+            radioSim6.addEventListener("change", toggleInputs6);
+            radioNao6.addEventListener("change", toggleInputs6);
+            
+            toggleInputs6();
+
+            function toggleInputs7() {
+                var radioSim = document.getElementById("id_familia_substancia_toxica_1");
+                var input1 = document.getElementById("id_detalhes_familiar_substiancia");
+        
+                if (radioSim.checked) {
+                    input1.disabled = false;
+
+                } else {
+                    input1.disabled = true;
+                    input1.value = radioSim.checked ? input1.value : "";
+                }
+            }
+            var radioSim7 = document.getElementById("id_familia_substancia_toxica_1");
+            var radioNao7 = document.getElementById("id_familia_substancia_toxica_2");
+            
+            radioSim7.addEventListener("change", toggleInputs7);
+            radioNao7.addEventListener("change", toggleInputs7);
+            
+            toggleInputs7();
+            
+        });
+    </script>
+
+    <script>    
+        function irParaFormulario() {
+            window.location.href = "{% url 'formulario:formulario_familiares' to_page.id %}";
+        }       
+      </script>      
+{% endblock %}

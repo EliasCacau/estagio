@@ -589,25 +589,126 @@ class FilhoForm(forms.ModelForm):
         self.fields["data_nasc_filho"].widget.attrs['type'] = "date"
         self.fields["data_nasc_filho"].help_text = "Ex: 01/01/2000"
 
-    # def clean_data_nasc_filho(self):
-    #     try:
-    #         # Tenta converter a string em uma data válida
-    #         data_nasc_filho = self.cleaned_data.get("data_nasc_filho")
+class ConjugeFamiliaForm(forms.ModelForm):
+    class Meta:
+        model = Dados
+        fields = [
+            "possui_conjuge", # choice
+            "nome_conjuge",
+            "data_nasc_conjuge",
+            "data_casamento",
+            "local_casamento",
+            "morando_juntos", # choice
+            "detalhes_nao_morando_juntos",      # Area
+            "conjuge_empregado", # choice
+            "empresa_conjuge",
+            "endereco_emprego_conjuge",
+            "salário",
+            "funcao_conjuge",
+            "caso_disturbio_familia", # choice
+            "detalhes_caso_disturbio",       # Area
+            "candidato_internado", # choice
+            "detalhes_internamento",        # Area
+            "ingere_alcool", # choice
+            "bebidas_ingeridas",
+            "fumante", # choice
+            "utilizou_entorpecentes", # choice
+            "detalhes_utilizou_entorpecentes",       # Area
+            "familia_substancia_toxica", # choice
+            "detalhes_familiar_substiancia",        # Area
+        ]
+        labels = {
+            "morando_juntos": "Está vivendo com seu cônjuge?",
+            "detalhes_nao_morando_juntos": "Em caso negativo, explique os motivos e forneça o atual endereço do seu cônjuge",
+            "conjuge_empregado": "Seu cônjuge está empregado atualmente?",
+            "caso_disturbio_familia": "Você ou algum membro de sua família já foi examinado ou tratado em virtude de distúrbios nervosos ou mentais, ou moléstia prolongada?",
+            "detalhes_caso_disturbio": "Em caso positivo, forneça detalhes",
+            "candidato_internado": "Você já foi internado em hospital?",
+            "detalhes_internamento": "Em caso positivo, apresente datas, locais e motivos",
+            "ingere_alcool": "Faz uso de bebidas alcoólicas?",
+            "bebidas_ingeridas": "Quais?",
+            "fumante": "Você fuma?",
+            "utilizou_entorpecentes": "Você já fez ou faz uso de substância entorpecente?",
+            "detalhes_utilizou_entorpecentes": "Em caso positivo, apresente detalhes",
+            "familia_substancia_toxica": " Alguém da sua família já fez ou faz uso de substância tóxica?",
+            "detalhes_familiar_substiancia": "Em caso afirmativo, forneça detalhes",
+        }
+        widgets = {
+            "possui_conjuge": forms.RadioSelect( 
+                choices=((True, "Sim"), (False, "Não")),
+            ),
+            "morando_juntos": forms.RadioSelect( 
+                choices=((True, "Sim"), (False, "Não")),
+            ),
+            "conjuge_empregado": forms.RadioSelect( 
+                choices=((True, "Sim"), (False, "Não")),
+            ),
+            "caso_disturbio_familia": forms.RadioSelect( 
+                choices=((True, "Sim"), (False, "Não")),
+            ),
+            "candidato_internado": forms.RadioSelect( 
+                choices=((True, "Sim"), (False, "Não")),
+            ),
+            "ingere_alcool": forms.RadioSelect( 
+                choices=((True, "Sim"), (False, "Não")),
+            ),
+            "fumante": forms.RadioSelect( 
+                choices=((True, "Sim"), (False, "Não")),
+            ),
+            "utilizou_entorpecentes": forms.RadioSelect( 
+                choices=((True, "Sim"), (False, "Não")),
+            ),
+            "familia_substancia_toxica": forms.RadioSelect( 
+                choices=((True, "Sim"), (False, "Não")),
+            ),
+            "detalhes_nao_morando_juntos": forms.Textarea(attrs={"class": "form-control"},),
+            "detalhes_caso_disturbio": forms.Textarea(attrs={"class": "form-control"},),
+            "detalhes_internamento": forms.Textarea(attrs={"class": "form-control"},),
+            "detalhes_utilizou_entorpecentes": forms.Textarea(attrs={"class": "form-control"},),
+            "detalhes_familiar_substiancia": forms.Textarea(attrs={"class": "form-control"},),
+        }
+        error_messages = {
+            "possui_conjuge": {
+                "required": "Insira o nome do telefone",
+            },
+        }
 
-    #         data_nasc_filho_datetime = datetime.datetime(
-    #             year=data_nasc_filho.year,
-    #             month=data_nasc_filho.month,
-    #             day=data_nasc_filho.day,
-    #         )
+    def __init__(self, *args, **kwargs):
+        super(ConjugeFamiliaForm, self).__init__(*args, **kwargs)
+        
+        input = [
+            "nome_conjuge",
+            "local_casamento",
+            "empresa_conjuge",
+            "endereco_emprego_conjuge",
+            "salário",
+            "funcao_conjuge",
+            "bebidas_ingeridas"
+        ]
+        radio = [
+            "possui_conjuge",
+            "morando_juntos",
+            "conjuge_empregado",
+            "caso_disturbio_familia",
+            "candidato_internado",
+            "ingere_alcool",
+            "fumante",
+            "utilizou_entorpecentes",
+            "familia_substancia_toxica",
+        ]
 
-    #         # Verifica se a data está dentro de um intervalo razoável
-    #         data_atual = datetime.datetime.now()
-    #         idade_maxima = 120  # E a idade máxima razoável
-    #         idade = (data_atual - data_nasc_filho_datetime).days // 365
+        data = [
+        "data_casamento", 
+        "data_nasc_conjuge",
+        ]
+        for campo in self.fields:
+            self.fields[campo].error_messages[
+                "required"
+            ] = f'Campo "{self.fields[campo].label.lower()}" é obrigatório'
 
-    #         if idade > idade_maxima:
-    #             raise ValidationError("Data de nascimento inválida")
-    #         return data_nasc_filho
-
-    #     except ValueError:
-    #         raise ValidationError("Data de nascimento inválida")
+            if campo in input:
+                    self.fields[campo].widget.attrs['class'] = "form-control"
+            if campo in data:
+                self.fields[campo].widget.attrs['class'] = "form-control datepicker"
+                self.fields[campo].widget.attrs['type'] = "date"
+                self.fields[campo].help_text = "Ex: 01/01/2000"

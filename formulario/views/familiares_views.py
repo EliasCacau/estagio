@@ -31,14 +31,16 @@ def familiares(request, candidato_id):
         form_dados_filho = DadosFilhoForm(instance=dados_filho)
 
         form_filho_factory = inlineformset_factory(
-            Dados, Filho, form=FilhoForm, extra=False
+            Dados, Filho, form=FilhoForm, extra=1
         )
         form_filho = form_filho_factory(instance=dados_filho)
 
+
         form_familiares_factory = inlineformset_factory(
-            Candidato, Familiares, form=FamiliaresForm, extra=False
+            Candidato, Familiares, form=FamiliaresForm, extra=1
         )
         form_familiares = form_familiares_factory(instance=objeto)
+            
         context = {
             "form_familiares": form_familiares,
             "pagination": pagination,
@@ -75,7 +77,7 @@ def familiares_enviado(request, candidato_id):
 
             pagination.page_6 = "used"
             pagination.save()
-            return redirect("formulario:formulario_dados_candidato", objeto.id)
+            return redirect("formulario:formulario_conjuge_familia")
         else:
             pagination.page_6 = "active"
             pagination.save()

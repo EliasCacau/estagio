@@ -30,6 +30,16 @@ class Pagination(models.Model):
     page_5 = models.CharField(max_length=100, null=True, blank=True, default="disabled")
     page_6 = models.CharField(max_length=100, null=True, blank=True, default="disabled")
     page_7 = models.CharField(max_length=100, null=True, blank=True, default="disabled")
+    page_8 = models.CharField(max_length=100, null=True, blank=True, default="disabled")
+    page_9 = models.CharField(max_length=100, null=True, blank=True, default="disabled")
+    page_10 = models.CharField(max_length=100, null=True, blank=True, default="disabled")
+    page_11 = models.CharField(max_length=100, null=True, blank=True, default="disabled")
+    page_12 = models.CharField(max_length=100, null=True, blank=True, default="disabled")
+    page_13 = models.CharField(max_length=100, null=True, blank=True, default="disabled")
+    page_14 = models.CharField(max_length=100, null=True, blank=True, default="disabled")
+    page_15 = models.CharField(max_length=100, null=True, blank=True, default="disabled")
+
+
 
 
 def user_directory_path(instance, filename):
@@ -308,37 +318,37 @@ class Dados(models.Model):
     sustentando_filho = models.CharField(max_length=3, choices=SIM_NAO, verbose_name="Sustentando filho")
     detalhes_nao_sustentando_filho = models.TextField(null=True, blank=True, verbose_name="Não sustentando filho")
 
-    possui_conjuge = models.CharField(max_length=3, blank=True, choices=SIM_NAO, verbose_name="Possui cônjuge")
+    possui_conjuge = models.CharField(max_length=3, choices=SIM_NAO, verbose_name="Possui cônjuge")
     nome_conjuge = models.CharField(max_length=100, blank=True, verbose_name="Nome do cônjuge")
     data_nasc_conjuge = models.DateField(null=True, blank=True, verbose_name="Data de nascimento do cônjuge")
     data_casamento = models.DateField(null=True, blank=True, verbose_name="Data do casamento")
     local_casamento = models.CharField(max_length=250, null=True, blank=True, verbose_name="Local do casamento")
     
-    morando_juntos = models.CharField(max_length=3, blank=True, choices=SIM_NAO, verbose_name="Morando com cônjuge")
-    detalhes_nao_morando_juntos = models.TextField(null=True, blank=True, verbose_name="Mmotivo e endereço do cônjuge")
+    morando_juntos = models.CharField(max_length=3, choices=SIM_NAO, verbose_name="Morando com cônjuge")
+    detalhes_nao_morando_juntos = models.TextField(null=True, blank=True, verbose_name="Motivo e endereço do cônjuge")
 
-    conjuge_empregado = models.CharField(max_length=3, blank=True, choices=SIM_NAO, verbose_name="Conjuge está empregado")
+    conjuge_empregado = models.CharField(max_length=3, choices=SIM_NAO, verbose_name="Conjuge está empregado")
     empresa_conjuge = models.CharField(max_length=100, blank=True, verbose_name="Empresa que trabalha")
     endereco_emprego_conjuge = models.CharField(max_length=250, null=True, blank=True, verbose_name="Endereço emprego cônjuge")
     salário = models.CharField(max_length=100, blank=True, verbose_name="Salário cônjuge")
     funcao_conjuge = models.CharField(max_length=100, blank=True, verbose_name="Função do cônjuge")
 
     # 24 modelo fic
-    caso_disturbio_familia = models.CharField(max_length=3, blank=True, choices=SIM_NAO, verbose_name="distúrbio na família")
+    caso_disturbio_familia = models.CharField(max_length=3, choices=SIM_NAO, verbose_name="distúrbio na família")
     detalhes_caso_disturbio = models.TextField(null=True, blank=True, verbose_name="Detalhes distúbio")
 
-    candidato_internado = models.CharField(max_length=3, blank=True, choices=SIM_NAO, verbose_name="Internado")
+    candidato_internado = models.CharField(max_length=3, choices=SIM_NAO, verbose_name="Internado")
     detalhes_internamento = models.TextField(null=True, blank=True, verbose_name="internamentos")
     
-    ingere_alcool = models.CharField(max_length=3, blank=True, choices=SIM_NAO, verbose_name="Internação")
+    ingere_alcool = models.CharField(max_length=3, choices=SIM_NAO, verbose_name="Internação")
     bebidas_ingeridas = models.CharField(max_length=200, blank=True, verbose_name="Quais bebidas")
 
-    fumante = models.CharField(max_length=3, blank=True, choices=SIM_NAO, verbose_name="Você fuma")
+    fumante = models.CharField(max_length=3, choices=SIM_NAO, verbose_name="Você fuma")
     
-    utilizou_entorpecentes = models.CharField(max_length=3, blank=True, choices=SIM_NAO, verbose_name="Substâncias entorpecentes")
+    utilizou_entorpecentes = models.CharField(max_length=3, choices=SIM_NAO, verbose_name="Substâncias entorpecentes")
     detalhes_utilizou_entorpecentes = models.TextField(null=True, blank=True, verbose_name="Detalhes entorpecentes")
 
-    familia_substancia_toxica = models.CharField(max_length=3, blank=True, choices=SIM_NAO, verbose_name="Familiar substâncias tóxicas")
+    familia_substancia_toxica = models.CharField(max_length=3, choices=SIM_NAO, verbose_name="Familiar substâncias tóxicas")
     detalhes_familiar_substiancia = models.TextField(null=True, blank=True, verbose_name="Detalhes substâncias família")
     
     # Inline
@@ -460,6 +470,10 @@ class Dados(models.Model):
     tem_veiculo = models.CharField(max_length=3, blank=True, choices=SIM_NAO, verbose_name="Possui veículos")
 
     carta_intencao = models.TextField(null=True, blank=True, verbose_name="Carta de intenção de ingresso")
+
+    class Meta:
+        verbose_name = "Dados"
+        verbose_name_plural = "Dados"
 
 OPCOES_SITUACAO_FILHO = [
     ("Filho legítimo", "Filho legítimo"),
