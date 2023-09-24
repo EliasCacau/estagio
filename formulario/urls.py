@@ -5,7 +5,7 @@ from django.urls import path
 from .views import (conjuge_familia_views, dados_adicionais_views,
                     dados_bancarios_views, dados_candidato_views,
                     email_redes_sociais_views, familiares_views,
-                    informacao_candidato_views)
+                    informacao_candidato_views, parente_policial_amigos_views)
 
 app_name = "formulario"
 
@@ -81,5 +81,15 @@ urlpatterns = [
         "formulario_conjuge_familia/enviado/",
         conjuge_familia_views.conjuge_familia_enviado,
         name="formulario_conjuge_familia_enviado",
+    ),
+    path(
+        "formulario_parente_policial_amigos/<int:candidato_id>/",
+        parente_policial_amigos_views.parente_policial_amigos,
+        name="formulario_parente_policial_amigos",
+    ),
+    path(
+        "formulario_parente_policial_amigos/enviado/<int:candidato_id>/",
+        parente_policial_amigos_views.parente_policial_amigos_enviado,
+        name="formulario_parente_policial_amigos_enviado",
     ),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,0 +1,108 @@
+{% extends 'menu.html' %}
+
+{% block title %} Formulário {% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-11">
+                <h1 style="font-size:190%">Parente Policial e amigos</h1>
+                                
+                <form action="{% url 'formulario:formulario_parente_policial_amigos_enviado' to_page.id %}" method="POST">
+                    {% csrf_token %}
+
+                    {{ form_parente_policial.management_form }}
+                    <div class="errorlist">
+                        {% if form_parente_policial.errors %}
+                            {% for error in form_parente_policial.errors %}
+                                {% if forloop.first %}
+                                    {{ error }}
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    
+                    <table class="table">
+                        {% for ft in form_parente_policial %}                        
+                                {% if forloop.first %}
+                                    <tr> 
+                                        {% for f in ft.visible_fields %}
+                                            <th>{{ f.label }} 
+                                                {% if f.field.required %}
+                                                    <b style="color: #FF0000; text-decoration: none; font-size: 18px;" href="#" title="Este campo é obrigatório" data-toggle="tooltip">*</b>
+                                                {% endif %}
+                                            </th>
+                                        {%endfor%}
+                                    </tr>
+                                {% endif %}
+                                <tr class="inlineform"> 
+                                    {% for f in ft.hidden_fields %}
+                                        {{ f }}
+                                    {%endfor%} 
+                                    {% for f in ft.visible_fields %}
+                                        <td>{{ f }}</td>
+                                    {%endfor%}                                
+                                </tr>
+                            
+                        {%endfor%}                        
+                    </table> 
+                    <div class="row justify-content-center">
+                        <div class="col-md-6">
+                            <div style="margin-bottom: 10px;">
+                                <b>Cite três pessoas que não sejam parentes ou ex-empregadores:</b>
+                            </div>
+                            
+                            {% for field in form_amigos %}
+                                    {% if field.label == "Nome completo 2" %}
+                                        <hr>
+                                    {% endif %}
+                                    {% if field.label == "Nome completo 3" %}
+                                        <hr>
+                                    {% endif %}
+                                <div class="input-group col-md-6">
+                                    <label for="{{ field.id_for_label }}">{{ field.label }}
+                                        {% if field.field.required %}
+                                            <b style="color: #FF0000; text-decoration: none; font-size: 18px;" href="#" title="Este campo é obrigatório" data-toggle="tooltip">*</b>
+                                        {% endif %}
+                                    </label>                  
+                                    <div class="input-group mb-3">
+                                        {{field}}
+                                    </div>
+                                    {% if field.help_text %}
+                                        <p class="help-text">{{ field.help_text }}</p>
+                                    {% endif %}
+                                    {{ field.errors }}
+                                </div>                       
+                            {% endfor %}
+
+                            <div style="margin-top: 20px; display: flex; justify-content: space-between; margin-bottom: 35px;">
+                                <input type="button" class="btn btn-secondary btn-block" value="Anterior" style="flex: .4; margin-right: 5px" onclick="irParaFormulario()">
+                                <input type="submit" class="btn btn-primary btn-block" value="Próximo" style="flex: .4;margin-left: 5px">
+                            </div>
+  
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
+
+{% block scripts %}
+    <script type="text/javascript">
+        $(function() {
+            $('.inlineform').formset({
+                prefix: '{{ form_telefone.prefix }}',
+                addText: "Adicionar novo Parente",
+                deleteText: "Remover este Parente",                
+            });
+        })
+    </script>
+    <script>
+        function irParaFormulario() {
+            window.location.href = "/formulario_informacao_candidato";
+        }
+    </script>
+{% endblock scripts %}

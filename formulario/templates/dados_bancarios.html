@@ -13,6 +13,12 @@
                 {% csrf_token %}
 
                 {% for field in form %}
+                        {% if field.label == "Nome da agência bancária 2" %}
+                            <hr>
+                        {% endif %}
+                        {% if field.label == "Nome da agência bancária 3" %}
+                            <hr>
+                        {% endif %}
                     <div class="input-group col-md-6">
                         <label for="{{ field.id_for_label }}">{{ field.label }}
                             {% if field.field.required %}

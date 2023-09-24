@@ -6,7 +6,8 @@ from django.core.exceptions import ValidationError
 
 from formulario.models import (Dados, DadosAdicionais, DadosBancarios,
                                DadosCandidato, EmailRedesSociais, Familiares,
-                               Filho, InformacaoCandidato, Telefone)
+                               Filho, InformacaoCandidato, ParentePolicial,
+                               Telefone)
 
 SIM_NAO_CHOICES = ((True, "Sim"), (False, "Não"))
 
@@ -712,3 +713,53 @@ class ConjugeFamiliaForm(forms.ModelForm):
                 self.fields[campo].widget.attrs['class'] = "form-control datepicker"
                 self.fields[campo].widget.attrs['type'] = "date"
                 self.fields[campo].help_text = "Ex: 01/01/2000"
+
+class ParentePolicialForm(forms.ModelForm):
+    
+    class Meta:
+        model = ParentePolicial
+        fields = [
+            "nome_parente_policial", # choice
+            "cargo_parente_policial",
+            "endereco_parente_policial",
+            "grau_parentesco",
+        ]
+        
+    def __init__(self, *args, **kwargs):
+        super(ParentePolicialForm, self).__init__(*args, **kwargs)
+        
+        for campo in self.fields:
+           self.fields[campo].widget.attrs['class'] = "form-control"
+
+class AmigosForm(forms.ModelForm):
+    class Meta:
+        model = Dados
+        fields = [
+            "nome_nao_parentes_01",
+            "endereco_res_nao_parente_01",
+            "endereco_com_nao_parente_01",
+            "telefone_nao_parente_01",
+            "anos_conhece_nao_parente_01",
+            "ocupacao_nao_parente_01",
+            
+            "nome_nao_parentes_02",
+            "endereco_res_nao_parente_02",
+            "endereco_com_nao_parente_02",
+            "telefone_nao_parente_02",
+            "anos_conhece_nao_parente_02",
+            "ocupacao_nao_parente_02",
+            
+            "nome_nao_parentes_03",
+            "endereco_res_nao_parente_03",
+            "endereco_com_nao_parente_03",
+            "telefone_nao_parente_03",
+            "anos_conhece_nao_parente_03",
+            "ocupacao_nao_parente_03",
+        ]
+
+    def __init__(self, *args, **kwargs):
+        super(AmigosForm, self).__init__(*args, **kwargs)
+        
+        for campo in self.fields:
+            self.fields[campo].widget.attrs['class'] = "form-control"
+    
