@@ -1,0 +1,219 @@
+{% extends 'menu.html' %}
+
+{% block title %} Formulário {% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                                
+                <form action="{% url 'formulario:formulario_hobbies_clube_enviado' to_page.id %}" method="POST">
+                    {% csrf_token %}
+                    <div class="row justify-content-center">
+                        <div class="col-md-7">
+                            <h1 style="font-size:190%">Hobbie, Clube e Sindicato</h1>
+
+                            {% for field in form_hobbies %}
+                                    {% comment %} {% if field.label == "Nome completo 2" %}
+                                        <hr>
+                                    {% endif %}
+                                    {% if field.label == "Nome completo 3" %}
+                                        <hr>
+                                    {% endif %} {% endcomment %}
+                                <div class="input-group col-md-6">
+                                    <label for="{{ field.id_for_label }}">{{ field.label }}
+                                        {% if field.field.required %}
+                                            <b style="color: #FF0000; text-decoration: none; font-size: 18px;" href="#" title="Este campo é obrigatório" data-toggle="tooltip">*</b>
+                                        {% endif %}
+                                    </label>                  
+                                    <div class="input-group mb-3">
+                                        {{field}}
+                                    </div>
+                                    {% if field.help_text %}
+                                        <p class="help-text">{{ field.help_text }}</p>
+                                    {% endif %}
+                                    {{ field.errors }}
+                                </div>                       
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {{ form_sindicato.management_form }}
+                    <div class="errorlist">
+                        {% if form_sindicato.errors %}
+                            {% for error in form_sindicato.errors %}
+                                {% if forloop.first %}
+                                    {{ error }}
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <table class="table caption-top">
+                        <caption style="margin: 9px;">Em caso afirmativo, forneça detalhes:</caption>
+                        {% for ft in form_sindicato %}                        
+                                {% if forloop.first %}
+                                    <tr> 
+                                        {% for f in ft.visible_fields %}
+                                            <th>{{ f.label }} 
+                                                {% if f.field.required %}
+                                                    <b style="color: #FF0000; text-decoration: none; font-size: 18px;" href="#" title="Este campo é obrigatório" data-toggle="tooltip">*</b>
+                                                {% endif %}
+                                            </th>
+                                        {%endfor%}
+                                    </tr>
+                                {% endif %}
+                                <tr class="inlineform"> 
+                                    {% for f in ft.hidden_fields %}
+                                        {{ f }}
+                                    {%endfor%} 
+                                    {% for f in ft.visible_fields %}
+                                        {% if f.name == "data_inicio_sind" or f.name == "data_final_sind"%}
+                                            <div class="input-group">
+                                                <td>{{ f }}
+                                                </span><span class="input-group-text" id="basic-addon2">{{ f.help_text }}</span>
+                                                </td>
+                                            </div>
+                                        {% else %}
+                                            <td>{{ f }}</td>
+                                        {% endif %} 
+                                    {%endfor%}                                
+                                </tr>
+                            
+                        {%endfor%}                        
+                    </table> 
+                    {% comment %} <table class="table caption-top">
+                        {% for ft in form_sindicato %}    
+                            <caption style="margin: 9px;">Em caso afirmativo, forneça detalhes:</caption>                    
+                                {% if forloop.first %}
+                                    <tr> 
+                                        {% for f in ft.visible_fields %}
+                                            <th>{{ f.label }} 
+                                                {% if f.field.required %}
+                                                    <b style="color: #FF0000; text-decoration: none; font-size: 18px;" href="#" title="Este campo é obrigatório" data-toggle="tooltip">*</b>
+                                                {% endif %}
+                                            </th>
+                                        {%endfor%}
+                                    </tr>
+                                {% endif %}
+                                <tr class="inlineform"> 
+                                    {% for f in ft.hidden_fields %}
+                                        {{ f }}
+                                    {%endfor%} 
+                                    {% for f in ft.visible_fields %}
+                                        {% if f.name == "data_inicio_sind" or f.name == "data_final_sind"%}
+                                            <div class="input-group">
+                                                <td>{{ f }}
+                                                </span><span class="input-group-text" id="basic-addon2">{{ f.help_text }}</span>
+                                                </td>
+                                            </div>
+                                        {% else %}
+                                            <td>{{ f }}</td>
+                                        {% endif %} 
+                                    {%endfor%}                                
+                                </tr>
+                        {%endfor%}                        
+                    </table> {% endcomment %}
+                        
+                    <div class="row justify-content-center">
+                        <div class="col-md-6">
+                            <div style="margin-top: 20px; display: flex; justify-content: space-between; margin-bottom: 35px;">
+                                <input type="button" class="btn btn-secondary btn-block" value="Anterior" style="flex: .4; margin-right: 5px" onclick="irParaFormulario()">
+                                <input type="submit" class="btn btn-primary btn-block" value="Próximo" style="flex: .4;margin-left: 5px">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
+
+{% block scripts %}
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function() {
+            $('.datepicker').datepicker({
+                format: 'dd/mm/yyyy',
+                language : 'pt-BR'
+                
+            });
+            // Lista de IDs dos campos a serem escondidos
+            var camposParaEsconder = [
+                "id_socio_clube_0",
+                "id_possui_filiacao_politica_0",
+                "id_participa_sindicato_0",
+            ];
+        
+            camposParaEsconder.forEach(function(idCampo) {
+                var fieldToHide = document.getElementById(idCampo);
+                if (fieldToHide) {
+                    fieldToHide.style.display = "none";
+        
+                    // Encontre o rótulo associado ao campo
+                    var labelForField = document.querySelector("label[for='" + idCampo + "']");
+                    if (labelForField) {
+                        labelForField.style.display = "none";
+                    }
+                }
+            });
+
+            $(function() {
+                $('.inlineform').formset({
+                    prefix: '{{ form_sindicato.prefix }}',
+                    addText: "Adicionar campo",
+                    deleteText: "Remover",                
+                });
+            })
+
+            function toggleInputs() {
+                var radioSim = document.getElementById("id_socio_clube_1");
+                var input1 = document.getElementById("id_nome_clube");
+                var input2 = document.getElementById("id_endereco_clube");
+        
+                if (radioSim.checked) {
+                    input1.disabled = false;
+                    input2.disabled = false;
+                
+                } else {
+                    input1.disabled = true;
+                    input1.value = radioSim.checked ? input1.value : "";
+                    input2.disabled = true;
+                    input2.value = radioSim.checked ? input1.value : "";
+                }
+            }
+            var radioSim = document.getElementById("id_socio_clube_1");
+            var radioNao = document.getElementById("id_socio_clube_2");
+            
+            radioSim.addEventListener("change", toggleInputs);
+            radioNao.addEventListener("change", toggleInputs);           
+
+            toggleInputs();
+
+            function toggleInputs2() {
+                var radioSim = document.getElementById("id_possui_filiacao_politica_1");
+                var input1 = document.getElementById("id_filiacao_politica");
+        
+                if (radioSim.checked) {
+                    input1.disabled = false;
+                
+                } else {
+                    input1.disabled = true;
+                    input1.value = radioSim.checked ? input1.value : "";
+                }
+            }
+            var radioSim = document.getElementById("id_possui_filiacao_politica_1");
+            var radioNao = document.getElementById("id_possui_filiacao_politica_2");
+            
+            radioSim.addEventListener("change", toggleInputs2);
+            radioNao.addEventListener("change", toggleInputs2);           
+
+            toggleInputs2();
+    
+        });
+    </script>
+
+    <script>
+        function irParaFormulario() {
+            window.location.href = "/formulario_informacao_candidato";
+        }
+    </script>
+{% endblock scripts %}

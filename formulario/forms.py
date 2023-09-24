@@ -7,7 +7,7 @@ from django.core.exceptions import ValidationError
 from formulario.models import (Dados, DadosAdicionais, DadosBancarios,
                                DadosCandidato, EmailRedesSociais, Familiares,
                                Filho, InformacaoCandidato, ParentePolicial,
-                               Telefone)
+                               Sindicato, Telefone)
 
 SIM_NAO_CHOICES = ((True, "Sim"), (False, "Não"))
 
@@ -668,11 +668,6 @@ class ConjugeFamiliaForm(forms.ModelForm):
             "detalhes_utilizou_entorpecentes": forms.Textarea(attrs={"class": "form-control"},),
             "detalhes_familiar_substiancia": forms.Textarea(attrs={"class": "form-control"},),
         }
-        error_messages = {
-            "possui_conjuge": {
-                "required": "Insira o nome do telefone",
-            },
-        }
 
     def __init__(self, *args, **kwargs):
         super(ConjugeFamiliaForm, self).__init__(*args, **kwargs)
@@ -685,17 +680,6 @@ class ConjugeFamiliaForm(forms.ModelForm):
             "salário",
             "funcao_conjuge",
             "bebidas_ingeridas"
-        ]
-        radio = [
-            "possui_conjuge",
-            "morando_juntos",
-            "conjuge_empregado",
-            "caso_disturbio_familia",
-            "candidato_internado",
-            "ingere_alcool",
-            "fumante",
-            "utilizou_entorpecentes",
-            "familia_substancia_toxica",
         ]
 
         data = [
@@ -741,14 +725,12 @@ class AmigosForm(forms.ModelForm):
             "telefone_nao_parente_01",
             "anos_conhece_nao_parente_01",
             "ocupacao_nao_parente_01",
-            
             "nome_nao_parentes_02",
             "endereco_res_nao_parente_02",
             "endereco_com_nao_parente_02",
             "telefone_nao_parente_02",
             "anos_conhece_nao_parente_02",
             "ocupacao_nao_parente_02",
-            
             "nome_nao_parentes_03",
             "endereco_res_nao_parente_03",
             "endereco_com_nao_parente_03",
@@ -762,4 +744,87 @@ class AmigosForm(forms.ModelForm):
         
         for campo in self.fields:
             self.fields[campo].widget.attrs['class'] = "form-control"
+    
+
+class HobbiesClubeForm(forms.ModelForm):
+    class Meta:
+        model = Dados
+        fields = [
+            "ativ_horas_folga",
+            "onde_ativ_folga",
+            "socio_clube",
+            "nome_clube",
+            "endereco_clube",
+            "possui_filiacao_politica",
+            "filiacao_politica",
+            "participa_sindicato",
+        ]
+        labels = {
+            "ativ_horas_folga": "O que você costuma fazer nas horas de folga?",
+            "onde_ativ_folga": "Onde?",
+            "socio_clube": "É sócio de algum clube?",
+            "possui_filiacao_politica": "Possui filiação política e cargo ou função que exerce (u), ou que foi candidato?",
+            "filiacao_politica": "Qual?",
+            "participa_sindicato": "Pertence(u) a qualquer sindicato ou outra associação de classe?"
+        }
+        widgets = {
+            "ativ_horas_folga": forms.Textarea(attrs={"class": "form-control"},),
+            "socio_clube": forms.RadioSelect( 
+                choices=((True, "Sim"), (False, "Não")),
+            ),
+            "possui_filiacao_politica": forms.RadioSelect( 
+                choices=((True, "Sim"), (False, "Não")),
+            ),
+            "participa_sindicato": forms.RadioSelect( 
+                choices=((True, "Sim"), (False, "Não")),
+            ),
+        }
+                            
+
+    def __init__(self, *args, **kwargs):
+        super(HobbiesClubeForm, self).__init__(*args, **kwargs)
+        
+        input = [
+            "onde_ativ_folga",
+            "nome_clube",
+            "endereco_clube",
+            "filiacao_politica",
+        ]
+        for campo in self.fields:
+            self.fields[campo].error_messages[
+                "required"
+            ] = f'Campo "{self.fields[campo].label.lower()}" é obrigatório'
+
+            if campo in input:
+                    self.fields[campo].widget.attrs['class'] = "form-control"
+            
+class SindicatoForm(forms.ModelForm):
+    class Meta:
+        model = Sindicato
+        fields = [
+            "data_inicio_sind",
+            "data_final_sind",
+            "nome_sindicato",
+            "endereco_sindicato",
+        ]
+
+    def __init__(self, *args, **kwargs):
+        super(SindicatoForm, self).__init__(*args, **kwargs)
+        
+        input = [
+            "nome_sindicato",
+            "endereco_sindicato"
+        ]
+
+        data = [
+        "data_inicio_sind", 
+        "data_final_sind",
+        ]
+        for campo in self.fields:
+            if campo in input:
+                    self.fields[campo].widget.attrs['class'] = "form-control"
+            if campo in data:
+                self.fields[campo].widget.attrs['class'] = "form-control datepicker"
+                self.fields[campo].widget.attrs['type'] = "date"
+                self.fields[campo].help_text = "Ex: 01/01/2000"
     

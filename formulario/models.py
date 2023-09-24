@@ -376,98 +376,101 @@ class Dados(models.Model):
     anos_conhece_nao_parente_03 = models.CharField(max_length=100, null=True, blank=True, verbose_name="Tempo que o conhece 3")
     ocupacao_nao_parente_03 = models.CharField(max_length=100, null=True, blank=True, verbose_name="Ocupação 3")
 
-    ativ_horas_folga = models.TextField(null=True, blank=True, verbose_name="O que você costuma fazer nas horas de folgas")
-    onde_ativ_folga = models.CharField(max_length=100, null=True, blank=True, verbose_name="Em que local")
+    # Hobbies e clube
+    ativ_horas_folga = models.TextField(null=True, verbose_name="O que você costuma fazer nas horas de folgas")
+    onde_ativ_folga = models.CharField(max_length=100, null=True, verbose_name="Em que local")
 
-    socio_clube = models.CharField(max_length=3, blank=True, choices=SIM_NAO, verbose_name="É sócio de algum clube")
+    socio_clube = models.CharField(max_length=3, choices=SIM_NAO, null=True, verbose_name="É sócio de algum clube")
     nome_clube = models.CharField(max_length=100, null=True, blank=True, verbose_name="Nome do clube")
     endereco_clube = models.CharField(max_length=250, null=True, blank=True, verbose_name="Endereço do clube")
 
     # Inline
-    participa_sindicato = models.CharField(max_length=3, blank=True, choices=SIM_NAO, verbose_name="Participa de sindicato")
+    participa_sindicato = models.CharField(max_length=3, choices=SIM_NAO, null=True, verbose_name="Participa de sindicato")
 
+    possui_filiacao_politica = models.CharField(max_length=3, choices=SIM_NAO, null=True, verbose_name="Possui filiação política")
     filiacao_politica = models.CharField(max_length=100, blank=True, verbose_name="Filiação política")
 
-    tem_intimacao_processo = models.CharField(max_length=3, blank=True, choices=SIM_NAO, verbose_name="Participa de sindicato")
+    # Intimação 
+    tem_intimacao_processo = models.CharField(max_length=3, blank=True, null=True,choices=SIM_NAO, verbose_name="Possui intimação ou processos")
 
-    tem_passagem = models.CharField(max_length=3, blank=True, choices=SIM_NAO, verbose_name="Possui passagem") 
+    tem_passagem = models.CharField(max_length=3, blank=True, null=True, choices=SIM_NAO, verbose_name="Possui passagem") 
 
     # 37 modelo fic
     tem_inquerito = models.CharField(max_length=3, blank=True, choices=SIM_NAO, verbose_name="Possui inquerito")
     detalhes_inquerito = models.TextField(null=True, blank=True, verbose_name="Detalhes inquerito")
 
-    familia_envolvido_policia_justica = models.CharField(max_length=3, blank=True, choices=SIM_NAO, verbose_name="Família envolvida polícia ou justiça")
+    familia_envolvido_policia_justica = models.CharField(max_length=3, blank=True, choices=SIM_NAO, null=True, verbose_name="Família envolvida polícia ou justiça")
     detalhes_envolvimento_familia = models.TextField(null=True, blank=True, verbose_name="Detalhes envolvimento familília")
 
     # 39
-    tem_arma_de_fogo = models.CharField(max_length=3, blank=True, choices=SIM_NAO, verbose_name="Possui arma de fogo")
+    tem_arma_de_fogo = models.CharField(max_length=3, blank=True, choices=SIM_NAO, null=True, verbose_name="Possui arma de fogo")
     detalhes_arma_fogo = models.TextField(null=True, blank=True, verbose_name="Detalhes da arma de fogo")
     
-    arma_apreendida = models.CharField(max_length=3, blank=True, choices=SIM_NAO, verbose_name="Arma de fogo apreendida")
+    arma_apreendida = models.CharField(max_length=3, blank=True, choices=SIM_NAO, null=True, verbose_name="Arma de fogo apreendida")
     detalhes_arma_apreendia = models.TextField(null=True, blank=True, verbose_name="Detalhes da arma de fogo")
 
     # 41
-    tem_habilidade = models.CharField(max_length=3, blank=True, choices=SIM_NAO, verbose_name="Possui alguma habilidade")
+    tem_habilidade = models.CharField(max_length=3, blank=True, choices=SIM_NAO, null=True, verbose_name="Possui alguma habilidade")
     detalhes_habilidade = models.TextField(null=True, blank=True, verbose_name="Detalhes habilidade")
 
     #43
-    tentativa_ingresso = models.CharField(max_length=3, blank=True, choices=SIM_NAO, verbose_name="Tentativa de ingresso na Segurança Pública")
+    tentativa_ingresso = models.CharField(max_length=3, blank=True, choices=SIM_NAO, null=True, verbose_name="Tentativa de ingresso na Segurança Pública")
     numero_tentativas = models.CharField(max_length=100, blank=True, verbose_name="Número de tentativas")
     detalhes_reprovacao = models.CharField(max_length=100, blank=True, verbose_name="Detalhes reprovação") 
 
     #44
-    emprego_publico = models.CharField(max_length=3, blank=True, choices=SIM_NAO, verbose_name="Ocupou cargo público")
+    emprego_publico = models.CharField(max_length=3, blank=True, choices=SIM_NAO, null=True, verbose_name="Ocupou cargo público")
     periodo_local_cargo_publico = models.TextField(null=True, blank=True, verbose_name="Período local e cargo público")
     respondeu_inquerito_disciplinar = models.CharField(max_length=3, blank=True, choices=SIM_NAO, verbose_name="Respondeu inquerito disciplinar")
     detalhes_inquerito_disciplinar = models.TextField(null=True, blank=True, verbose_name="Detalhes inquerito disciplinar")
 
-    prestou_servico_militar = models.CharField(max_length=3, blank=True, choices=SIM_NAO, verbose_name="Prestou serviço militar")
-    unidade_serviu = models.CharField(max_length=100, blank=True, verbose_name="Únidade que serviu")
-    cia = models.CharField(max_length=100, blank=True, verbose_name="Cia") 
+    prestou_servico_militar = models.CharField(max_length=3, blank=True, choices=SIM_NAO, null=True, verbose_name="Prestou serviço militar")
+    unidade_serviu = models.CharField(max_length=100, blank=True, null=True, verbose_name="Únidade que serviu")
+    cia = models.CharField(max_length=100, blank=True, null=True,verbose_name="Cia") 
     endereco_servico_militar = models.CharField(max_length=250, null=True, blank=True, verbose_name="Endereço que serviu")
-    cidade_servico_militar = models.CharField(max_length=100, blank=True, verbose_name="Cidade que serviu")
-    estado_servico_militar = models.CharField(max_length=100, blank=True, verbose_name="Estado que serviu")
-    cep_servico_militar = models.CharField(max_length=100, blank=True, verbose_name="CEP que serviu")
+    cidade_servico_militar = models.CharField(max_length=100, blank=True, null=True, verbose_name="Cidade que serviu")
+    estado_servico_militar = models.CharField(max_length=100, blank=True, null=True, verbose_name="Estado que serviu")
+    cep_servico_militar = models.CharField(max_length=100, blank=True, null=True, verbose_name="CEP que serviu")
     data_inicio_servico_militar = models.DateField(null=True, blank=True, verbose_name="Data de início do serviço militar")
     data_fim_servico_militar = models.DateField(null=True, blank=True, verbose_name="Data final do serviço militar")
     
     # Punicao serviço militar
 
-    motivo_baixa = models.CharField(max_length=100, blank=True, verbose_name="Motivo da baixa")
+    motivo_baixa = models.CharField(max_length=100, blank=True, null=True, verbose_name="Motivo da baixa")
 
     inquerito_forca_armadas = models.CharField(max_length=3, blank=True, choices=SIM_NAO, verbose_name="Inquerito força armadas")
-    detalhes_inquerito_forca_armadas = models.CharField(max_length=100, blank=True, verbose_name="Motivo da baixa") 
+    detalhes_inquerito_forca_armadas = models.CharField(max_length=100, blank=True, null=True, verbose_name="Motivo da baixa") 
 
     # Endereços
 
     # Dados instituições de ensino
 
-    expulso_instituicao_ensino = models.CharField(max_length=3, blank=True, choices=SIM_NAO, verbose_name="Expulso instituição de ensino")
+    expulso_instituicao_ensino = models.CharField(max_length=3, blank=True, null=True, choices=SIM_NAO, verbose_name="Expulso instituição de ensino")
     detalhes_expulsao_inst_ensino = models.TextField(null=True, blank=True, verbose_name="Detalhes expulsão inst. de ensino")
 
-    tem_habilitacao = models.CharField(max_length=3, blank=True, choices=SIM_NAO, verbose_name="Possui habilitação")
-    numero_cnh = models.CharField(max_length=100, blank=True, verbose_name="N° da CNH")
-    numero_registro = models.CharField(max_length=100, blank=True, verbose_name="N° de registro")
+    tem_habilitacao = models.CharField(max_length=3, blank=True, choices=SIM_NAO, null=True, verbose_name="Possui habilitação")
+    numero_cnh = models.CharField(max_length=100, blank=True, null=True, verbose_name="N° da CNH")
+    numero_registro = models.CharField(max_length=100, blank=True, null=True, verbose_name="N° de registro")
     data_expedicao = models.DateField(null=True, blank=True, verbose_name="Data de expedição")
-    local_expedicao = models.CharField(max_length=100, blank=True, verbose_name="Local da expedição")
+    local_expedicao = models.CharField(max_length=100, blank=True, null=True, verbose_name="Local da expedição")
     categoria = models.CharField(max_length=100, blank=True, verbose_name="Categoria")
 
-    cnh_suspensa_cassada = models.CharField(max_length=3, blank=True, choices=SIM_NAO, verbose_name="CNH suspensa ou cassada")
+    cnh_suspensa_cassada = models.CharField(max_length=3, blank=True, choices=SIM_NAO, null=True, verbose_name="CNH suspensa ou cassada")
     detalhes_suspensao_cassacao = models.TextField(null=True, blank=True, verbose_name="Detalhes suspensão/cassação")
 
     #52
-    acidente_transito = models.CharField(max_length=3, blank=True, choices=SIM_NAO, verbose_name="Envolvimento em acidente ao dirigir")
+    acidente_transito = models.CharField(max_length=3, blank=True, choices=SIM_NAO, null=True, verbose_name="Envolvimento em acidente ao dirigir")
     detalhes_acidente = models.TextField(null=True, blank=True, verbose_name="Detalhes do acidente")
 
     #53
-    protesto_cheque_titulo = models.CharField(max_length=3, blank=True, choices=SIM_NAO, verbose_name="Possui cheque ou titulo protestados")
+    protesto_cheque_titulo = models.CharField(max_length=3, blank=True, choices=SIM_NAO, null=True, verbose_name="Possui cheque ou titulo protestados")
     detalhes_protesto = models.TextField(null=True, blank=True, verbose_name="Detalhes do protesto")
 
-    tem_pretacoes_dividas = models.CharField(max_length=3, blank=True, choices=SIM_NAO, verbose_name="Possui prestacoes/dívidas")
+    tem_pretacoes_dividas = models.CharField(max_length=3, blank=True, choices=SIM_NAO, null=True, verbose_name="Possui prestacoes/dívidas")
 
-    tem_patrimonio = models.CharField(max_length=3, blank=True, choices=SIM_NAO, verbose_name="Possui patrimônio")
+    tem_patrimonio = models.CharField(max_length=3, blank=True, choices=SIM_NAO, null=True, verbose_name="Possui patrimônio")
 
-    tem_veiculo = models.CharField(max_length=3, blank=True, choices=SIM_NAO, verbose_name="Possui veículos")
+    tem_veiculo = models.CharField(max_length=3, blank=True, choices=SIM_NAO, null=True, verbose_name="Possui veículos")
 
     carta_intencao = models.TextField(null=True, blank=True, verbose_name="Carta de intenção de ingresso")
 
@@ -496,6 +499,14 @@ class ParentePolicial(models.Model):
     cargo_parente_policial = models.CharField(max_length=100, null=True, blank=True, verbose_name="Cargo ou função parente policial")
     endereco_parente_policial = models.CharField(max_length=250, null=True, blank=True, verbose_name="Endereço do parrente policial")
     grau_parentesco = models.CharField(max_length=100, null=True, blank=True, verbose_name="Grau de parentesco")
+
+
+class Sindicato(models.Model):
+    dados = models.ForeignKey(Dados, on_delete=models.CASCADE, null=True, blank=True, related_name='sindicato')
+    data_inicio_sind = models.DateField(null=True, blank=True, verbose_name="data de inicio")
+    data_final_sind = models.DateField(null=True, blank=True, verbose_name="data final (caso de desassociação)")
+    nome_sindicato = models.CharField(max_length=100, null=True, blank=True, verbose_name="Nome da organização") 
+    endereco_sindicato = models.CharField(max_length=100, null=True, blank=True, verbose_name="Endereço")
 
 
 class ProcessosIntimado(models.Model):
