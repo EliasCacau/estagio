@@ -60,7 +60,8 @@ def conjuge_familia_enviado(request):
             pagination.page_7 = "used"
             pagination.page_8 = "used"
             pagination.save()
-            return redirect("formulario:formulario_conjuge_familia")
+            objeto = Dados.objects.filter(user=request.user).first()
+            return redirect("formulario:formulario_parente_policial_amigos", objeto.id)
 
         else:
             return render(

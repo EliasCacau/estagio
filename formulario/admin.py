@@ -3,7 +3,8 @@ from django.contrib import admin
 from formulario.models import (Candidato, Dados, DadosAdicionais,
                                DadosBancarios, DadosCandidato,
                                EmailRedesSociais, Filho, InformacaoCandidato,
-                               Pagination, Telefone)
+                               Pagination, ParentePolicial, Passagem,
+                               ProcessosIntimado, Sindicato, Telefone)
 
 
 class CandidatoAdmin(admin.ModelAdmin):
@@ -207,6 +208,45 @@ class FilhoAdmin(admin.ModelAdmin):
 
     list_display = filho
 
+class ParentePolicialAdmin(admin.ModelAdmin):
+    policial = [
+        "nome_parente_policial", 
+        "cargo_parente_policial",
+        "endereco_parente_policial",
+        "grau_parentesco",
+    ]
+    list_display = policial
+
+class SindicatoAdmin(admin.ModelAdmin):
+    sindicato = [
+        "data_inicio_sind",
+        "data_final_sind",
+        "nome_sindicato",
+        "endereco_sindicato",
+    ]
+    list_display = sindicato
+
+class ProcessosIntimadoAdmin(admin.ModelAdmin):
+    processo = [
+        "delito", 
+        "data_delito", 
+        "forum", 
+        "endereco_delito", 
+        "indicado", 
+        "solucao_caso",
+    ]
+    list_display = processo
+
+class PassagemAdmin(admin.ModelAdmin):
+    passagem = [
+        "data_passagem", 
+        "tempo_permanencia", 
+        "motivo", 
+        "repaticao", 
+        "endereco_passagem", 
+        "solucao_caso_passagem", 
+    ]
+    list_display = passagem
 
 admin.site.register(InformacaoCandidato, InformacaoCandidatoAdmin)
 admin.site.register(Pagination, PaginationAdmin)
@@ -218,4 +258,8 @@ admin.site.register(EmailRedesSociais, EmailRedesSociaisAdmin)
 admin.site.register(DadosAdicionais, DadosAdicionaisAdmin)
 admin.site.register(Dados, DadosAdmin)
 admin.site.register(Filho, FilhoAdmin)
+admin.site.register(ParentePolicial, ParentePolicialAdmin)
+admin.site.register(Sindicato, SindicatoAdmin)
+admin.site.register(ProcessosIntimado, ProcessosIntimadoAdmin)
+admin.site.register(Passagem, PassagemAdmin)
 

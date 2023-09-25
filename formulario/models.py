@@ -517,6 +517,9 @@ class ProcessosIntimado(models.Model):
     indicado = models.CharField(max_length=100, choices=(("Réu", "Réu"),("Vítima", "Vítima"), ("Testemunha", "Testemunha")), null=True, blank=True, verbose_name="Indicação")
     solucao_caso = models.TextField(null=True, blank=True, verbose_name="Solução do caso") 
 
+    class Meta:
+            verbose_name = "Processo Intimado"
+            verbose_name_plural = "Processos Intimados"
 class Passagem(models.Model):
     dados = models.ForeignKey(Dados, on_delete=models.CASCADE, null=True, blank=True, related_name='passagem')
     data_passagem = models.DateField(null=True, blank=True, verbose_name="Data passagem")
@@ -526,6 +529,9 @@ class Passagem(models.Model):
     endereco_passagem = models.TextField(null=True, blank=True, verbose_name="Endereco Completo")
     solucao_caso_passagem = models.TextField(null=True, blank=True, verbose_name="Solução do caso da passagem") 
 
+    class Meta:
+            verbose_name = "Passagem"
+            verbose_name_plural = "Passagens"
 
 class Empregos(models.Model):
     dados = models.ForeignKey(Dados, on_delete=models.CASCADE, null=True, blank=True, related_name='empregos')
@@ -550,6 +556,9 @@ class PunicaoServicoMilitar(models.Model):
     punicao = models.CharField(max_length=100, null=True, blank=True, verbose_name="Punição")
     motivo = models.CharField(max_length=100, null=True, blank=True, verbose_name="Motivo") 
 
+    class Meta:
+            verbose_name = "Punição Serviço Militar"
+            verbose_name_plural = "Punições Serviço Militar"
 
 class Enderecos(models.Model):
     dados = models.ForeignKey(Dados, on_delete=models.CASCADE, null=True, blank=True, related_name='enderecos')
@@ -565,6 +574,10 @@ class Enderecos(models.Model):
     com_quem_residiu = models.CharField(max_length=100, null=True, blank=True, verbose_name="Com quem residiu")
     periodo = models.CharField(max_length=100, null=True, blank=True, verbose_name="Periodo que residiu")
 
+    class Meta:
+            verbose_name = "Endereço"
+            verbose_name_plural = "Endereços"
+
 
 class Ensino(models.Model):
     dados = models.ForeignKey(Dados, on_delete=models.CASCADE, null=True, blank=True, related_name='ensino')
@@ -578,6 +591,9 @@ class Ensino(models.Model):
     cidade_instituicao = models.CharField(max_length=100, null=True, blank=True, verbose_name="Cidade instituição de ensino")
     estado_instituicao = models.CharField(max_length=100, null=True, blank=True, verbose_name="Estado instituição de ensino")
 
+    class Meta:
+            verbose_name = "Ensino"
+            verbose_name_plural = "Ensinos"
 
 class PrestacaoDivida(models.Model):
     dados = models.ForeignKey(Dados, on_delete=models.CASCADE, null=True, blank=True, related_name='prestacao_divida')
@@ -589,9 +605,16 @@ class PrestacaoDivida(models.Model):
     endereco_credor = models.CharField(max_length=100, null=True, blank=True, verbose_name="Endereco do credor")
     pagamento_em_dia = models.CharField(max_length=100, null=True, blank=True, verbose_name="pagamento em dia")
 
+    class Meta:
+        verbose_name = "Prestação Dívida"
+        verbose_name_plural = "Prestações Dívidas"
+
 class DadosPatrimoniais(models.Model):
     dados = models.ForeignKey(Dados, on_delete=models.CASCADE, null=True, blank=True, related_name='dados_patrimoniais')
     detalhes_patrimonio = models.TextField(null=True, blank=True, verbose_name="Detalhes patrimônio")
+    class Meta:
+        verbose_name = "Dados Patrimonial"
+        verbose_name_plural = "Dados Patrimoniais"
 
 
 class Veiculos(models.Model):
@@ -601,3 +624,7 @@ class Veiculos(models.Model):
     cor = models.TextField(null=True, blank=True, verbose_name="cor")
     ano = models.TextField(null=True, blank=True, verbose_name="ano")
     uf_municipio = models.TextField(null=True, blank=True, verbose_name="UF/município")
+
+    class Meta:
+        verbose_name = "Veiculo"
+        verbose_name_plural = "Veiculos"
