@@ -58,13 +58,13 @@ def familiares_enviado(request, candidato_id):
         objeto = Dados.objects.filter(user=request.user).first()
         pagination = Pagination.objects.filter(user=request.user).first()
         to_page = Candidato.objects.filter(user=request.user).first()
-        objeto = Candidato.objects.filter(id=candidato_id).first()
+        dados = Candidato.objects.filter(user=request.user).first()
         dados_filho = Dados.objects.filter(user=request.user).first()
 
         form_dados_filho = DadosFilhoForm(request.POST, instance=dados_filho)
 
         form_familiares_factory = inlineformset_factory(Candidato, Familiares, form=FamiliaresForm)
-        form_familiares = form_familiares_factory(request.POST, instance=objeto)
+        form_familiares = form_familiares_factory(request.POST, instance=dados)
 
         form_filho_factory = inlineformset_factory(Dados, Filho, form=FilhoForm)
         form_filho = form_filho_factory(request.POST, instance=dados_filho)
@@ -72,7 +72,7 @@ def familiares_enviado(request, candidato_id):
         if form_dados_filho.is_valid() and form_familiares.is_valid() and form_filho.is_valid():
             form_dados_filho.save()
 
-            form_familiares.instance = objeto
+            form_familiares.instance = dados
             form_familiares.save()
             
             form_filho.instance = dados_filho

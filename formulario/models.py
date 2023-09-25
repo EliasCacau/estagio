@@ -292,13 +292,13 @@ class DadosBancarios(models.Model):
 
 
 class Familiares(models.Model):
-    candidato = models.ForeignKey(Candidato, on_delete=models.CASCADE, null=True, related_name="familiares")
-    grau_parentesco = models.CharField(max_length=100, null=True, verbose_name="Grau de parentesco")
-    nome_parente = models.CharField(max_length=100, null=True, verbose_name="Nome do parente")
-    endereco_parente = models.CharField(max_length=250, null=True, verbose_name="Endereco do parente")
-    profissao = models.CharField(max_length=100, null=True, verbose_name="Profissão do parente")
-    idade = models.CharField(max_length=100, null=True, verbose_name="Idade do parente")
-    vivo_morto = models.CharField(max_length=5, choices=(("Vivo", "Vivo"), ("Morto", "Morto")), verbose_name="Vivo ou Morto")
+    candidato = models.ForeignKey(Candidato, on_delete=models.CASCADE, blank=True, null=True, related_name="familiares")
+    grau_parentesco = models.CharField(max_length=100, null=True, blank=True, verbose_name="Grau de parentesco")
+    nome_parente = models.CharField(max_length=100, null=True, blank=True, verbose_name="Nome do parente")
+    endereco_parente = models.CharField(max_length=250, blank=True, null=True, verbose_name="Endereco do parente")
+    profissao = models.CharField(max_length=100, null=True, blank=True, verbose_name="Profissão do parente")
+    idade = models.CharField(max_length=100, null=True, blank=True, verbose_name="Idade do parente")
+    vivo_morto = models.CharField(max_length=5, choices=(("Vivo", "Vivo"), ("Morto", "Morto")), blank=True, verbose_name="Vivo ou Morto")
 
     class Meta:
         verbose_name = "Familiar"
