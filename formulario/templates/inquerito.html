@@ -346,7 +346,7 @@
 
     <script>
         function irParaFormulario() {
-            window.location.href = "/formulario_informacao_candidato";
+            window.location.href = "{% url 'formulario:formulario_hobbies_clube' to_page.id %}";
         }
     </script>
 {% endblock scripts %}

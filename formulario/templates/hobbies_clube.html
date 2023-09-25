@@ -181,7 +181,7 @@
 
     <script>
         function irParaFormulario() {
-            window.location.href = "/formulario_informacao_candidato";
+            window.location.href = "{% url 'formulario:formulario_parente_policial_amigos' to_page.id %}";
         }
     </script>
 {% endblock scripts %}
