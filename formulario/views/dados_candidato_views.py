@@ -7,7 +7,8 @@ from django.urls import reverse
 from django.views.generic import CreateView
 
 from formulario.forms import DadosCandidatoForm, TelefoneForm
-from formulario.models import Candidato, DadosCandidato, Pagination, Telefone
+from formulario.models import (Candidato, Dados, DadosCandidato, Pagination,
+                               Telefone)
 
 
 def lista(request):
@@ -21,8 +22,9 @@ def lista(request):
 @login_required(login_url="/login")
 def dados_candidato(request, candidato_id):
     if request.method == "GET":
+        objeto = Dados.objects.filter(user=request.user).first()
         to_page = Candidato.objects.filter(user=request.user).first()
-        objeto = Candidato.objects.filter(id=candidato_id, user=request.user).first()
+        dados = Candidato.objects.filter(id=candidato_id, user=request.user).first()
 
         pagination = Pagination.objects.filter(user=request.user).first()
         for (field_name) in pagination._meta.fields:  # Itera pelos campos do objeto Pagination
@@ -41,12 +43,13 @@ def dados_candidato(request, candidato_id):
         form_telefone_factory = inlineformset_factory(
             Candidato, Telefone, form=TelefoneForm, extra=1
         )
-        form_telefone = form_telefone_factory(instance=objeto)
+        form_telefone = form_telefone_factory(instance=dados)
         context = {
             "form_telefone": form_telefone,
             "form": form,
             "pagination": pagination,
             "to_page": to_page,
+            "objeto": objeto,
         }
         return render(request, "dados_candidato.html", context)
     
@@ -55,6 +58,7 @@ def dados_candidato(request, candidato_id):
 @login_required(login_url="/login")
 def dados_candidato_eviado(request, candidato_id):
     if request.method == "POST":
+        objeto = Dados.objects.filter(user=request.user).first()
         pagination = Pagination.objects.filter(user=request.user).first()
         to_page = Candidato.objects.filter(user=request.user).first()
         objeto = Candidato.objects.filter(id=candidato_id).first()

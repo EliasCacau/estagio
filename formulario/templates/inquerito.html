@@ -7,7 +7,7 @@
         <div class="row justify-content-center">
             <div class="col-md-11">
                                 
-                <form action="{% url 'formulario:formulario_inquerito_enviado' to_page.id %}" method="POST">
+                <form action="{% url 'formulario:formulario_inquerito_enviado' objeto.id %}" method="POST">
                     {% csrf_token %}
 
                     <div class="row justify-content-center">

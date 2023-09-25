@@ -24,7 +24,7 @@ def parente_policial_amigos(request, candidato_id):
         pagination.page_8 = "active"
         pagination.save()
         
-        dados_amigos, created = Dados.objects.get_or_create(user=request.user)
+        dados_amigos = Dados.objects.filter(id=candidato_id, user=request.user).first()
         form_amigos = AmigosForm(instance=dados_amigos)
 
         form_parente_policial_factory = inlineformset_factory(
@@ -36,6 +36,7 @@ def parente_policial_amigos(request, candidato_id):
             "form_amigos": form_amigos,
             "pagination": pagination,
             "to_page": to_page,
+            "objeto": objeto
         }
         return render(request, "parente_policial_amigos.html", context)
     
@@ -46,9 +47,9 @@ def parente_policial_amigos_enviado(request, candidato_id):
     if request.method == "POST":
         pagination = Pagination.objects.filter(user=request.user).first()
         to_page = Candidato.objects.filter(user=request.user).first()
-        objeto = Dados.objects.filter(id=candidato_id).first()
+        objeto = Dados.objects.filter(id=candidato_id, user=request.user).first()
         form_amigos = AmigosForm(request.POST, instance=objeto)
-
+        print(objeto)
         form_parente_policial_factory = inlineformset_factory(
             Dados, ParentePolicial, form=ParentePolicialForm
         )
@@ -60,7 +61,8 @@ def parente_policial_amigos_enviado(request, candidato_id):
             pagination.page_8 = "used"
             pagination.page_9 = "used"
             pagination.save()
-            return redirect("formulario:formulario_hobbies_clube", to_page)
+            
+            return redirect("formulario:formulario_hobbies_clube", objeto.id)
         else:            
             pagination.page_8 = "active"
             pagination.save()

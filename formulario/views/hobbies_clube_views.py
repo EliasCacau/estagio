@@ -24,7 +24,7 @@ def hobbies_clube(request, candidato_id):
         pagination.page_9 = "active"
         pagination.save()
         
-        dados_hobbies, created = Dados.objects.get_or_create(user=request.user)
+        dados_hobbies = Dados.objects.filter(id=candidato_id, user=request.user).first()
         form_hobbies = HobbiesClubeForm(instance=dados_hobbies)
 
         form_sindicato_factory = inlineformset_factory(
@@ -36,6 +36,7 @@ def hobbies_clube(request, candidato_id):
             "form_hobbies": form_hobbies,
             "pagination": pagination,
             "to_page": to_page,
+            "objeto": objeto
         }
         return render(request, "hobbies_clube.html", context)
     
@@ -46,7 +47,7 @@ def hobbies_clube_enviado(request, candidato_id):
     if request.method == "POST":
         pagination = Pagination.objects.filter(user=request.user).first()
         to_page = Candidato.objects.filter(user=request.user).first()
-        objeto = Dados.objects.filter(id=candidato_id).first()
+        objeto = Dados.objects.filter(id=candidato_id, user=request.user).first()
 
         form_hobbies = HobbiesClubeForm(request.POST, instance=objeto)
 
@@ -61,7 +62,7 @@ def hobbies_clube_enviado(request, candidato_id):
             pagination.page_9 = "used"
             pagination.page_10 = "used"
             pagination.save()
-            return redirect("formulario:formulario_inquerito", to_page)
+            return redirect("formulario:formulario_inquerito", objeto.id)
         else:            
             pagination.page_9 = "active"
             pagination.save()

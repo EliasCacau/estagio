@@ -14,7 +14,7 @@
             <div class="col-md-11">
                 <h1 style="font-size:190%">Parente Policial e amigos</h1>
                                 
-                <form action="{% url 'formulario:formulario_parente_policial_amigos_enviado' to_page.id %}" method="POST">
+                <form action="{% url 'formulario:formulario_parente_policial_amigos_enviado' objeto.id %}" method="POST">
                     {% csrf_token %}
 
                     {{ form_parente_policial.management_form }}

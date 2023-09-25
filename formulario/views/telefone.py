@@ -1,12 +1,11 @@
 from django.forms import inlineformset_factory
 from django.shortcuts import redirect, render
-
 # Create your views here.
 from django.urls import reverse
 from django.views.generic import CreateView
 
-from formulario.forms.dados_candidato_forms import DadosCandidatoForm, TelefoneForm
-from formulario.models.dados_candidato_models import DadosCandidato, Telefone
+from formulario.forms import DadosCandidatoForm, TelefoneForm
+from formulario.models import DadosCandidato, Telefone
 
 
 def lista(request):

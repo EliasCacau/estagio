@@ -17,7 +17,7 @@ from utils.cidades_estado import obter_cidades_do_estado
 def conjuge_familia(request):
     if request.method == "GET":
         to_page = Candidato.objects.filter(user=request.user).first()
-        dados = Dados.objects.filter(user=request.user).first()
+        objeto = Dados.objects.filter(user=request.user).first()
         pagination = Pagination.objects.filter(user=request.user).first()
 
         for (
@@ -29,18 +29,18 @@ def conjuge_familia(request):
         pagination.page_7 = "active"
         pagination.save()
 
-        if not dados:
+        if not objeto:
             form = ConjugeFamiliaForm()
         else:
-            form = ConjugeFamiliaForm(instance=dados)
-
+            form = ConjugeFamiliaForm(instance=objeto)
+        print(f"\n\n{objeto.id}")
         return render(
             request,
             "conjuge_familia.html",
             {
                 "form": form,
                 "pagination": pagination,
-                "dados": dados,
+                "objeto": objeto,
                 "to_page": to_page,
             },
         )
@@ -50,9 +50,8 @@ def conjuge_familia(request):
 def conjuge_familia_enviado(request):
     if request.method == "POST":
         to_page = Candidato.objects.filter(user=request.user).first()
-        user = request.user
-        dados, created = Dados.objects.get_or_create(user=user)
-        form = ConjugeFamiliaForm(data=request.POST, instance=dados)
+        objeto = Dados.objects.filter(user=request.user).first()
+        form = ConjugeFamiliaForm(data=request.POST, instance=objeto)
         pagination = Pagination.objects.filter(user=request.user).first()
 
         if form.is_valid():
@@ -60,7 +59,7 @@ def conjuge_familia_enviado(request):
             pagination.page_7 = "used"
             pagination.page_8 = "used"
             pagination.save()
-            objeto = Dados.objects.filter(user=request.user).first()
+            #objeto = Dados.objects.filter(user=request.user).first()
             return redirect("formulario:formulario_parente_policial_amigos", objeto.id)
 
         else:

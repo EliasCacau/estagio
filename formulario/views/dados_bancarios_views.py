@@ -9,12 +9,13 @@ from django.http import Http404, JsonResponse
 from django.shortcuts import redirect, render
 
 from formulario.forms import DadosBancariosForm
-from formulario.models import Candidato, DadosBancarios, Pagination
+from formulario.models import Candidato, Dados, DadosBancarios, Pagination
 
 
 @login_required(login_url="/login")
 def dados_bancarios(request):
     if request.method == "GET":
+        objeto = Dados.objects.filter(user=request.user).first()
         to_page = Candidato.objects.filter(user=request.user).first()
         dados = DadosBancarios.objects.filter(user=request.user).first()
         pagination = Pagination.objects.filter(user=request.user).first()
@@ -41,6 +42,7 @@ def dados_bancarios(request):
                 "pagination": pagination,
                 "dados": dados,
                 "to_page": to_page,
+                "objeto": objeto,
             },
         )
 
@@ -48,6 +50,7 @@ def dados_bancarios(request):
 @login_required(login_url="/login")
 def dados_bancarios_enviado(request):
     if request.method == "POST":
+        objeto = Dados.objects.filter(user=request.user).first()
         to_page = Candidato.objects.filter(user=request.user).first()
         user = request.user
         dados, created = DadosBancarios.objects.get_or_create(user=user)

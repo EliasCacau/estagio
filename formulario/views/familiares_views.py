@@ -15,11 +15,12 @@ from formulario.models import Candidato, Dados, Familiares, Filho, Pagination
 @login_required(login_url="/login")
 def familiares(request, candidato_id):
     if request.method == "GET":
+        objeto = Dados.objects.filter(user=request.user).first()
         to_page = Candidato.objects.filter(user=request.user).first()
-        objeto = Candidato.objects.filter(id=candidato_id, user=request.user).first()
+        dados = Candidato.objects.filter(id=candidato_id, user=request.user).first()
 
         pagination = Pagination.objects.filter(user=request.user).first()
-        for (field_name) in pagination._meta.fields:  # Itera pelos campos do objeto Pagination
+        for (field_name) in pagination._meta.fields:  # Itera pelos campos do dados Pagination
             field_value = getattr(pagination, field_name.attname)
             if field_value == "active":
                 setattr(pagination, field_name.attname, "used")
@@ -39,20 +40,22 @@ def familiares(request, candidato_id):
         form_familiares_factory = inlineformset_factory(
             Candidato, Familiares, form=FamiliaresForm, extra=1
         )
-        form_familiares = form_familiares_factory(instance=objeto)
+        form_familiares = form_familiares_factory(instance=dados)
             
         context = {
             "form_familiares": form_familiares,
             "pagination": pagination,
             "to_page": to_page,
             "form_dados_filho": form_dados_filho,
-            "form_filho": form_filho
+            "form_filho": form_filho,
+            "objeto": objeto,
         }
         return render(request, "familiares.html", context)
 
 @login_required(login_url="/login")
 def familiares_enviado(request, candidato_id):
     if request.method == "POST":
+        objeto = Dados.objects.filter(user=request.user).first()
         pagination = Pagination.objects.filter(user=request.user).first()
         to_page = Candidato.objects.filter(user=request.user).first()
         objeto = Candidato.objects.filter(id=candidato_id).first()

@@ -26,7 +26,7 @@ def inquerito(request, candidato_id):
         pagination.page_10 = "active"
         pagination.save()
 
-        dados_inquerito, created = Dados.objects.get_or_create(user=request.user)
+        dados_inquerito = Dados.objects.filter(id=candidato_id, user=request.user).first()
 
         form_inquerito_1 = InqueritoForm1(instance=dados_inquerito)
         form_inquerito_2 = InqueritoForm2(instance=dados_inquerito)
@@ -44,6 +44,7 @@ def inquerito(request, candidato_id):
             "form_inquerito_2": form_inquerito_2,
             "pagination": pagination,
             "to_page": to_page,
+            "objeto": objeto,
         }
         return render(request, "inquerito.html", context)
     

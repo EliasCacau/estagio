@@ -9,14 +9,15 @@ from django.shortcuts import redirect, render
 from PIL import Image
 
 from formulario.forms import InformacaoCandidatoForm
-from formulario.models import (Candidato, DadosCandidato, InformacaoCandidato,
-                               Pagination)
+from formulario.models import (Candidato, Dados, DadosCandidato,
+                               InformacaoCandidato, Pagination)
 from usuarios.models import MatriculaCpf
 
 
 @login_required(login_url="/login")
 def informacao_candidato(request):
     if request.method == "GET":
+        objeto = Dados.objects.filter(user=request.user).first()
         to_page = Candidato.objects.filter(user=request.user).first()
         user = request.user
         matricula_cpf = MatriculaCpf.objects.filter(user=request.user).first()
@@ -64,6 +65,7 @@ def informacao_candidato(request):
                 "imagem": imagem,
                 "image": image,
                 "to_page": to_page,
+                "objeto": objeto,
             },
         )
 
@@ -71,6 +73,7 @@ def informacao_candidato(request):
 @login_required(login_url="/login")
 def informacao_candidato_enviado(request):
     if request.method == "POST":
+        objeto = Dados.objects.filter(user=request.user).first()
         to_page = Candidato.objects.filter(user=request.user).first()
         user = request.user
         dados, created = InformacaoCandidato.objects.get_or_create(user=user)

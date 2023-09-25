@@ -9,7 +9,7 @@ from django.http import Http404, JsonResponse
 from django.shortcuts import redirect, render
 
 from formulario.forms import DadosAdicionaisForm
-from formulario.models import Candidato, DadosAdicionais, Pagination
+from formulario.models import Candidato, Dados, DadosAdicionais, Pagination
 from utils.cidades_estado import obter_cidades_do_estado
 
 
@@ -17,8 +17,10 @@ from utils.cidades_estado import obter_cidades_do_estado
 def formulario_dados_adicionais(request):
     if request.method == "GET":
         to_page = Candidato.objects.filter(user=request.user).first()
+        objeto = Dados.objects.filter(user=request.user).first()
         dados = DadosAdicionais.objects.filter(user=request.user).first()
         pagination = Pagination.objects.filter(user=request.user).first()
+        
 
         for (
             field_name
@@ -42,6 +44,7 @@ def formulario_dados_adicionais(request):
                 "pagination": pagination,
                 "dados": dados,
                 "to_page": to_page,
+                "objeto": objeto,
             },
         )
 
@@ -49,6 +52,7 @@ def formulario_dados_adicionais(request):
 @login_required(login_url="/login")
 def formulario_dados_adicionais_enviado(request):
     if request.method == "POST":
+        objeto = Dados.objects.filter(user=request.user).first()
         to_page = Candidato.objects.filter(user=request.user).first()
         user = request.user
         dados, created = DadosAdicionais.objects.get_or_create(user=user)
