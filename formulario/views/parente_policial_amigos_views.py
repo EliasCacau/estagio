@@ -61,7 +61,7 @@ def parente_policial_amigos_enviado(request, candidato_id):
             pagination.page_8 = "used"
             pagination.page_9 = "used"
             pagination.save()
-            return redirect("formulario:formulario_conjuge_familia")
+            return redirect("formulario:formulario_hobbies_clube", objeto.id)
         else:            
             pagination.page_8 = "active"
             pagination.save()

@@ -142,10 +142,9 @@ class Telefone(models.Model):
         max_length=11,
         choices=OPCOES_TELEFONE,
         null=True,
-        blank=True,
         verbose_name="tipo de telefone",
     )
-    telefone = models.CharField(max_length=11, null=True, blank=True)
+    telefone = models.CharField(max_length=11, null=True)
 
     def __str__(self):
         return self.telefone
@@ -293,13 +292,13 @@ class DadosBancarios(models.Model):
 
 
 class Familiares(models.Model):
-    candidato = models.ForeignKey(Candidato, on_delete=models.CASCADE, null=True, blank=True, related_name="familiares")
-    grau_parentesco = models.CharField(max_length=100, blank=True, null=True, verbose_name="Grau de parentesco")
-    nome_parente = models.CharField(max_length=100, null=True, blank=True, verbose_name="Nome do parente")
-    endereco_parente = models.CharField(max_length=250, null=True, blank=True, verbose_name="Endereco do parente")
-    profissao = models.CharField(max_length=100, null=True, blank=True, verbose_name="Profissão do parente")
-    idade = models.CharField(max_length=100, null=True, blank=True, verbose_name="Idade do parente")
-    vivo_morto = models.CharField(max_length=5, choices=(("Vivo", "Vivo"), ("Morto", "Morto")), blank=True, verbose_name="Vivo ou Morto")
+    candidato = models.ForeignKey(Candidato, on_delete=models.CASCADE, null=True, related_name="familiares")
+    grau_parentesco = models.CharField(max_length=100, null=True, verbose_name="Grau de parentesco")
+    nome_parente = models.CharField(max_length=100, null=True, verbose_name="Nome do parente")
+    endereco_parente = models.CharField(max_length=250, null=True, verbose_name="Endereco do parente")
+    profissao = models.CharField(max_length=100, null=True, verbose_name="Profissão do parente")
+    idade = models.CharField(max_length=100, null=True, verbose_name="Idade do parente")
+    vivo_morto = models.CharField(max_length=5, choices=(("Vivo", "Vivo"), ("Morto", "Morto")), verbose_name="Vivo ou Morto")
 
     class Meta:
         verbose_name = "Familiar"
@@ -391,22 +390,22 @@ class Dados(models.Model):
     filiacao_politica = models.CharField(max_length=100, blank=True, verbose_name="Filiação política")
 
     # Intimação 
-    tem_intimacao_processo = models.CharField(max_length=3, blank=True, null=True,choices=SIM_NAO, verbose_name="Possui intimação ou processos")
+    tem_intimacao_processo = models.CharField(max_length=3, null=True, choices=SIM_NAO, verbose_name="Possui intimação ou processos")
 
     tem_passagem = models.CharField(max_length=3, blank=True, null=True, choices=SIM_NAO, verbose_name="Possui passagem") 
 
     # 37 modelo fic
-    tem_inquerito = models.CharField(max_length=3, blank=True, choices=SIM_NAO, verbose_name="Possui inquerito")
+    tem_inquerito = models.CharField(max_length=3, choices=SIM_NAO, verbose_name="Possui inquerito")
     detalhes_inquerito = models.TextField(null=True, blank=True, verbose_name="Detalhes inquerito")
 
-    familia_envolvido_policia_justica = models.CharField(max_length=3, blank=True, choices=SIM_NAO, null=True, verbose_name="Família envolvida polícia ou justiça")
+    familia_envolvido_policia_justica = models.CharField(max_length=3, choices=SIM_NAO, null=True, verbose_name="Família envolvida polícia ou justiça")
     detalhes_envolvimento_familia = models.TextField(null=True, blank=True, verbose_name="Detalhes envolvimento familília")
 
     # 39
-    tem_arma_de_fogo = models.CharField(max_length=3, blank=True, choices=SIM_NAO, null=True, verbose_name="Possui arma de fogo")
+    tem_arma_de_fogo = models.CharField(max_length=3, choices=SIM_NAO, null=True, verbose_name="Possui arma de fogo")
     detalhes_arma_fogo = models.TextField(null=True, blank=True, verbose_name="Detalhes da arma de fogo")
     
-    arma_apreendida = models.CharField(max_length=3, blank=True, choices=SIM_NAO, null=True, verbose_name="Arma de fogo apreendida")
+    arma_apreendida = models.CharField(max_length=3, choices=SIM_NAO, null=True, verbose_name="Arma de fogo apreendida")
     detalhes_arma_apreendia = models.TextField(null=True, blank=True, verbose_name="Detalhes da arma de fogo")
 
     # 41
@@ -503,35 +502,29 @@ class ParentePolicial(models.Model):
 
 class Sindicato(models.Model):
     dados = models.ForeignKey(Dados, on_delete=models.CASCADE, null=True, blank=True, related_name='sindicato')
-    data_inicio_sind = models.DateField(null=True, blank=True, verbose_name="data de inicio")
-    data_final_sind = models.DateField(null=True, blank=True, verbose_name="data final (caso de desassociação)")
+    data_inicio_sind = models.DateField(null=True, blank=True, verbose_name="data de ingresso")
+    data_final_sind = models.DateField(null=True, blank=True, verbose_name="data de egresso")
     nome_sindicato = models.CharField(max_length=100, null=True, blank=True, verbose_name="Nome da organização") 
     endereco_sindicato = models.CharField(max_length=100, null=True, blank=True, verbose_name="Endereço")
 
 
 class ProcessosIntimado(models.Model):
     dados = models.ForeignKey(Dados, on_delete=models.CASCADE, null=True, blank=True, related_name='processos_intimado')
-    delito = models.CharField(max_length=100, null=True, blank=True, verbose_name="Delito")
+    delito = models.TextField(null=True, blank=True, verbose_name="Delito")
     data_delito = models.DateField(null=True, blank=True, verbose_name="Data")   
-    forum = models.CharField(max_length=100, null=True, blank=True, verbose_name="Fórum")
-    endereco_delito = models.CharField(max_length=250, null=True, blank=True, verbose_name="Endereço")
-    cidade_delito = models.CharField(max_length=100, null=True, blank=True, verbose_name="Cidade processo")
-    estado_delito = models.CharField(max_length=100, null=True, blank=True, verbose_name="Estado processo")
-    cep_delito = models.CharField(max_length=100, null=True, blank=True, verbose_name="CEP processo")
+    forum = models.TextField(null=True, blank=True, verbose_name="Fórum")
+    endereco_delito = models.TextField(null=True, blank=True, verbose_name="Endereço completo")
     indicado = models.CharField(max_length=100, choices=(("Réu", "Réu"),("Vítima", "Vítima"), ("Testemunha", "Testemunha")), null=True, blank=True, verbose_name="Indicação")
-    solucao_caso = models.CharField(max_length=250, null=True, blank=True, verbose_name="Solução do caso") 
+    solucao_caso = models.TextField(null=True, blank=True, verbose_name="Solução do caso") 
 
 class Passagem(models.Model):
     dados = models.ForeignKey(Dados, on_delete=models.CASCADE, null=True, blank=True, related_name='passagem')
     data_passagem = models.DateField(null=True, blank=True, verbose_name="Data passagem")
     tempo_permanencia = models.CharField(max_length=100, null=True, blank=True, verbose_name="Tempo de permanência") 
-    motivo = models.CharField(max_length=100, null=True, blank=True, verbose_name="Motivo")
+    motivo = models.TextField(null=True, blank=True, verbose_name="Motivo")
     repaticao = models.CharField(max_length=100, null=True, blank=True, verbose_name="Repartição conduzida")
-    endereco_passagem = models.CharField(max_length=250, null=True, blank=True, verbose_name="Endereco passagem")
-    cidade_passagem = models.CharField(max_length=100, null=True, blank=True, verbose_name="Cidade passagem")
-    estado_passagem = models.CharField(max_length=100, null=True, blank=True, verbose_name="Estado passagem")
-    cep_passagem = models.CharField(max_length=100, null=True, blank=True, verbose_name="CEP passagem")
-    solucao_caso_passagem = models.CharField(max_length=250, null=True, blank=True, verbose_name="Solução do caso da passagem") 
+    endereco_passagem = models.TextField(null=True, blank=True, verbose_name="Endereco Completo")
+    solucao_caso_passagem = models.TextField(null=True, blank=True, verbose_name="Solução do caso da passagem") 
 
 
 class Empregos(models.Model):

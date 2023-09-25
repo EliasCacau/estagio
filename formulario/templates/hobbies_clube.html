@@ -48,7 +48,7 @@
                         {% endif %}
                     </div>
                     <table class="table caption-top">
-                        <caption style="margin: 9px;">Em caso afirmativo, forneça detalhes:</caption>
+                        <caption style="margin: 9px;">Em caso afirmativo, coloque as informações:</caption>
                         {% for ft in form_sindicato %}                        
                                 {% if forloop.first %}
                                     <tr> 
@@ -80,38 +80,6 @@
                             
                         {%endfor%}                        
                     </table> 
-                    {% comment %} <table class="table caption-top">
-                        {% for ft in form_sindicato %}    
-                            <caption style="margin: 9px;">Em caso afirmativo, forneça detalhes:</caption>                    
-                                {% if forloop.first %}
-                                    <tr> 
-                                        {% for f in ft.visible_fields %}
-                                            <th>{{ f.label }} 
-                                                {% if f.field.required %}
-                                                    <b style="color: #FF0000; text-decoration: none; font-size: 18px;" href="#" title="Este campo é obrigatório" data-toggle="tooltip">*</b>
-                                                {% endif %}
-                                            </th>
-                                        {%endfor%}
-                                    </tr>
-                                {% endif %}
-                                <tr class="inlineform"> 
-                                    {% for f in ft.hidden_fields %}
-                                        {{ f }}
-                                    {%endfor%} 
-                                    {% for f in ft.visible_fields %}
-                                        {% if f.name == "data_inicio_sind" or f.name == "data_final_sind"%}
-                                            <div class="input-group">
-                                                <td>{{ f }}
-                                                </span><span class="input-group-text" id="basic-addon2">{{ f.help_text }}</span>
-                                                </td>
-                                            </div>
-                                        {% else %}
-                                            <td>{{ f }}</td>
-                                        {% endif %} 
-                                    {%endfor%}                                
-                                </tr>
-                        {%endfor%}                        
-                    </table> {% endcomment %}
                         
                     <div class="row justify-content-center">
                         <div class="col-md-6">

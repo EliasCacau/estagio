@@ -48,9 +48,9 @@
                                     <tr> 
                                         {% for f in ft.visible_fields %}
                                             <th>{{ f.label }} 
-                                                {% if f.field.required %}
+                                                {% comment %} {% if f.field.required %}
                                                     <b style="color: #FF0000; text-decoration: none; font-size: 18px;" href="#" title="Este campo é obrigatório" data-toggle="tooltip">*</b>
-                                                {% endif %}
+                                                {% endif %} {% endcomment %}
                                             </th>
                                         {%endfor%}
                                     </tr>

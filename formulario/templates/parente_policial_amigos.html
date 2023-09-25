@@ -2,6 +2,12 @@
 
 {% block title %} Formulário {% endblock %}
 
+<style>
+    .delete-row a {
+        text-decoration: none;
+    }
+</style>
+
 {% block content %}
     <div class="container">
         <div class="row justify-content-center">
@@ -22,10 +28,11 @@
                         {% endif %}
                     </div>
                     
-                    <table class="table">
+                    <table class="table caption-top">
+                        <p style="margin-top: 20px;">Possue algum parente trabalhando ou que já trabalhou na policia?</p>
                         {% for ft in form_parente_policial %}                        
                                 {% if forloop.first %}
-                                    <tr> 
+                                    <tr>
                                         {% for f in ft.visible_fields %}
                                             <th>{{ f.label }} 
                                                 {% if f.field.required %}
@@ -96,7 +103,7 @@
             $('.inlineform').formset({
                 prefix: '{{ form_parente_policial.prefix }}',
                 addText: "Adicionar novo Parente",
-                deleteText: "Remover",                
+                deleteText: "Remover",
             });
         })
     </script>

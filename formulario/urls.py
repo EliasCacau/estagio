@@ -6,7 +6,7 @@ from .views import (conjuge_familia_views, dados_adicionais_views,
                     dados_bancarios_views, dados_candidato_views,
                     email_redes_sociais_views, familiares_views,
                     hobbies_clube_views, informacao_candidato_views,
-                    parente_policial_amigos_views)
+                    inquerito_views, parente_policial_amigos_views)
 
 app_name = "formulario"
 
@@ -102,5 +102,15 @@ urlpatterns = [
         "formulario_hobbies_clube/enviado/<int:candidato_id>/",
         hobbies_clube_views.hobbies_clube_enviado,
         name="formulario_hobbies_clube_enviado",
+    ),
+    path(
+        "formulario_inquerito/<int:candidato_id>/",
+        inquerito_views.inquerito,
+        name="formulario_inquerito",
+    ),
+    path(
+        "formulario_inquerito/enviado/<int:candidato_id>/",
+        inquerito_views.inquerito_enviado,
+        name="formulario_inquerito_enviado",
     ),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

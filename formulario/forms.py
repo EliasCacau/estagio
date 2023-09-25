@@ -7,7 +7,8 @@ from django.core.exceptions import ValidationError
 from formulario.models import (Dados, DadosAdicionais, DadosBancarios,
                                DadosCandidato, EmailRedesSociais, Familiares,
                                Filho, InformacaoCandidato, ParentePolicial,
-                               Sindicato, Telefone)
+                               Passagem, ProcessosIntimado, Sindicato,
+                               Telefone)
 
 SIM_NAO_CHOICES = ((True, "Sim"), (False, "Não"))
 
@@ -93,7 +94,7 @@ class TelefoneForm(forms.ModelForm):
 
         error_messages = {
             "telefone": {
-                "required": "Insira o nome do telefone",
+                "required": "Insira o número do telefone",
             },
             "tipo_telefone": {
                 "required": "Insira o tipo de telefone",
@@ -490,6 +491,11 @@ class FamiliaresForm(forms.ModelForm):
             "idade",
             "vivo_morto",
         ]
+        error_messages = {
+            "nome_parente": {
+                "required": "Insira o nome do parente",
+            },
+        }
 
 
     def __init__(self, *args, **kwargs):
@@ -763,7 +769,7 @@ class HobbiesClubeForm(forms.ModelForm):
             "ativ_horas_folga": "O que você costuma fazer nas horas de folga?",
             "onde_ativ_folga": "Onde?",
             "socio_clube": "É sócio de algum clube?",
-            "possui_filiacao_politica": "Possui filiação política e cargo ou função que exerce (u), ou que foi candidato?",
+            "possui_filiacao_politica": "Você possui filiação política e já ocupou algum cargo ou função, ou já foi candidato a algum cargo?",
             "filiacao_politica": "Qual?",
             "participa_sindicato": "Pertence(u) a qualquer sindicato ou outra associação de classe?"
         }
@@ -828,3 +834,113 @@ class SindicatoForm(forms.ModelForm):
                 self.fields[campo].widget.attrs['type'] = "date"
                 self.fields[campo].help_text = "Ex: 01/01/2000"
     
+
+class InqueritoForm1(forms.ModelForm):
+    class Meta:
+        model = Dados  # Substitua com o seu modelo
+        fields = [
+            "tem_intimacao_processo",
+            "tem_passagem",
+        ]
+        labels = {
+            "tem_intimacao_processo": "Você já foi intimado ou processado pela justiça?",
+            "tem_passagem": "Você teve alguma “passagem” em qualquer repartição policial ou Juizado de Menores?",
+        }
+        widgets = {
+            "tem_intimacao_processo": forms.RadioSelect( 
+                choices=((True, "Sim"), (False, "Não")),
+            ),
+            "tem_passagem": forms.RadioSelect( 
+                choices=((True, "Sim"), (False, "Não")),
+            ),
+        }
+class InqueritoForm2(forms.ModelForm):
+    class Meta:
+        model = Dados
+        fields = [
+            "tem_inquerito",
+            "detalhes_inquerito",
+            "familia_envolvido_policia_justica",
+            "detalhes_envolvimento_familia",
+            "tem_arma_de_fogo",
+            "detalhes_arma_fogo"
+        ]
+        labels = {
+            "tem_inquerito": "Já esteve alguma vez envolvido em inquérito policial, termo circunstanciado de ocorrência, sindicância ou investigação sumária?",
+            "detalhes_inquerito": "Em caso positivo, forneça detalhes",
+            "familia_envolvido_policia_justica": "Algum membro da sua família esteve envolvido com a Polícia ou Justiça?",
+            "detalhes_envolvimento_familia": "Em caso positivo, forneça detalhes",
+            "tem_arma_de_fogo": "Você possui alguma arma de fogo?",
+            "detalhes_arma_fogo": "Em caso positivo, forneça detalhes especificando inclusive se foi apreendida alguma vez",
+        }
+        widgets = {
+            "detalhes_inquerito": forms.Textarea(attrs={"class": "form-control"},),
+            "detalhes_envolvimento_familia": forms.Textarea(attrs={"class": "form-control"},),
+            "detalhes_arma_fogo": forms.Textarea(attrs={"class": "form-control"},),
+            "tem_inquerito": forms.RadioSelect( 
+                choices=((True, "Sim"), (False, "Não")),
+            ),
+            "familia_envolvido_policia_justica": forms.RadioSelect( 
+                choices=((True, "Sim"), (False, "Não")),
+            ),
+            "tem_arma_de_fogo": forms.RadioSelect( 
+                choices=((True, "Sim"), (False, "Não")),
+            ),
+        }
+    
+
+
+class ProcessosIntimadoForm(forms.ModelForm):
+    class Meta:
+        model = ProcessosIntimado
+        fields = [
+            "delito", 
+            "data_delito", 
+            "forum", 
+            "endereco_delito", 
+            "indicado", 
+            "solucao_caso", 
+        ]
+        widgets = {
+            "delito": forms.Textarea(attrs={"class": "form-control"},),
+            "forum": forms.Textarea(attrs={"class": "form-control"},),
+            "solucao_caso": forms.Textarea(attrs={"class": "form-control"},),
+            "endereco_delito": forms.Textarea(attrs={"class": "form-control"},),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(ProcessosIntimadoForm, self).__init__(*args, **kwargs)
+        for campo in self.fields:
+            self.fields[campo].error_messages["required"] = f'Campo "{self.fields[campo].label.lower()}" é obrigatório'
+            self.fields[campo].widget.attrs['class'] = "form-control"
+        
+        self.fields["data_delito"].widget.attrs['class'] = "form-control datepicker"
+        self.fields["data_delito"].help_text = "Ex: 01/01/2000"
+        self.fields["indicado"].widget.attrs['class'] = "form-select"
+
+
+class PassagemForm(forms.ModelForm):
+    class Meta:
+        model = Passagem
+        fields = [
+            "data_passagem", 
+            "tempo_permanencia", 
+            "motivo", 
+            "repaticao", 
+            "endereco_passagem", 
+            "solucao_caso_passagem", 
+        ]
+        widgets = {
+            "motivo": forms.Textarea(attrs={"class": "form-control"},),
+            "solucao_caso_passagem": forms.Textarea(attrs={"class": "form-control"},),
+            "endereco_passagem": forms.Textarea(attrs={"class": "form-control"},),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(PassagemForm, self).__init__(*args, **kwargs)
+        for campo in self.fields:
+            self.fields[campo].error_messages["required"] = f'Campo "{self.fields[campo].label.lower()}" é obrigatório'
+            self.fields[campo].widget.attrs['class'] = "form-control"
+        
+        self.fields["data_passagem"].widget.attrs['class'] = "form-control datepicker"
+        self.fields["data_passagem"].help_text = "Ex: 01/01/2000"

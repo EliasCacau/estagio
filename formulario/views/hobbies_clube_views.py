@@ -61,7 +61,7 @@ def hobbies_clube_enviado(request, candidato_id):
             pagination.page_9 = "used"
             pagination.page_10 = "used"
             pagination.save()
-            return redirect("formulario:formulario_hobbies_clube", objeto.id)
+            return redirect("formulario:formulario_inquerito", objeto.id)
         else:            
             pagination.page_9 = "active"
             pagination.save()

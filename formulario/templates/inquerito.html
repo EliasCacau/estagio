@@ -1,0 +1,352 @@
+{% extends 'menu.html' %}
+
+{% block title %} Formulário {% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-md-11">
+                                
+                <form action="{% url 'formulario:formulario_inquerito_enviado' to_page.id %}" method="POST">
+                    {% csrf_token %}
+
+                    <div class="row justify-content-center">
+                        <div class="col-md-5">
+                            <h1 style="font-size:190%">Inqueritos, processos e passagens</h1>
+
+                            <div class="input-group col-md-6">
+                                <label for="{{ field.id_for_label }}">{{ field.label }}
+                                    {{ form_inquerito_1.tem_intimacao_processo.label }}
+                                        <b style="color: #FF0000; text-decoration: none; font-size: 18px;" href="#" title="Este campo é obrigatório" data-toggle="tooltip">*</b>
+                                </label>     
+                                <div class="input-group mb-3">
+                                    {{ form_inquerito_1.tem_intimacao_processo }}
+                                </div>  
+                                {% if form_inquerito_1.tem_intimacao_processo.help_text %}
+                                    <p class="help-text">{{ form_inquerito_1.tem_intimacao_processo.help_text }}</p>
+                                {% endif %}
+                                {{ form_inquerito_1.tem_intimacao_processo.errors }}
+                            </div>
+                        </div>
+                    </div>
+
+                    {{ form_intimado.management_form }}
+                    <div class="errorlist">
+                        {% if form_intimado.errors %}
+                            {% for error in form_intimado.errors %}
+                                {% if forloop.first %}
+                                    {{ error }}
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <table class="table table-sm caption-top" id="my-table">
+                        <caption>Em caso afirmativo, forneça detalhes</caption>
+                        {% for ft in form_intimado %}      
+                                {% if forloop.first %}
+                                    <tr> 
+                                        {% for f in ft.visible_fields %}
+                                            <th>{{ f.label }} 
+                                                {% if f.field.required %}
+                                                    <b style="color: #FF0000; text-decoration: none; font-size: 18px;" href="#" title="Este campo é obrigatório" data-toggle="tooltip">*</b>
+                                                {% endif %}
+                                            </th>
+                                        {%endfor%}
+                                    </tr>
+                                {% endif %}
+                                <tr class="inlineform"> 
+                                    {% for f in ft.hidden_fields %}
+                                        {{ f }}
+                                    {%endfor%} 
+                                    {% for f in ft.visible_fields %}
+                                        {% if f.name == "data_delito" %}
+                                            <div class="input-group">
+                                                <td>{{ f }}
+                                                </span><span class="input-group-text" id="basic-addon2">{{ f.help_text }}</span>
+                                                </td>
+                                            </div>
+                                        {% else %}
+                                            <td>{{ f }}</td>
+                                        {% endif %} 
+                                    {%endfor%}                                
+                                </tr>
+                        {%endfor%}                        
+                    </table>
+                    
+                    <div class="row justify-content-center">
+                        <div class="col-md-5">
+                            <div class="input-group col-md-6">
+                                <label for="{{ field.id_for_label }}">{{ field.label }}
+                                    {{ form_inquerito_1.tem_passagem.label }}
+                                        <b style="color: #FF0000; text-decoration: none; font-size: 18px;" href="#" title="Este campo é obrigatório" data-toggle="tooltip">*</b>
+                                </label>     
+                                <div class="input-group mb-3">
+                                    {{ form_inquerito_1.tem_passagem }}
+                                </div>  
+                                {% if form_inquerito_1.tem_passagem.help_text %}
+                                    <p class="help-text">{{ form_inquerito_1.tem_passagem.help_text }}</p>
+                                {% endif %}
+                                {{ form_inquerito_1.tem_passagem.errors }}
+                            </div>
+                        </div>
+                    </div>
+
+                    {{ form_passagem.management_form }}
+                    <div class="errorlist">
+                        {% if form_passagem.errors %}
+                            {% for error in form_passagem.errors %}
+                                {% if forloop.first %}
+                                    {{ error }}
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <table class="table table-sm caption-top" id="my-table2">
+                        <caption>Em caso afirmativo, forneça detalhes</caption>
+                        {% for ft in form_passagem %}      
+                                {% if forloop.first %}
+                                    <tr> 
+                                        {% for f in ft.visible_fields %}
+                                            <th>{{ f.label }} 
+                                                {% if f.field.required %}
+                                                    <b style="color: #FF0000; text-decoration: none; font-size: 18px;" href="#" title="Este campo é obrigatório" data-toggle="tooltip">*</b>
+                                                {% endif %}
+                                            </th>
+                                        {%endfor%}
+                                    </tr>
+                                {% endif %}
+                                <tr class="inlineform-passagem"> 
+                                    {% for f in ft.hidden_fields %}
+                                        {{ f }}
+                                    {%endfor%} 
+                                    {% for f in ft.visible_fields %}
+                                        {% if f.name == "data_passagem" %}
+                                            <div class="input-group">
+                                                <td>{{ f }}
+                                                </span><span class="input-group-text" id="basic-addon2">{{ f.help_text }}</span>
+                                                </td>
+                                            </div>
+                                        {% else %}
+                                            <td>{{ f }}</td>
+                                        {% endif %} 
+                                    {%endfor%}                                
+                                </tr>
+                        {%endfor%}                        
+                    </table>
+
+                    <div class="row justify-content-center" >
+                        <div class="col-md-6">
+                            {% for field in form_inquerito_2 %}
+                                <div class="input-group col-md-6">
+                                    <label for="{{ field.id_for_label }}">{{ field.label }}
+                                        {% if field.field.required %}
+                                            <b style="color: #FF0000; text-decoration: none; font-size: 18px;" href="#" title="Este campo é obrigatório" data-toggle="tooltip">*</b>
+                                        {% endif %}
+                                    </label>
+                                                                        
+                                    <div class="input-group mb-3">
+                                        {{field}}
+                                    </div>
+                                    {% if field.help_text %}
+                                        <p class="help-text">{{ field.help_text }}</p>
+                                    {% endif %}
+                                    {{ field.errors }}  
+                                </div>                       
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-md-6">
+                            <div style="margin-top: 20px; display: flex; justify-content: space-between; margin-bottom: 95px;">
+                                <input type="button" class="btn btn-secondary btn-block" value="Anterior" style="flex: .4; margin-right: 5px" onclick="irParaFormulario()">
+                                <input type="submit" class="btn btn-primary btn-block" value="Próximo" style="flex: .4;margin-left: 5px">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
+
+{% block scripts %}
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function() {
+            $('.datepicker').datepicker({
+                format: 'dd/mm/yyyy',
+                language : 'pt-BR'
+                
+            });
+            $(function() {
+                $('.inlineform').formset({
+                    prefix: '{{ form_inquerito_prefix }}',
+                    addText: "Adicionar campo",
+                    deleteText: "Remover",                
+                });
+            })
+
+            $(function() {
+                $('.inlineform-passagem').formset({
+                    prefix: '{{ form_passagem.prefix }}',
+                    addText: "Adicionar campo",
+                    deleteText: "Remover",                
+                });
+            })
+
+            
+            // Lista de IDs dos campos a serem escondidos
+            var camposParaEsconder = [
+                "id_tem_intimacao_processo_0",
+                "id_tem_passagem_0",
+                "id_tem_inquerito_0",
+                "id_familia_envolvido_policia_justica_0",
+                "id_tem_arma_de_fogo_0"
+            ];
+        
+            camposParaEsconder.forEach(function(idCampo) {
+                var fieldToHide = document.getElementById(idCampo);
+                if (fieldToHide) {
+                    fieldToHide.style.display = "none";
+        
+                    // Encontre o rótulo associado ao campo
+                    var labelForField = document.querySelector("label[for='" + idCampo + "']");
+                    if (labelForField) {
+                        labelForField.style.display = "none";
+                    }
+                }
+            });
+
+            function toggleInputs() {
+                var radioSim = document.getElementById("id_tem_inquerito_1");
+                var input1 = document.getElementById("id_detalhes_inquerito");
+        
+                if (radioSim.checked) {
+                    input1.disabled = false;
+                
+                } else {
+                    input1.disabled = true;
+                    input1.value = radioSim.checked ? input1.value : "";
+                }
+            }
+            var radioSim = document.getElementById("id_tem_inquerito_1");
+            var radioNao = document.getElementById("id_tem_inquerito_2");
+            
+            radioSim.addEventListener("change", toggleInputs);
+            radioNao.addEventListener("change", toggleInputs);           
+
+            toggleInputs();
+
+            function toggleInputs2() {
+                var radioSim = document.getElementById("id_familia_envolvido_policia_justica_1");
+                var input1 = document.getElementById("id_detalhes_envolvimento_familia");
+        
+                if (radioSim.checked) {
+                    input1.disabled = false;
+                
+                } else {
+                    input1.disabled = true;
+                    input1.value = radioSim.checked ? input1.value : "";
+                }
+            }
+            var radioSim = document.getElementById("id_familia_envolvido_policia_justica_1");
+            var radioNao = document.getElementById("id_familia_envolvido_policia_justica_2");
+            
+            radioSim.addEventListener("change", toggleInputs2);
+            radioNao.addEventListener("change", toggleInputs2);           
+
+            toggleInputs2();
+
+            function toggleInputs3() {
+                var radioSim = document.getElementById("id_tem_arma_de_fogo_1");
+                var input1 = document.getElementById("id_detalhes_arma_fogo");
+        
+                if (radioSim.checked) {
+                    input1.disabled = false;
+                
+                } else {
+                    input1.disabled = true;
+                    input1.value = radioSim.checked ? input1.value : "";
+                }
+            }
+            var radioSim = document.getElementById("id_tem_arma_de_fogo_1");
+            var radioNao = document.getElementById("id_tem_arma_de_fogo_2");
+            
+            radioSim.addEventListener("change", toggleInputs3);
+            radioNao.addEventListener("change", toggleInputs3);           
+
+            toggleInputs3();
+     
+            {% comment %} // Obtém referências para os elementos de botão de rádio e a tabela
+            const radioEnable = document.getElementById("id_tem_intimacao_processo_1");
+            const radioDisable = document.getElementById("id_tem_intimacao_processo_2");
+            const table = document.getElementById("my-table");
+        
+            // Função para habilitar ou desabilitar os inputs e elementos com classe 'add-row' na tabela
+            function toggleTableElements(disable) {
+                const inputs = table.querySelectorAll('input, select, textarea');
+                for (let i = 0; i < inputs.length; i++) {
+                    inputs[i].disabled = disable;
+                }
+        
+                const addRows = table.querySelectorAll('.add-row');
+                for (let i = 0; i < addRows.length; i++) {
+                    addRows[i].style.display = disable ? 'none' : 'block';
+                }
+            }
+        
+            // Adiciona um ouvinte de evento de mudança aos botões de rádio
+            radioEnable.addEventListener("change", function () {
+                if (radioEnable.checked) {
+                    toggleTableElements(false); // Habilita os inputs e elementos com classe 'add-row'
+                }
+            });
+        
+            radioDisable.addEventListener("change", function () {
+                if (radioDisable.checked) {
+                    toggleTableElements(true); // Desabilita os inputs e elementos com classe 'add-row'
+                }
+            });
+
+            toggleTableElements(true);
+
+            const radioEnable2 = document.getElementById("id_tem_passagem_1");
+            const radioDisable2 = document.getElementById("id_tem_passagem_2");
+            const table2 = document.getElementById("my-table2");
+
+            // Função para habilitar ou desabilitar os inputs e elementos com classe 'add-row' na tabela
+            function toggleTableElements2(disable) {
+                const inputs = table2.querySelectorAll('input, select, textarea');
+                for (let i = 0; i < inputs.length; i++) {
+                    inputs[i].disabled = disable;
+                }
+
+                const addRows = table2.querySelectorAll('.add-row');
+                for (let i = 0; i < addRows.length; i++) {
+                    addRows[i].style.display = disable ? 'none' : 'block';
+                }
+            }
+
+            // Adiciona um ouvinte de evento de mudança aos botões de rádio
+            radioEnable2.addEventListener("change", function () {
+                if (radioEnable2.checked) {
+                    toggleTableElements2(false); // Habilita os inputs e elementos com classe 'add-row'
+                }
+            });
+
+            radioDisable2.addEventListener("change", function () {
+                if (radioDisable2.checked) {
+                    toggleTableElements2(true); // Desabilita os inputs e elementos com classe 'add-row'
+                }
+            });
+            toggleTableElements2(); {% endcomment %}
+    });
+    </script>
+
+    <script>
+        function irParaFormulario() {
+            window.location.href = "/formulario_informacao_candidato";
+        }
+    </script>
+{% endblock scripts %}
