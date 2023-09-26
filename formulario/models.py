@@ -323,10 +323,10 @@ class Dados(models.Model):
     data_casamento = models.DateField(null=True, blank=True, verbose_name="Data do casamento")
     local_casamento = models.CharField(max_length=250, null=True, blank=True, verbose_name="Local do casamento")
     
-    morando_juntos = models.CharField(max_length=3, choices=SIM_NAO, verbose_name="Morando com cônjuge")
+    morando_juntos = models.CharField(max_length=3, choices=SIM_NAO, blank=True, verbose_name="Morando com cônjuge")
     detalhes_nao_morando_juntos = models.TextField(null=True, blank=True, verbose_name="Motivo e endereço do cônjuge")
 
-    conjuge_empregado = models.CharField(max_length=3, choices=SIM_NAO, verbose_name="Conjuge está empregado")
+    conjuge_empregado = models.CharField(max_length=3, choices=SIM_NAO, blank=True, verbose_name="Conjuge está empregado")
     empresa_conjuge = models.CharField(max_length=100, blank=True, verbose_name="Empresa que trabalha")
     endereco_emprego_conjuge = models.CharField(max_length=250, null=True, blank=True, verbose_name="Endereço emprego cônjuge")
     salário = models.CharField(max_length=100, blank=True, verbose_name="Salário cônjuge")
@@ -512,8 +512,8 @@ class ProcessosIntimado(models.Model):
     dados = models.ForeignKey(Dados, on_delete=models.CASCADE, null=True, blank=True, related_name='processos_intimado')
     delito = models.TextField(null=True, blank=True, verbose_name="Delito")
     data_delito = models.DateField(null=True, blank=True, verbose_name="Data")   
-    forum = models.TextField(null=True, blank=True, verbose_name="Fórum")
-    endereco_delito = models.TextField(null=True, blank=True, verbose_name="Endereço completo")
+    forum = models.CharField(max_length=250, null=True, blank=True, verbose_name="Fórum")
+    endereco_delito = models.CharField(max_length=250, null=True, blank=True, verbose_name="Endereço completo")
     indicado = models.CharField(max_length=100, choices=(("Réu", "Réu"),("Vítima", "Vítima"), ("Testemunha", "Testemunha")), null=True, blank=True, verbose_name="Indicação")
     solucao_caso = models.TextField(null=True, blank=True, verbose_name="Solução do caso") 
 
@@ -533,7 +533,7 @@ class Passagem(models.Model):
             verbose_name = "Passagem"
             verbose_name_plural = "Passagens"
 
-class Empregos(models.Model):
+class Emprego(models.Model):
     dados = models.ForeignKey(Dados, on_delete=models.CASCADE, null=True, blank=True, related_name='empregos')
     empresa = models.CharField(max_length=100, null=True, blank=True, verbose_name="Empresa")
     endereco_trabalho = models.CharField(max_length=100, null=True, blank=True, verbose_name="Endereço trabalho")

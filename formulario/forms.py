@@ -903,9 +903,7 @@ class ProcessosIntimadoForm(forms.ModelForm):
         ]
         widgets = {
             "delito": forms.Textarea(attrs={"class": "form-control"},),
-            "forum": forms.Textarea(attrs={"class": "form-control"},),
             "solucao_caso": forms.Textarea(attrs={"class": "form-control"},),
-            "endereco_delito": forms.Textarea(attrs={"class": "form-control"},),
         }
 
     def __init__(self, *args, **kwargs):

@@ -2,6 +2,7 @@
 
 {% block title %} Formulário {% endblock %}
 
+
 {% block content %}
     <div class="container-fluid">
         <div class="row justify-content-center">
@@ -26,6 +27,7 @@
                                     <p class="help-text">{{ form_inquerito_1.tem_intimacao_processo.help_text }}</p>
                                 {% endif %}
                                 {{ form_inquerito_1.tem_intimacao_processo.errors }}
+                                <p>Em caso afirmativo, forneça detalhes:</p>
                             </div>
                         </div>
                     </div>
@@ -40,42 +42,44 @@
                             {% endfor %}
                         {% endif %}
                     </div>
-                    <table class="table table-sm caption-top" id="my-table">
-                        <caption>Em caso afirmativo, forneça detalhes</caption>
-                        {% for ft in form_intimado %}      
-                                {% if forloop.first %}
-                                    <tr> 
-                                        {% for f in ft.visible_fields %}
-                                            <th>{{ f.label }} 
-                                                {% if f.field.required %}
+                    
+
+                    <div class="row justify-content-center">
+                        <div class="col-md-4"> 
+                            
+                            <table class="table-sm table-bordered caption-top">
+                                <caption></caption>
+                                {% for field in form_intimado %}
+                                    <tr class="inlineform">
+                                        <td class="col-md-10" style="padding: 50px;">
+                                            {% for f in field.visible_fields %} 
+                                                <b>{{ f.label }}</b>
+                                                {% if field.field.required %}
                                                     <b style="color: #FF0000; text-decoration: none; font-size: 18px;" href="#" title="Este campo é obrigatório" data-toggle="tooltip">*</b>
                                                 {% endif %}
-                                            </th>
-                                        {%endfor%}
-                                    </tr>
-                                {% endif %}
-                                <tr class="inlineform"> 
-                                    {% for f in ft.hidden_fields %}
-                                        {{ f }}
-                                    {%endfor%} 
-                                    {% for f in ft.visible_fields %}
-                                        {% if f.name == "data_delito" %}
-                                            <div class="input-group">
-                                                <td>{{ f }}
-                                                </span><span class="input-group-text" id="basic-addon2">{{ f.help_text }}</span>
-                                                </td>
-                                            </div>
-                                        {% else %}
-                                            <td>{{ f }}</td>
-                                        {% endif %} 
-                                    {%endfor%}                                
-                                </tr>
-                        {%endfor%}                        
-                    </table>
+                                                <div class="input-group mb-3">
+                                                    {% if f.name == "data_delito" %}
+                                                            {{ f }}
+                                                            <span class="input-group-text" id="calendar_icon"><i class="fa-regular fa-calendar"></i></span><span class="input-group-text" id="basic-addon2">{{ f.help_text }}</span>
+                                                    {% else %}
+                                                         {{ f }}
+                                                    {% endif %}
+                                                </div> 
+                                                {% for f in field.hidden_fields %}    
+                                                    {{ f }}
+                                                {%endfor%}  
+                                            {%endfor%}  
+                                        </td>
+                                    </tr>        
+                                {% endfor %}   
+                            </table>  
+                        </div>  
+                    </div>
+                    
                     
                     <div class="row justify-content-center">
                         <div class="col-md-5">
-                            <div class="input-group col-md-6">
+                            <div class="input-group col-md-6" style="margin-top: 60px;">
                                 <label for="{{ field.id_for_label }}">{{ field.label }}
                                     {{ form_inquerito_1.tem_passagem.label }}
                                         <b style="color: #FF0000; text-decoration: none; font-size: 18px;" href="#" title="Este campo é obrigatório" data-toggle="tooltip">*</b>
@@ -102,7 +106,7 @@
                         {% endif %}
                     </div>
                     <table class="table table-sm caption-top" id="my-table2">
-                        <caption>Em caso afirmativo, forneça detalhes</caption>
+                        <p>Em caso afirmativo, forneça detalhes:</p>
                         {% for ft in form_passagem %}      
                                 {% if forloop.first %}
                                     <tr> 
@@ -135,7 +139,7 @@
                     </table>
 
                     <div class="row justify-content-center" >
-                        <div class="col-md-6">
+                        <div class="col-md-6" style="margin-top: 60px;">
                             {% for field in form_inquerito_2 %}
                                 <div class="input-group col-md-6">
                                     <label for="{{ field.id_for_label }}">{{ field.label }}
