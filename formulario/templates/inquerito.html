@@ -53,17 +53,18 @@
                                     <tr class="inlineform">
                                         <td class="col-md-10" style="padding: 50px;">
                                             {% for f in field.visible_fields %} 
-                                                <b>{{ f.label }}</b>
-                                                {% if field.field.required %}
-                                                    <b style="color: #FF0000; text-decoration: none; font-size: 18px;" href="#" title="Este campo é obrigatório" data-toggle="tooltip">*</b>
-                                                {% endif %}
-                                                <div class="input-group mb-3">
-                                                    {% if f.name == "data_delito" %}
-                                                            {{ f }}
-                                                            <span class="input-group-text" id="calendar_icon"><i class="fa-regular fa-calendar"></i></span><span class="input-group-text" id="basic-addon2">{{ f.help_text }}</span>
-                                                    {% else %}
-                                                         {{ f }}
+                                                <div class="mb-3">
+                                                    <b>{{ f.label }}: </b>
+                                                    {% if field.field.required %}
+                                                        <b style="color: #FF0000; text-decoration: none; font-size: 18px;" href="#" title="Este campo é obrigatório" data-toggle="tooltip">*</b>
                                                     {% endif %}
+                                                    
+                                                        {% if f.name == "data_delito" %}
+                                                                {{ f }}
+                                                                <span class="input-group-text" id="basic-addon2">{{ f.help_text }}</span>
+                                                        {% else %}
+                                                            {{ f }}
+                                                        {% endif %}
                                                 </div> 
                                                 {% for f in field.hidden_fields %}    
                                                     {{ f }}
