@@ -3,56 +3,68 @@
 
 {% block title %} Formulário {% endblock %}
 
-#id_data_nasc_candidato {
-    padding: 6px 12px; 
-} 
-
 {% block content %}
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-md-10">
-                <h1 style="font-size:190%">Dados Familiares</h1>
             
                 <form action="{% url 'formulario:formulario_familiares_enviado' to_page.id %}" method="POST">
                     {% csrf_token %}
 
-                    {{ form_familiares.management_form }}
-                    <div class="errorlist">
-                        {% if form_familiares.errors %}
-                            {% for error in form_familiares.errors %}
-                                {% if forloop.first %}
-                                    {{ error }}
-                                {% endif %}
-                            {% endfor %}
-                        {% endif %}
+                    <div class="row justify-content-center">
+                        <div class="col-md-6"> 
+                            <h1 style="font-size:190%">Dados Familiares</h1>
+
+                            <p>Dê completas informações sobre seus pais e irmãos. Se você foi criado por padrastos, tutores legais ou outras pessoas que não eram seus pais,
+                                a informação solicitada deve abrangê-los também.</p>
+                        </div>
                     </div>
-                    
-                    <table class="table table-sm caption-top">
-                        <caption>Dê completas informações sobre seus pais e irmãos. Se você foi criado por padrastos, tutores legais ou outras pessoas que não eram seus pais,
-                            a informação solicitada deve abrangê-los também.</caption>
-                        {% for ft in form_familiares %}      
-                                {% if forloop.first %}
-                                    <tr> 
-                                        {% for f in ft.visible_fields %}
-                                            <th>{{ f.label }} 
-                                                {% if f.field.required %}
-                                                    <b style="color: #FF0000; text-decoration: none; font-size: 18px;" href="#" title="Este campo é obrigatório" data-toggle="tooltip">*</b>
-                                                {% endif %}
-                                            </th>
-                                        {%endfor%}
-                                    </tr>
+                    <div class="row justify-content-center">
+                        <div class="col-md-6"> <!-- Aumentei a largura da coluna para que a tabela seja mais ampla -->
+                            {{ form_familiares.management_form }}
+                            <div class="errorlist">
+                                {% if form_familiares.errors %}
+                                    {% for error in form_familiares.errors %}
+                                        {% if forloop.first %}
+                                            {{ error }}
+                                        {% endif %}
+                                    {% endfor %}
                                 {% endif %}
-                                <tr class="inlineform"> 
-                                    {% for f in ft.hidden_fields %}
-                                        {{ f }}
-                                    {%endfor%} 
-                                    {% for f in ft.visible_fields %}
-                                        <td>{{ f }}</td>
-                                    {%endfor%}                                
-                                </tr>
-                        {%endfor%}                        
-                    </table>               
-                    <div class="row justify-content-center" >
+                            </div>
+
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th colspan="2" class="text-center">
+                                            <b style="font-size: 30px;">Familiares</b>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for field in form_familiares %}
+                                    <tr class="inlineform">
+                                        <td> <!-- A segunda coluna ocupa o espaço restante -->
+                                            {% for f in field.visible_fields %} 
+                                                <div class="mb-3">
+                                                    <b>{{ f.label }}: </b>
+                                                    {% if field.field.required %}
+                                                    <b style="color: #FF0000; font-size: 18px;" href="#" title="Este campo é obrigatório" data-toggle="tooltip">*</b>
+                                                    {% endif %}
+                                                    {{ f }}
+                                                </div> 
+                                                {% for f in field.hidden_fields %}    
+                                                {{ f }}
+                                                {% endfor %}  
+                                            {% endfor %}  
+                                        </td>
+                                    </tr>        
+                                    {% endfor %}   
+                                </tbody>
+                            </table>  
+                        </div>  
+                    </div>          
+         
+                    <div class="row justify-content-center" style="margin-top: 30px;">
                         <div class="col-md-6">
                             {% for field in form_dados_filho %}
                                 <div class="input-group col-md-6">
@@ -73,9 +85,11 @@
                             {% endfor %}
                         </div>
                     </div>
-                    <div class="row justify-content-center">
-                        <div class="col-md-10">
 
+                    
+
+                    <div class="row justify-content-center" style="margin-top: 30px;">
+                        <div class="col-md-6"> <!-- Aumentei a largura da coluna para que a tabela seja mais ampla -->
                             {{ form_filho.management_form }}
                             <div class="errorlist">
                                 {% if form_filho.errors %}
@@ -87,40 +101,41 @@
                                 {% endif %}
                             </div>
 
-                            <table class="table table-sm caption-top" id="tabela-filho">
-                                <caption>Relacione abaixo todos os seus filhos caso possua</caption>
-                                {% for ft in form_filho %}      
-                                        {% if forloop.first %}
-                                            <tr> 
-                                                {% for f in ft.visible_fields %}
-                                                    <th>{{ f.label }} 
-                                                        {% if f.field.required %}
-                                                            <b style="color: #FF0000; text-decoration: none; font-size: 18px;" href="#" title="Este campo é obrigatório" data-toggle="tooltip">*</b>
-                                                        {% endif %}
-                                                    </th>
-                                                {%endfor%}
-                                            </tr>
-                                        {% endif %}
-                                        <tr class="inlineform-filho"> 
-                                            {% for f in ft.hidden_fields %}
+                            <p>Relacione abaixo todos os seus filhos caso possua:</p>
+                            
+                            <table class="table table-bordered table-hover" id="custom-table">
+                                <thead>
+                                    <tr>
+                                        <th colspan="2" class="text-center">
+                                            <b style="font-size: 30px;">Filhos</b>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for field in form_filho %}
+                                    <tr class="inlineform-filho">
+                                        <td> <!-- A segunda coluna ocupa o espaço restante -->
+                                            {% for f in field.visible_fields %} 
+                                            <div class="mb-3">
+                                                <b>{{ f.label }}: </b>
+                                                {% if field.field.required %}
+                                                <b style="color: #FF0000; font-size: 18px;" href="#" title="Este campo é obrigatório" data-toggle="tooltip">*</b>
+                                                {% endif %}
                                                 {{ f }}
-                                            {%endfor%} 
-                                            {% for f in ft.visible_fields %}
-                                                {% if f.name == "data_nasc_filho" %}
-                                                    <div class="input-group">
-                                                        <td>{{ f }}
-                                                        </span><span class="input-group-text" id="basic-addon2">{{ f.help_text }}</span>
-                                                        </td>
-                                                    </div>
-                                                {% else %}
-                                                    <td>{{ f }}</td>
-                                                {% endif %} 
-                                            {%endfor%}                                
-                                        </tr>
-                                {%endfor%}                        
-                            </table> 
-                        </div>
+                                            </div> 
+                                            {% for f in field.hidden_fields %}    
+                                            {{ f }}
+                                            {% endfor %}  
+                                            {% endfor %}  
+                                        </td>
+                                    </tr>        
+                                    {% endfor %}   
+                                </tbody>
+                            </table>  
+                        </div>  
                     </div>
+
+                
                     <div class="row justify-content-center" >
                         <div class="col-md-5">
                             <div style="margin-top: 20px; display: flex; justify-content: space-between; margin-bottom: 90px;">
@@ -142,12 +157,16 @@
             $('.inlineform').formset({
                 prefix: '{{ form_familiares.prefix }}',
                 addText: "Adicionar novo Familiar",
-                deleteText: "Remover",                
+                deleteText: "Remover", 
+                deleteCssClass: 'btn btn-danger',
+                addCssClass: 'btn btn-primary',               
             });
             $('.inlineform-filho').formset({
                 prefix: '{{ form_filho.prefix }}',
                 addText: "Adicionar novo Filho",
-                deleteText: "Remover",                
+                deleteText: "Remover",  
+                deleteCssClass: 'btn btn-danger',
+                addCssClass: 'btn btn-primary',              
             });        
             $('.datepicker').datepicker({
                 format: 'dd/mm/yyyy',

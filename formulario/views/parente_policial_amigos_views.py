@@ -27,10 +27,17 @@ def parente_policial_amigos(request, candidato_id):
         dados_amigos = Dados.objects.filter(id=candidato_id, user=request.user).first()
         form_amigos = AmigosForm(instance=dados_amigos)
 
-        form_parente_policial_factory = inlineformset_factory(
-            Dados, ParentePolicial, form=ParentePolicialForm, extra=1
-        )
-        form_parente_policial = form_parente_policial_factory(instance=objeto)
+        policial = ParentePolicial.objects.filter(dados_id=candidato_id).first()
+        if policial:
+            form_parente_policial_factory = inlineformset_factory(
+                Dados, ParentePolicial, form=ParentePolicialForm, extra=False
+            )
+            form_parente_policial = form_parente_policial_factory(instance=objeto)
+        else:
+            form_parente_policial_factory = inlineformset_factory(
+                Dados, ParentePolicial, form=ParentePolicialForm, extra=1
+            )
+            form_parente_policial = form_parente_policial_factory(instance=objeto)
         context = {
             "form_parente_policial": form_parente_policial,
             "form_amigos": form_amigos,

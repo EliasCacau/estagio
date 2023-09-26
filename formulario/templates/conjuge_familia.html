@@ -186,8 +186,6 @@
             radioSim2.addEventListener("change", toggleInputs2);
             radioNao2.addEventListener("change", toggleInputs2);
             
-            toggleInputs2();
-
             function toggleInputs3() {
                 var radioSim = document.getElementById("id_conjuge_empregado_1");
                 var input1 = document.getElementById("id_empresa_conjuge");
@@ -324,7 +322,7 @@
 
     <script>    
         function irParaFormulario() {
-            window.location.href = "{% url 'formulario:formulario_familiares' to_page.id %}";
+            window.location.href = "{% url 'formulario:formulario_familiares' objeto.id %}";
         }       
       </script>      
 {% endblock %}

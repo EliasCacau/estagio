@@ -526,7 +526,7 @@ class Passagem(models.Model):
     tempo_permanencia = models.CharField(max_length=100, null=True, blank=True, verbose_name="Tempo de permanência") 
     motivo = models.TextField(null=True, blank=True, verbose_name="Motivo")
     repaticao = models.CharField(max_length=100, null=True, blank=True, verbose_name="Repartição conduzida")
-    endereco_passagem = models.TextField(null=True, blank=True, verbose_name="Endereco Completo")
+    endereco_passagem = models.CharField(max_length=250, blank=True, verbose_name="Endereco Completo")
     solucao_caso_passagem = models.TextField(null=True, blank=True, verbose_name="Solução do caso da passagem") 
 
     class Meta:

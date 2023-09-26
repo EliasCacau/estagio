@@ -128,7 +128,9 @@
                 $('.inlineform').formset({
                     prefix: '{{ form_sindicato.prefix }}',
                     addText: "Adicionar campo",
-                    deleteText: "Remover",                
+                    deleteText: "Remover", 
+                    deleteCssClass: 'btn btn-danger',
+                    addCssClass: 'btn btn-primary',               
                 });
             })
 
@@ -181,7 +183,7 @@
 
     <script>
         function irParaFormulario() {
-            window.location.href = "{% url 'formulario:formulario_parente_policial_amigos' to_page.id %}";
+            window.location.href = "{% url 'formulario:formulario_parente_policial_amigos' objeto.id %}";
         }
     </script>
 {% endblock scripts %}

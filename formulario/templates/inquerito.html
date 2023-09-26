@@ -3,6 +3,7 @@
 {% block title %} Formulário {% endblock %}
 
 
+
 {% block content %}
     <div class="container-fluid">
         <div class="row justify-content-center">
@@ -12,7 +13,7 @@
                     {% csrf_token %}
 
                     <div class="row justify-content-center">
-                        <div class="col-md-5">
+                        <div class="col-md-6">
                             <h1 style="font-size:190%">Inqueritos, processos e passagens</h1>
 
                             <div class="input-group col-md-6">
@@ -27,60 +28,67 @@
                                     <p class="help-text">{{ form_inquerito_1.tem_intimacao_processo.help_text }}</p>
                                 {% endif %}
                                 {{ form_inquerito_1.tem_intimacao_processo.errors }}
-                                <p>Em caso afirmativo, forneça detalhes:</p>
                             </div>
                         </div>
                     </div>
-
-                    {{ form_intimado.management_form }}
-                    <div class="errorlist">
-                        {% if form_intimado.errors %}
-                            {% for error in form_intimado.errors %}
-                                {% if forloop.first %}
-                                    {{ error }}
-                                {% endif %}
-                            {% endfor %}
-                        {% endif %}
-                    </div>
                     
+                    <div class="row justify-content-center"  style="margin-bottom: 20px;" id="tabela-intimacao">
+                        <div class="col-md-6"> <!-- Aumentei a largura da coluna para que a tabela seja mais ampla -->
+                            <p>Em caso afirmativo, forneça detalhes:</p>
+                            {{ form_intimado.management_form }}
+                            <div class="errorlist">
+                                {% if form_intimado.errors %}
+                                    {% for error in form_intimado.errors %}
+                                        {% if forloop.first %}
+                                            {{ error }}
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
 
-                    <div class="row justify-content-center">
-                        <div class="col-md-4"> 
-                            
-                            <table class="table-sm table-bordered caption-top">
-                                <caption></caption>
-                                {% for field in form_intimado %}
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th colspan="2" class="text-center">
+                                            <b style="font-size: 30px;">Intimações ou processos</b>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for field in form_intimado %}
                                     <tr class="inlineform">
-                                        <td class="col-md-10" style="padding: 50px;">
+                                        <td> <!-- A segunda coluna ocupa o espaço restante -->
                                             {% for f in field.visible_fields %} 
                                                 <div class="mb-3">
                                                     <b>{{ f.label }}: </b>
                                                     {% if field.field.required %}
-                                                        <b style="color: #FF0000; text-decoration: none; font-size: 18px;" href="#" title="Este campo é obrigatório" data-toggle="tooltip">*</b>
+                                                    <b style="color: #FF0000; font-size: 18px;" href="#" title="Este campo é obrigatório" data-toggle="tooltip">*</b>
                                                     {% endif %}
-                                                    
-                                                        {% if f.name == "data_delito" %}
-                                                                {{ f }}
-                                                                <span class="input-group-text" id="basic-addon2">{{ f.help_text }}</span>
-                                                        {% else %}
+                                                    {% if f.name == "data_delito" %}
                                                             {{ f }}
-                                                        {% endif %}
+                                                            <span class="input-group-text" id="basic-addon2">{{ f.help_text }}</span>
+                                                    {% else %}
+                                                        {{ f }}
+                                                    {% endif %}
                                                 </div> 
                                                 {% for f in field.hidden_fields %}    
-                                                    {{ f }}
-                                                {%endfor%}  
-                                            {%endfor%}  
+                                                {{ f }}
+                                                {% endfor %}  
+                                            {% endfor %}  
                                         </td>
                                     </tr>        
-                                {% endfor %}   
+                                    {% endfor %}   
+                                </tbody>
                             </table>  
                         </div>  
+                        <hr style="margin-top: 20px">
                     </div>
                     
                     
                     <div class="row justify-content-center">
-                        <div class="col-md-5">
-                            <div class="input-group col-md-6" style="margin-top: 60px;">
+                        <div class="col-md-6">
+                            <div class="input-group col-md-6">
+                                
                                 <label for="{{ field.id_for_label }}">{{ field.label }}
                                     {{ form_inquerito_1.tem_passagem.label }}
                                         <b style="color: #FF0000; text-decoration: none; font-size: 18px;" href="#" title="Este campo é obrigatório" data-toggle="tooltip">*</b>
@@ -96,51 +104,63 @@
                         </div>
                     </div>
 
-                    {{ form_passagem.management_form }}
-                    <div class="errorlist">
-                        {% if form_passagem.errors %}
-                            {% for error in form_passagem.errors %}
-                                {% if forloop.first %}
-                                    {{ error }}
-                                {% endif %}
-                            {% endfor %}
-                        {% endif %}
+                    <div class="row justify-content-center">
+                        <div class="col-md-6"> 
+                            <p>Em caso afirmativo, forneça detalhes:</p>
+                        </div>
                     </div>
-                    <table class="table table-sm caption-top" id="my-table2">
-                        <p>Em caso afirmativo, forneça detalhes:</p>
-                        {% for ft in form_passagem %}      
-                                {% if forloop.first %}
-                                    <tr> 
-                                        {% for f in ft.visible_fields %}
-                                            <th>{{ f.label }} 
-                                                {% if f.field.required %}
-                                                    <b style="color: #FF0000; text-decoration: none; font-size: 18px;" href="#" title="Este campo é obrigatório" data-toggle="tooltip">*</b>
-                                                {% endif %}
-                                            </th>
-                                        {%endfor%}
-                                    </tr>
+                    <div class="row justify-content-center"  style="margin-bottom: 30px;">
+                        <div class="col-md-6"> <!-- Aumentei a largura da coluna para que a tabela seja mais ampla -->
+                            {{ form_passagem.management_form }}
+                            <div class="errorlist">
+                                {% if form_passagem.errors %}
+                                    {% for error in form_passagem.errors %}
+                                        {% if forloop.first %}
+                                            {{ error }}
+                                        {% endif %}
+                                    {% endfor %}
                                 {% endif %}
-                                <tr class="inlineform-passagem"> 
-                                    {% for f in ft.hidden_fields %}
-                                        {{ f }}
-                                    {%endfor%} 
-                                    {% for f in ft.visible_fields %}
-                                        {% if f.name == "data_passagem" %}
-                                            <div class="input-group">
-                                                <td>{{ f }}
-                                                </span><span class="input-group-text" id="basic-addon2">{{ f.help_text }}</span>
-                                                </td>
-                                            </div>
-                                        {% else %}
-                                            <td>{{ f }}</td>
-                                        {% endif %} 
-                                    {%endfor%}                                
-                                </tr>
-                        {%endfor%}                        
-                    </table>
+                            </div>
 
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th colspan="2" class="text-center">
+                                            <b style="font-size: 30px;">Passagens</b>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for field in form_passagem %}
+                                    <tr class="inlineform-passagem">
+                                        <td> <!-- A segunda coluna ocupa o espaço restante -->
+                                            {% for f in field.visible_fields %} 
+                                                <div class="mb-3">
+                                                    <b>{{ f.label }}: </b>
+                                                    {% if field.field.required %}
+                                                    <b style="color: #FF0000; font-size: 18px;" href="#" title="Este campo é obrigatório" data-toggle="tooltip">*</b>
+                                                    {% endif %}
+                                                    {% if f.name == "data_passagem" %}
+                                                            {{ f }}
+                                                            <span class="input-group-text" id="basic-addon2">{{ f.help_text }}</span>
+                                                    {% else %}
+                                                        {{ f }}
+                                                    {% endif %}
+                                                </div> 
+                                                {% for f in field.hidden_fields %}    
+                                                {{ f }}
+                                                {% endfor %}  
+                                            {% endfor %}  
+                                        </td>
+                                    </tr>        
+                                    {% endfor %}   
+                                </tbody>
+                            </table>  
+                        </div>  
+                    </div>
+                    <hr>
                     <div class="row justify-content-center" >
-                        <div class="col-md-6" style="margin-top: 60px;">
+                        <div class="col-md-6" style="margin-top: 30px;">
                             {% for field in form_inquerito_2 %}
                                 <div class="input-group col-md-6">
                                     <label for="{{ field.id_for_label }}">{{ field.label }}
@@ -188,7 +208,9 @@
                 $('.inlineform').formset({
                     prefix: '{{ form_inquerito_prefix }}',
                     addText: "Adicionar campo",
-                    deleteText: "Remover",                
+                    deleteText: "Remover",
+                    deleteCssClass: 'btn btn-danger',
+                    addCssClass: 'btn btn-primary',                
                 });
             })
 
@@ -196,7 +218,9 @@
                 $('.inlineform-passagem').formset({
                     prefix: '{{ form_passagem.prefix }}',
                     addText: "Adicionar campo",
-                    deleteText: "Remover",                
+                    deleteText: "Remover",    
+                    deleteCssClass: 'btn btn-danger',
+                    addCssClass: 'btn btn-primary',            
                 });
             })
 
@@ -282,70 +306,27 @@
             radioNao.addEventListener("change", toggleInputs3);           
 
             toggleInputs3();
+
+            function toggleInputs4() {
+                var radioSim = document.getElementById("id_tem_intimacao_processo_1");
+                var input1 = document.getElementById("tabela-intimacao");
+            
+                if (radioSim.checked) {
+                    input1.style.display = ""; // Para mostrar o elemento
+                } else {
+                    input1.style.display = "none"; // Para ocultar o elemento
+                    input1.value = radioSim.checked ? input1.value : "";
+                }
+            }
+            
+            var radioSim = document.getElementById("id_tem_intimacao_processo_1");
+            var radioNao = document.getElementById("id_tem_intimacao_processo_2");
+            
+            radioSim.addEventListener("change", toggleInputs4);
+            radioNao.addEventListener("change", toggleInputs4);
+            
+            toggleInputs4();
      
-            {% comment %} // Obtém referências para os elementos de botão de rádio e a tabela
-            const radioEnable = document.getElementById("id_tem_intimacao_processo_1");
-            const radioDisable = document.getElementById("id_tem_intimacao_processo_2");
-            const table = document.getElementById("my-table");
-        
-            // Função para habilitar ou desabilitar os inputs e elementos com classe 'add-row' na tabela
-            function toggleTableElements(disable) {
-                const inputs = table.querySelectorAll('input, select, textarea');
-                for (let i = 0; i < inputs.length; i++) {
-                    inputs[i].disabled = disable;
-                }
-        
-                const addRows = table.querySelectorAll('.add-row');
-                for (let i = 0; i < addRows.length; i++) {
-                    addRows[i].style.display = disable ? 'none' : 'block';
-                }
-            }
-        
-            // Adiciona um ouvinte de evento de mudança aos botões de rádio
-            radioEnable.addEventListener("change", function () {
-                if (radioEnable.checked) {
-                    toggleTableElements(false); // Habilita os inputs e elementos com classe 'add-row'
-                }
-            });
-        
-            radioDisable.addEventListener("change", function () {
-                if (radioDisable.checked) {
-                    toggleTableElements(true); // Desabilita os inputs e elementos com classe 'add-row'
-                }
-            });
-
-            toggleTableElements(true);
-
-            const radioEnable2 = document.getElementById("id_tem_passagem_1");
-            const radioDisable2 = document.getElementById("id_tem_passagem_2");
-            const table2 = document.getElementById("my-table2");
-
-            // Função para habilitar ou desabilitar os inputs e elementos com classe 'add-row' na tabela
-            function toggleTableElements2(disable) {
-                const inputs = table2.querySelectorAll('input, select, textarea');
-                for (let i = 0; i < inputs.length; i++) {
-                    inputs[i].disabled = disable;
-                }
-
-                const addRows = table2.querySelectorAll('.add-row');
-                for (let i = 0; i < addRows.length; i++) {
-                    addRows[i].style.display = disable ? 'none' : 'block';
-                }
-            }
-
-            // Adiciona um ouvinte de evento de mudança aos botões de rádio
-            radioEnable2.addEventListener("change", function () {
-                if (radioEnable2.checked) {
-                    toggleTableElements2(false); // Habilita os inputs e elementos com classe 'add-row'
-                }
-            });
-
-            radioDisable2.addEventListener("change", function () {
-                if (radioDisable2.checked) {
-                    toggleTableElements2(true); // Desabilita os inputs e elementos com classe 'add-row'
-                }
-            });
-            toggleTableElements2(); {% endcomment %}
     });
     </script>
 
@@ -355,3 +336,10 @@
         }
     </script>
 {% endblock scripts %}
+
+<style>
+    .add-row{
+        color: red;
+        background-color: red; /* Cor de fundo vermelha */
+    }
+</style>

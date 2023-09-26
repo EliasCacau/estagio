@@ -40,10 +40,17 @@ def dados_candidato(request, candidato_id):
         else:
             form = DadosCandidatoForm(instance=dados_candidato)
 
-        form_telefone_factory = inlineformset_factory(
-            Candidato, Telefone, form=TelefoneForm, extra=1
-        )
-        form_telefone = form_telefone_factory(instance=dados)
+        telefone = Telefone.objects.filter(candidato_id=candidato_id).first()
+        if telefone:
+            form_telefone_factory = inlineformset_factory(
+                Candidato, Telefone, form=TelefoneForm, extra=False
+            )
+            form_telefone = form_telefone_factory(instance=dados)
+        else:
+            form_telefone_factory = inlineformset_factory(
+                Candidato, Telefone, form=TelefoneForm, extra=1
+            )
+            form_telefone = form_telefone_factory(instance=dados)
         context = {
             "form_telefone": form_telefone,
             "form": form,

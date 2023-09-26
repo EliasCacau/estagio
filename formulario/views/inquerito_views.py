@@ -31,11 +31,22 @@ def inquerito(request, candidato_id):
         form_inquerito_1 = InqueritoForm1(instance=dados_inquerito)
         form_inquerito_2 = InqueritoForm2(instance=dados_inquerito)
     
-        form_intimado_factory = inlineformset_factory(Dados, ProcessosIntimado, form=ProcessosIntimadoForm, extra=1, can_delete=True)
-        form_intimado = form_intimado_factory(instance=objeto)
+        intimado = ProcessosIntimado.objects.filter(dados_id=candidato_id).first()
+        if intimado:
+            form_intimado_factory = inlineformset_factory(Dados, ProcessosIntimado, form=ProcessosIntimadoForm, extra=False, can_delete=True)
+            form_intimado = form_intimado_factory(instance=objeto)
+        else:
+            form_intimado_factory = inlineformset_factory(Dados, ProcessosIntimado, form=ProcessosIntimadoForm, extra=1, can_delete=True)
+            form_intimado = form_intimado_factory(instance=objeto)
 
-        form_passagem_factory = inlineformset_factory(Dados, Passagem, form=PassagemForm, extra=1, can_delete=True)
-        form_passagem = form_passagem_factory(instance=objeto)
+        passagem = Passagem.objects.filter(dados_id=candidato_id).first()
+        if passagem:
+            form_passagem_factory = inlineformset_factory(Dados, Passagem, form=PassagemForm, extra=False, can_delete=True)
+            form_passagem = form_passagem_factory(instance=objeto)
+        else:
+            form_passagem_factory = inlineformset_factory(Dados, Passagem, form=PassagemForm, extra=1, can_delete=True)
+            form_passagem = form_passagem_factory(instance=objeto)
+        
 
         context = {
             "form_intimado": form_intimado,

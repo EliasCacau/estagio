@@ -1,35 +1,29 @@
 {% extends 'menu.html' %}
+{% load bootstrap %}
 
 {% block title %} Formulário {% endblock %}
-
-<style>
-    .delete-row a {
-        text-decoration: none;
-    }
-</style>
 
 {% block content %}
     <div class="container-fluid">
         <div class="row justify-content-center">
-            <div class="col-md-9">
-                {% comment %} <h1 style="font-size:190%">Parente Policial e amigos</h1> {% endcomment %}
-                                
-                <form action="{% url 'formulario:formulario_parente_policial_amigos_enviado' objeto.id %}" method="POST">
+            <div class="col-md-10">
+            
+                <form action="{% url 'formulario:formulario_emprego_enviado' to_page.id %}" method="POST">
                     {% csrf_token %}
 
                     <div class="row justify-content-center">
-                        
                         <div class="col-md-6"> 
-                            <h1 style="font-size:190%">Parente Policial e amigos</h1>
-                            <p>Possue algum parente trabalhando ou que já trabalhou na policia?</p>
+                            <h1 style="font-size:190%">Emprego</h1>
+                            <p>Relacione, a partir das datas mais antigas, TODOS os lugares em que esteve empregado, registrado ou não, bem como os por conta própria
+                                e os “bicos”. Não omita nenhum. Dê endereços completos e corretos e as datas de inatividades entre cada período de emprego.</p>
                         </div>
                     </div>
-                    <div class="row justify-content-center"  style="margin-bottom: 30px;">
+                    <div class="row justify-content-center">
                         <div class="col-md-6"> <!-- Aumentei a largura da coluna para que a tabela seja mais ampla -->
-                            {{ form_parente_policial.management_form }}
+                            {{ form_emprego.management_form }}
                             <div class="errorlist">
-                                {% if form_parente_policial.errors %}
-                                    {% for error in form_parente_policial.errors %}
+                                {% if form_emprego.errors %}
+                                    {% for error in form_emprego.errors %}
                                         {% if forloop.first %}
                                             {{ error }}
                                         {% endif %}
@@ -41,12 +35,12 @@
                                 <thead>
                                     <tr>
                                         <th colspan="2" class="text-center">
-                                            <b style="font-size: 30px;">Parente Policial</b>
+                                            <b style="font-size: 30px;">Empregos</b>
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for field in form_parente_policial %}
+                                    {% for field in form_emprego %}
                                     <tr class="inlineform">
                                         <td> <!-- A segunda coluna ocupa o espaço restante -->
                                             {% for f in field.visible_fields %} 
@@ -55,7 +49,7 @@
                                                     {% if field.field.required %}
                                                     <b style="color: #FF0000; font-size: 18px;" href="#" title="Este campo é obrigatório" data-toggle="tooltip">*</b>
                                                     {% endif %}
-                                                    {% if f.name == "data_delito" %}
+                                                    {% if f.name == "inicio_periodo_tralho" or f.name == "fim_periodo_tralho" %}
                                                             {{ f }}
                                                             <span class="input-group-text" id="basic-addon2">{{ f.help_text }}</span>
                                                     {% else %}
@@ -72,49 +66,16 @@
                                 </tbody>
                             </table>  
                         </div>  
-                    </div>
-
-                    <hr>
-
-                    <div class="row justify-content-center" style="margin-top: 30px;">
-                        <div class="col-md-6">
-                            <div style="margin-bottom: 10px;">
-                                <b>Cite três pessoas que não sejam parentes ou ex-empregadores:</b>
-                            </div>
-                            
-                            {% for field in form_amigos %}
-                                    {% if field.label == "Nome completo 2" %}
-                                        <hr>
-                                    {% endif %}
-                                    {% if field.label == "Nome completo 3" %}
-                                        <hr>
-                                    {% endif %}
-                                <div class="input-group col-md-6">
-                                    <label for="{{ field.id_for_label }}">{{ field.label }}
-                                        {% if field.field.required %}
-                                            <b style="color: #FF0000; text-decoration: none; font-size: 18px;" href="#" title="Este campo é obrigatório" data-toggle="tooltip">*</b>
-                                        {% endif %}
-                                    </label>               
-                                    
-                                    <div class="input-group mb-3">
-                                        {{field}}
-                                        {% if field.help_text %}
-                                            <span class="input-group-text" id="basic-addon2">{{ field.help_text }}</span>
-                                        {% endif %}
-                                        {{ field.errors }}
-                                    </div>
-                                    
-                                </div>                       
-                            {% endfor %}
-
-                            <div style="margin-top: 20px; display: flex; justify-content: space-between; margin-bottom: 95px;">
+                    </div>          
+                         
+                    <div class="row justify-content-center" >
+                        <div class="col-md-5">
+                            <div style="margin-top: 20px; display: flex; justify-content: space-between; margin-bottom: 90px;">
                                 <input type="button" class="btn btn-secondary btn-block" value="Anterior" style="flex: .4; margin-right: 5px" onclick="irParaFormulario()">
                                 <input type="submit" class="btn btn-primary btn-block" value="Próximo" style="flex: .4;margin-left: 5px">
                             </div>
-  
                         </div>
                     </div>
-
                 </form>
             </div>
         </div>
@@ -124,19 +85,26 @@
 
 {% block scripts %}
     <script type="text/javascript">
-        $(function() {
+        $(document).ready(function () {
             $('.inlineform').formset({
-                prefix: '{{ form_parente_policial.prefix }}',
-                addText: "Adicionar novo Parente",
-                deleteText: "Remover",
+                prefix: '{{ form_familiares.prefix }}',
+                addText: "Adicionar novo Emprego",
+                deleteText: "Remover",      
                 deleteCssClass: 'btn btn-danger',
-                addCssClass: 'btn btn-primary',
-            });
-        })
+                addCssClass: 'btn btn-primary',          
+            });   
+            $('.datepicker').datepicker({
+                format: 'dd/mm/yyyy',
+                language : 'pt-BR'
+            }); 
+        });
     </script>
+    
+
     <script>
         function irParaFormulario() {
-            window.location.href = "/formulario_conjuge_familia";
+            window.location.href = "{% url 'formulario:formulario_hobbies_clube' objeto.id %}";
         }
     </script>
+
 {% endblock scripts %}

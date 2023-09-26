@@ -5,10 +5,10 @@ from django import forms
 from django.core.exceptions import ValidationError
 
 from formulario.models import (Dados, DadosAdicionais, DadosBancarios,
-                               DadosCandidato, EmailRedesSociais, Familiares,
-                               Filho, InformacaoCandidato, ParentePolicial,
-                               Passagem, ProcessosIntimado, Sindicato,
-                               Telefone)
+                               DadosCandidato, EmailRedesSociais, Emprego,
+                               Familiares, Filho, InformacaoCandidato,
+                               ParentePolicial, Passagem, ProcessosIntimado,
+                               Sindicato, Telefone)
 
 SIM_NAO_CHOICES = ((True, "Sim"), (False, "Não"))
 
@@ -87,8 +87,8 @@ class TelefoneForm(forms.ModelForm):
 
         widgets = {
             "tipo_telefone": forms.Select(attrs={"class": "form-select"}),
-            "telefone": forms.TextInput(
-                attrs={"class": "form-control", "placeholder": "Insira o número"}
+            "telefone": forms.NumberInput(
+                attrs={"class": "form-control", "placeholder": "Insira o número sem caracteres"}
             ),
         }
 
@@ -491,6 +491,13 @@ class FamiliaresForm(forms.ModelForm):
             "idade",
             "vivo_morto",
         ]
+        widgets = {
+            "idade": forms.NumberInput(
+                attrs={
+                    "class": "form-control",  
+                },
+            ),
+        }
         error_messages = {
             "nome_parente": {
                 "required": "Insira o nome do parente",
@@ -744,12 +751,39 @@ class AmigosForm(forms.ModelForm):
             "anos_conhece_nao_parente_03",
             "ocupacao_nao_parente_03",
         ]
+        widgets = {
+            "anos_conhece_nao_parente_01": forms.NumberInput(
+                attrs={
+                    "class": "form-control",  
+                },
+            ),
+            "anos_conhece_nao_parente_02": forms.NumberInput(
+                attrs={
+                    "class": "form-control",  
+                },
+            ),
+            "anos_conhece_nao_parente_03": forms.NumberInput(
+                attrs={
+                    "class": "form-control",  
+                },
+            ),
+        }
 
     def __init__(self, *args, **kwargs):
         super(AmigosForm, self).__init__(*args, **kwargs)
+
+        conhece = [
+            "anos_conhece_nao_parente_01",
+            "anos_conhece_nao_parente_02",
+            "anos_conhece_nao_parente_03",
+        ]
         
         for campo in self.fields:
             self.fields[campo].widget.attrs['class'] = "form-control"
+            if campo in conhece:
+                self.fields[campo].help_text = "Em anos"
+                
+
     
 
 class HobbiesClubeForm(forms.ModelForm):
@@ -931,7 +965,6 @@ class PassagemForm(forms.ModelForm):
         widgets = {
             "motivo": forms.Textarea(attrs={"class": "form-control"},),
             "solucao_caso_passagem": forms.Textarea(attrs={"class": "form-control"},),
-            "endereco_passagem": forms.Textarea(attrs={"class": "form-control"},),
         }
 
     def __init__(self, *args, **kwargs):
@@ -942,3 +975,48 @@ class PassagemForm(forms.ModelForm):
         
         self.fields["data_passagem"].widget.attrs['class'] = "form-control datepicker"
         self.fields["data_passagem"].help_text = "Ex: 01/01/2000"
+
+
+class EmpregoForm(forms.ModelForm):
+    class Meta:
+        model = Emprego
+        fields = [
+            "empresa",
+            "endereco_trabalho",
+            "cidade_trabalho",
+            "estado_trabalho",
+            "cep_trabalho",
+            "inicio_periodo_tralho",
+            "fim_periodo_tralho",
+            "salario_trabalho",
+            "secao_trabalho",
+            "encargo_trabalho",
+            "motivo_demissao",
+            "punicao_sofrida",
+            "periodo_inativo",
+            "detalhes_periodo_inativo",
+        ]
+        labels = {
+            "endereco_trabalho" : "Endereço",
+            "cidade_trabalho" : "Cidade",
+            "estado_trabalho" : "Estado",
+            "cep_trabalho" : "CEP",
+            "inicio_periodo_tralho" : "Data do ínicio do período que trabalhou",
+            "fim_periodo_tralho" : "Data final do período que trabalhou",
+            "salario_trabalho" : "Salário",
+            "secao_trabalho" : "Seção",
+            "motivo_demissao" : "Motivo da demissão",
+            "punicao_sofrida" : "Punições sofridas",
+            "detalhes_periodo_inativo" : "O que fez durante este período",
+        }
+    
+    def __init__(self, *args, **kwargs):
+        super(EmpregoForm, self).__init__(*args, **kwargs)
+        for campo in self.fields:
+            self.fields[campo].error_messages["required"] = f'Campo "{self.fields[campo].label.lower()}" é obrigatório'
+            self.fields[campo].widget.attrs['class'] = "form-control"
+        
+        self.fields["inicio_periodo_tralho"].widget.attrs['class'] = "form-control datepicker"
+        self.fields["inicio_periodo_tralho"].help_text = "Ex: 01/01/2000"
+        self.fields["fim_periodo_tralho"].widget.attrs['class'] = "form-control datepicker"
+        self.fields["fim_periodo_tralho"].help_text = "Ex: 01/01/2000"

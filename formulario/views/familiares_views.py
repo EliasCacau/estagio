@@ -28,19 +28,31 @@ def familiares(request, candidato_id):
         pagination.save()
 
         dados_filho, created = Dados.objects.get_or_create(user=request.user)
-        
         form_dados_filho = DadosFilhoForm(instance=dados_filho)
+        
+        filho = Filho.objects.filter(dados_id=candidato_id).first()
+        if filho:
+            form_filho_factory = inlineformset_factory(
+                Dados, Filho, form=FilhoForm, extra=False
+            )
+            form_filho = form_filho_factory(instance=dados_filho)
+        else:
+            form_filho_factory = inlineformset_factory(
+                Dados, Filho, form=FilhoForm, extra=1
+            )
+            form_filho = form_filho_factory(instance=dados_filho)
 
-        form_filho_factory = inlineformset_factory(
-            Dados, Filho, form=FilhoForm, extra=1
-        )
-        form_filho = form_filho_factory(instance=dados_filho)
-
-
-        form_familiares_factory = inlineformset_factory(
-            Candidato, Familiares, form=FamiliaresForm, extra=1
-        )
-        form_familiares = form_familiares_factory(instance=dados)
+        familiares = Familiares.objects.filter(candidato_id=candidato_id).first()
+        if familiares:
+            form_familiares_factory = inlineformset_factory(
+                Candidato, Familiares, form=FamiliaresForm, extra=False
+            )
+            form_familiares = form_familiares_factory(instance=dados)
+        else:
+            form_familiares_factory = inlineformset_factory(
+                Candidato, Familiares, form=FamiliaresForm, extra=1
+            )
+            form_familiares = form_familiares_factory(instance=dados)
             
         context = {
             "form_familiares": form_familiares,

@@ -98,6 +98,12 @@
         <li class="page-item {{pagination.page_10}}"><a class="page-link" title="Inqueritos, processos e passagens" href="{% url 'formulario:formulario_inquerito' objeto.id %}" data-toggle="tooltip">10</a></li>
         {% endif %}
 
+        {% if  pagination.page_11 == "disabled" %}
+        <li class="page-item {{pagination.page_11}}"><a class="page-link" title="Inqueritos, processos e passagens" href="#" data-toggle="tooltip">11</a></li>
+        {% else %}
+        <li class="page-item {{pagination.page_11}}"><a class="page-link" title="Inqueritos, processos e passagens" href="{% url 'formulario:formulario_emprego' objeto.id %}" data-toggle="tooltip">11</a></li>
+        {% endif %}
+
     </ul>
   </nav>
 
