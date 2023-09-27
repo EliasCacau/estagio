@@ -61,7 +61,7 @@ def ensino_enviado(request, candidato_id):
         )
         form_ensino = form_ensino_factory(request.POST, instance=objeto)
 
-        if form_ensino.is_valid and form_expulso.is_valid():
+        if form_ensino.is_valid() and form_expulso.is_valid():
             form_expulso.save()
             form_ensino.instance = objeto
             form_ensino.save()
