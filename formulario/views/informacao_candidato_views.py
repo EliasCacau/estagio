@@ -89,6 +89,8 @@ def informacao_candidato_enviado(request):
             return redirect("formulario:formulario_dados_candidato", objeto.id
                 )
         else:
+            pagination.page_1 = "active"
+            pagination.save()
             return render(
                 request,
                 "informacao_candidato.html",

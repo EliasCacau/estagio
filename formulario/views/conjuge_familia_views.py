@@ -33,7 +33,6 @@ def conjuge_familia(request):
             form = ConjugeFamiliaForm()
         else:
             form = ConjugeFamiliaForm(instance=objeto)
-        print(f"\n\n{objeto.id}")
         return render(
             request,
             "conjuge_familia.html",
@@ -63,6 +62,8 @@ def conjuge_familia_enviado(request):
             return redirect("formulario:formulario_parente_policial_amigos", objeto.id)
 
         else:
+            pagination.page_7 = "active"
+            pagination.save()
             return render(
                 request,
                 "conjuge_familia.html",

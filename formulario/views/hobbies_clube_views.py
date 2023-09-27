@@ -27,10 +27,17 @@ def hobbies_clube(request, candidato_id):
         dados_hobbies = Dados.objects.filter(id=candidato_id, user=request.user).first()
         form_hobbies = HobbiesClubeForm(instance=dados_hobbies)
 
-        form_sindicato_factory = inlineformset_factory(
-            Dados, Sindicato, form=SindicatoForm, extra=1
-        )
-        form_sindicato = form_sindicato_factory(instance=objeto)
+        sindicato = Sindicato.objects.filter(dados_id=candidato_id).first()
+        if sindicato:
+            form_sindicato_factory = inlineformset_factory(
+            Dados, Sindicato, form=SindicatoForm, extra=1, can_delete=True
+            )
+            form_sindicato = form_sindicato_factory(instance=objeto)
+        else:
+            form_sindicato_factory = inlineformset_factory(
+                Dados, Sindicato, form=SindicatoForm, extra=1, can_delete=True
+            )
+            form_sindicato = form_sindicato_factory(instance=objeto)
         context = {
             "form_sindicato": form_sindicato,
             "form_hobbies": form_hobbies,

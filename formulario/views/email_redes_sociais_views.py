@@ -62,6 +62,8 @@ def formulario_email_redes_sociais_enviado(request):
             pagination.save()
             return redirect("formulario:formulario_dados_bancarios")
         else:
+            pagination.page_4 = "active"
+            pagination.save()
             return render(
                 request,
                 "email_redes_sociais.html",

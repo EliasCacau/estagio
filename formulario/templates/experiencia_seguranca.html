@@ -1,0 +1,154 @@
+{% extends 'base.html' %}
+{% load bootstrap %}
+{% block title %} Formulário {% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h1 style="font-size:190%">Experiencia e Segurança</h1>
+            
+            <form action="{% url 'formulario:formulario_experiencia_seguranca_enviado' objeto.id %}" method="POST">
+                {% csrf_token %}
+
+                {% for field in form_experiencia %}
+                    <div class="input-group col-md-6">
+                        <label for="{{ field.id_for_label }}">{{ field.label }}
+                            {% if field.field.required %}
+                                <b style="color: #FF0000; text-decoration: none; font-size: 18px;" href="#" title="Este campo é obrigatório" data-toggle="tooltip">*</b>
+                            {% endif %}
+                        </label>
+                        {% if field.name == "data_nasc_candidato" %}
+                            <div class="input-group mb-3">
+                                {{ field }}
+                                <span class="input-group-text" id="calendar_icon"><i class="fa-regular fa-calendar"></i></span><span class="input-group-text" id="basic-addon2">{{ field.help_text }}</span>
+                            </div>
+                        {% else %}
+                            <div class="input-group mb-3">
+                                {{ field }}
+                            </div>
+                        {% endif %}  
+                
+                        {{ field.errors }}
+                        
+                            
+                    </div>                        
+                {% endfor %}
+                    
+                <div style="margin-top: 20px; display: flex; justify-content: space-between; margin-bottom: 35px;">
+                    <input type="button" class="btn btn-secondary btn-block" value="Anterior" style="flex: .4; margin-right: 5px" onclick="irParaFormulario()">
+                    <input type="submit" class="btn btn-primary btn-block" value="Próximo" style="flex: .4;margin-left: 5px">
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        var camposParaEsconder = [
+                "id_tem_habilidade_0",
+                "id_tentativa_ingresso_0",
+                "id_emprego_publico_0",
+                "id_respondeu_inquerito_disciplinar_0"
+            ];
+        
+            camposParaEsconder.forEach(function(idCampo) {
+                var fieldToHide = document.getElementById(idCampo);
+                if (fieldToHide) {
+                    fieldToHide.style.display = "none";
+        
+                    // Encontre o rótulo associado ao campo
+                    var labelForField = document.querySelector("label[for='" + idCampo + "']");
+                    if (labelForField) {
+                        labelForField.style.display = "none";
+                    }
+                }
+            });
+        
+        function toggleInputs() {
+            var radioSim = document.getElementById("id_tem_habilidade_1");
+            var input1 = document.getElementById("id_detalhes_habilidade");
+    
+            if (radioSim.checked) {
+                input1.disabled = false;
+            
+            } else {
+                input1.disabled = true;
+                input1.value = radioSim.checked ? input1.value : "";
+            }
+        }
+        var radioSim = document.getElementById("id_tem_habilidade_1");
+        var radioNao = document.getElementById("id_tem_habilidade_2");
+        
+        radioSim.addEventListener("change", toggleInputs);
+        radioNao.addEventListener("change", toggleInputs);  
+
+        toggleInputs(); 
+
+        function toggleInputs2() {
+            var radioSim = document.getElementById("id_tentativa_ingresso_1");
+            var input1 = document.getElementById("id_numero_tentativas");
+            var input2 = document.getElementById("id_detalhes_reprovacao");
+    
+            if (radioSim.checked) {
+                input1.disabled = false;
+                input2.disabled = false;
+            
+            } else {
+                input1.disabled = true;
+                input1.value = radioSim.checked ? input1.value : "";
+                input2.disabled = true;
+                input2.value = radioSim.checked ? input1.value : "";
+            }
+        }
+        var radioSim = document.getElementById("id_tentativa_ingresso_1");
+        var radioNao = document.getElementById("id_tentativa_ingresso_2");
+        
+        radioSim.addEventListener("change", toggleInputs2);
+        radioNao.addEventListener("change", toggleInputs2);  
+        
+        toggleInputs2(); 
+
+        function toggleInputs3() {
+            var radioSim = document.getElementById("id_emprego_publico_1");
+            var input1 = document.getElementById("id_periodo_local_cargo_publico");
+            var input2 = document.getElementById("id_respondeu_inquerito_disciplinar_1");
+            var input3 = document.getElementById("id_respondeu_inquerito_disciplinar_2");
+            var input4 = document.getElementById("id_detalhes_inquerito_disciplinar");
+    
+            if (radioSim.checked) {
+                input1.disabled = false;
+                input2.disabled = false;
+                input3.disabled = false;
+                input4.disabled = false;
+            } else {
+                input1.disabled = true;
+                input1.value = radioSim.checked ? input1.value : "";
+                input2.disabled = true;
+                input2.checked = false;  // Uncheck id_morando_juntos_1
+                input3.disabled = true;
+                input3.checked = false;  // Uncheck id_morando_juntos_1
+                input4.disabled = true;
+                input4.value = radioSim.checked ? input5.value : "";
+            }
+        }
+        var radioSim = document.getElementById("id_emprego_publico_1");
+        var radioNao = document.getElementById("id_emprego_publico_2");
+        
+        radioSim.addEventListener("change", toggleInputs3);
+        radioNao.addEventListener("change", toggleInputs3);           
+
+        toggleInputs3();
+    });
+
+    function irParaFormulario() {
+        window.location.href = "{% url 'formulario:formulario_servico_militar' objeto.id %}";
+    }       
+
+    </script>
+
+      
+{% endblock %}

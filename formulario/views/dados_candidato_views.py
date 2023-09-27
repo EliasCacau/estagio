@@ -43,7 +43,7 @@ def dados_candidato(request, candidato_id):
         telefone = Telefone.objects.filter(candidato_id=candidato_id).first()
         if telefone:
             form_telefone_factory = inlineformset_factory(
-                Candidato, Telefone, form=TelefoneForm, extra=False
+                Candidato, Telefone, form=TelefoneForm, extra=1, can_delete=True
             )
             form_telefone = form_telefone_factory(instance=dados)
         else:

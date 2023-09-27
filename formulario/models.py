@@ -409,21 +409,21 @@ class Dados(models.Model):
     detalhes_arma_apreendia = models.TextField(null=True, blank=True, verbose_name="Detalhes da arma de fogo")
 
     # 41
-    tem_habilidade = models.CharField(max_length=3, blank=True, choices=SIM_NAO, null=True, verbose_name="Possui alguma habilidade")
+    tem_habilidade = models.CharField(max_length=3, choices=SIM_NAO, null=True, verbose_name="Possui alguma habilidade")
     detalhes_habilidade = models.TextField(null=True, blank=True, verbose_name="Detalhes habilidade")
 
     #43
-    tentativa_ingresso = models.CharField(max_length=3, blank=True, choices=SIM_NAO, null=True, verbose_name="Tentativa de ingresso na Segurança Pública")
+    tentativa_ingresso = models.CharField(max_length=3, choices=SIM_NAO, null=True, verbose_name="Tentativa de ingresso na Segurança Pública")
     numero_tentativas = models.CharField(max_length=100, blank=True, verbose_name="Número de tentativas")
-    detalhes_reprovacao = models.CharField(max_length=100, blank=True, verbose_name="Detalhes reprovação") 
+    detalhes_reprovacao = models.TextField(null=True, blank=True, verbose_name="Detalhes reprovação") 
 
     #44
-    emprego_publico = models.CharField(max_length=3, blank=True, choices=SIM_NAO, null=True, verbose_name="Ocupou cargo público")
+    emprego_publico = models.CharField(max_length=3, choices=SIM_NAO, null=True, verbose_name="Ocupou cargo público")
     periodo_local_cargo_publico = models.TextField(null=True, blank=True, verbose_name="Período local e cargo público")
     respondeu_inquerito_disciplinar = models.CharField(max_length=3, blank=True, choices=SIM_NAO, verbose_name="Respondeu inquerito disciplinar")
     detalhes_inquerito_disciplinar = models.TextField(null=True, blank=True, verbose_name="Detalhes inquerito disciplinar")
 
-    prestou_servico_militar = models.CharField(max_length=3, blank=True, choices=SIM_NAO, null=True, verbose_name="Prestou serviço militar")
+    prestou_servico_militar = models.CharField(max_length=3, choices=SIM_NAO, null=True, verbose_name="Prestou serviço militar")
     unidade_serviu = models.CharField(max_length=100, blank=True, null=True, verbose_name="Únidade que serviu")
     cia = models.CharField(max_length=100, blank=True, null=True,verbose_name="Cia") 
     endereco_servico_militar = models.CharField(max_length=250, null=True, blank=True, verbose_name="Endereço que serviu")
@@ -434,6 +434,7 @@ class Dados(models.Model):
     data_fim_servico_militar = models.DateField(null=True, blank=True, verbose_name="Data final do serviço militar")
     
     # Punicao serviço militar
+    possui_punicao = models.CharField(max_length=3, blank=True, choices=SIM_NAO, null=True, verbose_name="Sofreu punição no serviço militar")
 
     motivo_baixa = models.CharField(max_length=100, blank=True, null=True, verbose_name="Motivo da baixa")
 
@@ -526,7 +527,7 @@ class Passagem(models.Model):
     tempo_permanencia = models.CharField(max_length=100, null=True, blank=True, verbose_name="Tempo de permanência") 
     motivo = models.TextField(null=True, blank=True, verbose_name="Motivo")
     repaticao = models.CharField(max_length=100, null=True, blank=True, verbose_name="Repartição conduzida")
-    endereco_passagem = models.CharField(max_length=250, blank=True, verbose_name="Endereco Completo")
+    endereco_passagem = models.CharField(max_length=250, null=True, blank=True, verbose_name="Endereco Completo")
     solucao_caso_passagem = models.TextField(null=True, blank=True, verbose_name="Solução do caso da passagem") 
 
     class Meta:
@@ -552,9 +553,9 @@ class Emprego(models.Model):
 
 
 class PunicaoServicoMilitar(models.Model):
-    dados = models.ForeignKey(Dados, on_delete=models.CASCADE, null=True, blank=True, related_name='punicao_servico_militar')
+    dados = models.ForeignKey(Dados, null=True, blank=True, on_delete=models.CASCADE, related_name='punicoes_servico_militar',)
     punicao = models.CharField(max_length=100, null=True, blank=True, verbose_name="Punição")
-    motivo = models.CharField(max_length=100, null=True, blank=True, verbose_name="Motivo") 
+    motivo = models.TextField(null=True, blank=True, verbose_name="Motivo") 
 
     class Meta:
             verbose_name = "Punição Serviço Militar"

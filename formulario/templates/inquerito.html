@@ -1,4 +1,4 @@
-{% extends 'menu.html' %}
+{% extends 'base.html' %}
 
 {% block title %} Formulário {% endblock %}
 
@@ -32,7 +32,7 @@
                         </div>
                     </div>
                     
-                    <div class="row justify-content-center"  style="margin-bottom: 20px;" id="tabela-intimacao">
+                    <div class="row justify-content-center" style="margin-bottom: 20px;" id="tabela-intimacao">
                         <div class="col-md-6"> <!-- Aumentei a largura da coluna para que a tabela seja mais ampla -->
                             <p>Em caso afirmativo, forneça detalhes:</p>
                             {{ form_intimado.management_form }}
@@ -104,13 +104,9 @@
                         </div>
                     </div>
 
-                    <div class="row justify-content-center">
-                        <div class="col-md-6"> 
-                            <p>Em caso afirmativo, forneça detalhes:</p>
-                        </div>
-                    </div>
-                    <div class="row justify-content-center"  style="margin-bottom: 30px;">
+                    <div class="row justify-content-center" style="margin-bottom: 20px;" id="tabela-passagem">
                         <div class="col-md-6"> <!-- Aumentei a largura da coluna para que a tabela seja mais ampla -->
+                            <p>Em caso afirmativo, forneça detalhes:</p>
                             {{ form_passagem.management_form }}
                             <div class="errorlist">
                                 {% if form_passagem.errors %}
@@ -157,10 +153,10 @@
                                 </tbody>
                             </table>  
                         </div>  
+                        <hr style="margin-top: 20px">
                     </div>
-                    <hr>
                     <div class="row justify-content-center" >
-                        <div class="col-md-6" style="margin-top: 30px;">
+                        <div class="col-md-6">
                             {% for field in form_inquerito_2 %}
                                 <div class="input-group col-md-6">
                                     <label for="{{ field.id_for_label }}">{{ field.label }}
@@ -326,13 +322,33 @@
             radioNao.addEventListener("change", toggleInputs4);
             
             toggleInputs4();
+
+            function toggleInputs5() {
+                var radioSim = document.getElementById("id_tem_passagem_1");
+                var input1 = document.getElementById("tabela-passagem");
+            
+                if (radioSim.checked) {
+                    input1.style.display = ""; // Para mostrar o elemento
+                } else {
+                    input1.style.display = "none"; // Para ocultar o elemento
+                    input1.value = radioSim.checked ? input1.value : "";
+                }
+            }
+            
+            var radioSim = document.getElementById("id_tem_passagem_1");
+            var radioNao = document.getElementById("id_tem_passagem_2");
+            
+            radioSim.addEventListener("change", toggleInputs5);
+            radioNao.addEventListener("change", toggleInputs5);
+            
+            toggleInputs5();
      
     });
     </script>
 
     <script>
         function irParaFormulario() {
-            window.location.href = "{% url 'formulario:formulario_hobbies_clube' to_page.id %}";
+            window.location.href = "{% url 'formulario:formulario_hobbies_clube' objeto.id %}";
         }
     </script>
 {% endblock scripts %}

@@ -6,7 +6,8 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views.generic import CreateView
 
-from formulario.forms import AmigosForm, ParentePolicialForm
+from formulario.forms import (AmigosForm, ParentePolicialForm,
+                              TemParentePolicialForm)
 from formulario.models import Candidato, Dados, Pagination, ParentePolicial
 
 
@@ -27,18 +28,22 @@ def parente_policial_amigos(request, candidato_id):
         dados_amigos = Dados.objects.filter(id=candidato_id, user=request.user).first()
         form_amigos = AmigosForm(instance=dados_amigos)
 
+        
+        form_tem_parente_polical = TemParentePolicialForm(instance=dados_amigos)
+
         policial = ParentePolicial.objects.filter(dados_id=candidato_id).first()
         if policial:
             form_parente_policial_factory = inlineformset_factory(
-                Dados, ParentePolicial, form=ParentePolicialForm, extra=False
+                Dados, ParentePolicial, form=ParentePolicialForm, extra=1, can_delete=True
             )
             form_parente_policial = form_parente_policial_factory(instance=objeto)
         else:
             form_parente_policial_factory = inlineformset_factory(
-                Dados, ParentePolicial, form=ParentePolicialForm, extra=1
+                Dados, ParentePolicial, form=ParentePolicialForm, extra=1, can_delete=True
             )
             form_parente_policial = form_parente_policial_factory(instance=objeto)
         context = {
+            "form_tem_parente_polical": form_tem_parente_polical,
             "form_parente_policial": form_parente_policial,
             "form_amigos": form_amigos,
             "pagination": pagination,
@@ -56,12 +61,13 @@ def parente_policial_amigos_enviado(request, candidato_id):
         to_page = Candidato.objects.filter(user=request.user).first()
         objeto = Dados.objects.filter(id=candidato_id, user=request.user).first()
         form_amigos = AmigosForm(request.POST, instance=objeto)
-        print(objeto)
+        form_tem_parente_polical = TemParentePolicialForm(request.POST, instance=objeto)
         form_parente_policial_factory = inlineformset_factory(
             Dados, ParentePolicial, form=ParentePolicialForm
         )
         form_parente_policial = form_parente_policial_factory(request.POST, instance=objeto)
-        if form_amigos.is_valid() and form_parente_policial.is_valid():
+        if form_amigos.is_valid() and form_parente_policial.is_valid() and form_tem_parente_polical.is_valid():
+            form_tem_parente_polical.save()
             form_amigos.save()
             form_parente_policial.instance = objeto
             form_parente_policial.save()

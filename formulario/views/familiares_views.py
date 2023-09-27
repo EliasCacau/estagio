@@ -33,7 +33,7 @@ def familiares(request, candidato_id):
         filho = Filho.objects.filter(dados_id=candidato_id).first()
         if filho:
             form_filho_factory = inlineformset_factory(
-                Dados, Filho, form=FilhoForm, extra=False
+                Dados, Filho, form=FilhoForm, extra=1, can_delete=True
             )
             form_filho = form_filho_factory(instance=dados_filho)
         else:

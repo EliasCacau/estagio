@@ -67,6 +67,8 @@ def dados_bancarios_enviado(request):
             return redirect("formulario:formulario_familiares", objeto.id
                 )
         else:
+            pagination.page_5 = "active"
+            pagination.save()
             return render(
                 request,
                 "dados_bancarios.html",

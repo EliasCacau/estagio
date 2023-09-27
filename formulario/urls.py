@@ -4,9 +4,11 @@ from django.urls import path
 
 from .views import (conjuge_familia_views, dados_adicionais_views,
                     dados_bancarios_views, dados_candidato_views,
-                    email_redes_sociais_views, emprego_views, familiares_views,
+                    email_redes_sociais_views, emprego_views,
+                    experiencia_seguranca_views, familiares_views,
                     hobbies_clube_views, informacao_candidato_views,
-                    inquerito_views, parente_policial_amigos_views)
+                    inquerito_views, parente_policial_amigos_views,
+                    servico_militar_views)
 
 app_name = "formulario"
 
@@ -122,5 +124,25 @@ urlpatterns = [
         "formulario_emprego/enviado/<int:candidato_id>/",
         emprego_views.emprego_enviado,
         name="formulario_emprego_enviado",
+    ),
+    path(
+        "formulario_experiencia_seguranca/<int:candidato_id>/",
+        experiencia_seguranca_views.experiencia_seguranca,
+        name="formulario_experiencia_seguranca",
+    ),
+    path(
+        "formulario_experiencia_seguranca/enviado/<int:candidato_id>/",
+        experiencia_seguranca_views.experiencia_seguranca_enviado,
+        name="formulario_experiencia_seguranca_enviado",
+    ),
+    path(
+        "formulario_servico_militar/<int:candidato_id>/",
+        servico_militar_views.servico_militar,
+        name="formulario_servico_militar",
+    ),
+    path(
+        "formulario_servico_militar/enviado/<int:candidato_id>/",
+        servico_militar_views.servico_militar_enviado,
+        name="formulario_servico_militar_enviado",
     ),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,4 +1,4 @@
-{% extends 'menu.html' %}
+{% extends 'base.html' %}
 
 {% block title %} Formulário {% endblock %}
 
@@ -14,13 +14,7 @@
                             <h1 style="font-size:190%">Hobbie, Clube e Sindicato</h1>
 
                             {% for field in form_hobbies %}
-                                    {% comment %} {% if field.label == "Nome completo 2" %}
-                                        <hr>
-                                    {% endif %}
-                                    {% if field.label == "Nome completo 3" %}
-                                        <hr>
-                                    {% endif %} {% endcomment %}
-                                <div class="input-group col-md-6">
+                                 <div class="input-group col-md-6">
                                     <label for="{{ field.id_for_label }}">{{ field.label }}
                                         {% if field.field.required %}
                                             <b style="color: #FF0000; text-decoration: none; font-size: 18px;" href="#" title="Este campo é obrigatório" data-toggle="tooltip">*</b>
@@ -37,50 +31,54 @@
                             {% endfor %}
                         </div>
                     </div>
-                    {{ form_sindicato.management_form }}
-                    <div class="errorlist">
-                        {% if form_sindicato.errors %}
-                            {% for error in form_sindicato.errors %}
-                                {% if forloop.first %}
-                                    {{ error }}
+                    <div class="row justify-content-center" id="tabela-sindicato">
+                        <div class="col-md-11">
+                            {{ form_sindicato.management_form }}
+                            <div class="errorlist">
+                                {% if form_sindicato.errors %}
+                                    {% for error in form_sindicato.errors %}
+                                        {% if forloop.first %}
+                                            {{ error }}
+                                        {% endif %}
+                                    {% endfor %}
                                 {% endif %}
-                            {% endfor %}
-                        {% endif %}
-                    </div>
-                    <table class="table caption-top">
-                        <caption style="margin: 9px;">Em caso afirmativo, coloque as informações:</caption>
-                        {% for ft in form_sindicato %}                        
-                                {% if forloop.first %}
-                                    <tr> 
-                                        {% for f in ft.visible_fields %}
-                                            <th>{{ f.label }} 
-                                                {% if f.field.required %}
-                                                    <b style="color: #FF0000; text-decoration: none; font-size: 18px;" href="#" title="Este campo é obrigatório" data-toggle="tooltip">*</b>
-                                                {% endif %}
-                                            </th>
-                                        {%endfor%}
-                                    </tr>
-                                {% endif %}
-                                <tr class="inlineform"> 
-                                    {% for f in ft.hidden_fields %}
-                                        {{ f }}
-                                    {%endfor%} 
-                                    {% for f in ft.visible_fields %}
-                                        {% if f.name == "data_inicio_sind" or f.name == "data_final_sind"%}
-                                            <div class="input-group">
-                                                <td>{{ f }}
-                                                </span><span class="input-group-text" id="basic-addon2">{{ f.help_text }}</span>
-                                                </td>
-                                            </div>
-                                        {% else %}
-                                            <td>{{ f }}</td>
-                                        {% endif %} 
-                                    {%endfor%}                                
-                                </tr>
-                            
-                        {%endfor%}                        
-                    </table> 
+                            </div>
                         
+                            <table class="table caption-top">
+                                <caption style="margin: 9px;">Em caso afirmativo, coloque as informações:</caption>
+                                {% for ft in form_sindicato %}                        
+                                        {% if forloop.first %}
+                                            <tr> 
+                                                {% for f in ft.visible_fields %}
+                                                    <th>{{ f.label }} 
+                                                        {% if f.field.required %}
+                                                            <b style="color: #FF0000; text-decoration: none; font-size: 18px;" href="#" title="Este campo é obrigatório" data-toggle="tooltip">*</b>
+                                                        {% endif %}
+                                                    </th>
+                                                {%endfor%}
+                                            </tr>
+                                        {% endif %}
+                                        <tr class="inlineform"> 
+                                            {% for f in ft.hidden_fields %}
+                                                {{ f }}
+                                            {%endfor%} 
+                                            {% for f in ft.visible_fields %}
+                                                {% if f.name == "data_inicio_sind" or f.name == "data_final_sind"%}
+                                                    <div class="input-group">
+                                                        <td>{{ f }}
+                                                        </span><span class="input-group-text" id="basic-addon2">{{ f.help_text }}</span>
+                                                        </td>
+                                                    </div>
+                                                {% else %}
+                                                    <td>{{ f }}</td>
+                                                {% endif %} 
+                                            {%endfor%}                                
+                                        </tr>
+                                    
+                                {%endfor%}                        
+                            </table> 
+                        </div>
+                    </div>
                     <div class="row justify-content-center">
                         <div class="col-md-6">
                             <div style="margin-top: 20px; display: flex; justify-content: space-between; margin-bottom: 35px;">
@@ -177,6 +175,26 @@
             radioNao.addEventListener("change", toggleInputs2);           
 
             toggleInputs2();
+
+            function toggleInputs3() {
+                var radioSim = document.getElementById("id_participa_sindicato_1");
+                var input1 = document.getElementById("tabela-sindicato");
+            
+                if (radioSim.checked) {
+                    input1.style.display = ""; // Para mostrar o elemento
+                } else {
+                    input1.style.display = "none"; // Para ocultar o elemento
+                    input1.value = radioSim.checked ? input1.value : "";
+                }
+            }
+            
+            var radioSim = document.getElementById("id_participa_sindicato_1");
+            var radioNao = document.getElementById("id_participa_sindicato_2");
+            
+            radioSim.addEventListener("change", toggleInputs3);
+            radioNao.addEventListener("change", toggleInputs3);
+            
+            toggleInputs3();
     
         });
     </script>

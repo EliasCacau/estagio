@@ -31,7 +31,7 @@ def emprego(request, candidato_id):
     
         emprego = Emprego.objects.filter(dados_id=candidato_id).first()
         if emprego:
-            form_emprego_factory = inlineformset_factory(Dados, Emprego, form=EmpregoForm, extra=False, can_delete=True)
+            form_emprego_factory = inlineformset_factory(Dados, Emprego, form=EmpregoForm, extra=1, can_delete=True)
             form_emprego = form_emprego_factory(instance=objeto)
         else:
             form_emprego_factory = inlineformset_factory(Dados, Emprego, form=EmpregoForm, extra=1, can_delete=True)
@@ -68,8 +68,8 @@ def emprego_enviado(request, candidato_id):
             pagination.page_11 = "used"
             pagination.page_12 = "used"
             pagination.save()
-            return redirect("formulario:formulario_emprego", objeto.id)
+            return redirect("formulario:formulario_experiencia_seguranca", objeto.id)
         else:            
-            pagination.page_9 = "active"
+            pagination.page_11 = "active"
             pagination.save()
             return render(request, "emprego.html", locals())

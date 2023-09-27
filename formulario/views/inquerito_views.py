@@ -33,7 +33,7 @@ def inquerito(request, candidato_id):
     
         intimado = ProcessosIntimado.objects.filter(dados_id=candidato_id).first()
         if intimado:
-            form_intimado_factory = inlineformset_factory(Dados, ProcessosIntimado, form=ProcessosIntimadoForm, extra=False, can_delete=True)
+            form_intimado_factory = inlineformset_factory(Dados, ProcessosIntimado, form=ProcessosIntimadoForm, extra=1, can_delete=True)
             form_intimado = form_intimado_factory(instance=objeto)
         else:
             form_intimado_factory = inlineformset_factory(Dados, ProcessosIntimado, form=ProcessosIntimadoForm, extra=1, can_delete=True)
@@ -89,8 +89,8 @@ def inquerito_enviado(request, candidato_id):
             pagination.page_10 = "used"
             pagination.page_11 = "used"
             pagination.save()
-            return redirect("formulario:formulario_inquerito", objeto.id)
+            return redirect("formulario:formulario_emprego", objeto.id)
         else:            
-            pagination.page_9 = "active"
+            pagination.page_10 = "active"
             pagination.save()
             return render(request, "inquerito.html", locals())

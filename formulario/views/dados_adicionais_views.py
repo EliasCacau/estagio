@@ -67,6 +67,8 @@ def formulario_dados_adicionais_enviado(request):
             return redirect("formulario:formulario_email_redes_sociais")
 
         else:
+            pagination.page_3 = "active"
+            pagination.save()
             return render(
                 request,
                 "dados_adicionais.html",

@@ -1,12 +1,7 @@
-{% extends 'menu.html' %}
+{% extends 'base.html' %}
 
 {% block title %} Formulário {% endblock %}
 
-<style>
-    .delete-row a {
-        text-decoration: none;
-    }
-</style>
 
 {% block content %}
     <div class="container-fluid">
@@ -18,14 +13,28 @@
                     {% csrf_token %}
 
                     <div class="row justify-content-center">
-                        
-                        <div class="col-md-6"> 
+                        <div class="col-md-6">
                             <h1 style="font-size:190%">Parente Policial e amigos</h1>
-                            <p>Possue algum parente trabalhando ou que já trabalhou na policia?</p>
+                            
+                            <div class="input-group col-md-6">
+                                <label for="{{ form_tem_parente_polical.tem_parente_policial.id_for_label }}">
+                                    {{ form_tem_parente_polical.tem_parente_policial.label }}
+                                        <b style="color: #FF0000; text-decoration: none; font-size: 18px;" href="#" title="Este campo é obrigatório" data-toggle="tooltip">*</b>
+                                </label>     
+                                <div class="input-group mb-3">
+                                    {{ form_tem_parente_polical.tem_parente_policial }}
+                                </div>  
+                                {% if form_inquerito_1.tem_intimacao_processo.help_text %}
+                                    <p class="help-text">{{ form_tem_parente_polical.tem_parente_policial.help_text }}</p>
+                                {% endif %}
+                                {{ form_tem_parente_polical.tem_parente_policial.errors }}
+                            </div>
                         </div>
-                    </div>
-                    <div class="row justify-content-center"  style="margin-bottom: 30px;">
+                    </div>  
+
+                    <div class="row justify-content-center"  style="margin-bottom: 20px;" id="tabela-parente-policial">
                         <div class="col-md-6"> <!-- Aumentei a largura da coluna para que a tabela seja mais ampla -->
+                            <p>Possue algum parente trabalhando ou que já trabalhou na policia?</p>
                             {{ form_parente_policial.management_form }}
                             <div class="errorlist">
                                 {% if form_parente_policial.errors %}
@@ -72,11 +81,10 @@
                                 </tbody>
                             </table>  
                         </div>  
+                        <hr style="margin-top: 20px">
                     </div>
 
-                    <hr>
-
-                    <div class="row justify-content-center" style="margin-top: 30px;">
+                    <div class="row justify-content-center">
                         <div class="col-md-6">
                             <div style="margin-bottom: 10px;">
                                 <b>Cite três pessoas que não sejam parentes ou ex-empregadores:</b>
@@ -132,6 +140,42 @@
                 deleteCssClass: 'btn btn-danger',
                 addCssClass: 'btn btn-primary',
             });
+            var camposParaEsconder = [
+                "id_tem_parente_policial_0",
+            ];
+        
+            camposParaEsconder.forEach(function(idCampo) {
+                var fieldToHide = document.getElementById(idCampo);
+                if (fieldToHide) {
+                    fieldToHide.style.display = "none";
+        
+                    // Encontre o rótulo associado ao campo
+                    var labelForField = document.querySelector("label[for='" + idCampo + "']");
+                    if (labelForField) {
+                        labelForField.style.display = "none";
+                    }
+                }
+            });
+
+            function toggleInputs() {
+                var radioSim = document.getElementById("id_tem_parente_policial_1");
+                var input1 = document.getElementById("tabela-parente-policial");
+            
+                if (radioSim.checked) {
+                    input1.style.display = ""; // Para mostrar o elemento
+                } else {
+                    input1.style.display = "none"; // Para ocultar o elemento
+                    input1.value = radioSim.checked ? input1.value : "";
+                }
+            }
+            
+            var radioSim = document.getElementById("id_tem_parente_policial_1");
+            var radioNao = document.getElementById("id_tem_parente_policial_2");
+            
+            radioSim.addEventListener("change", toggleInputs);
+            radioNao.addEventListener("change", toggleInputs);
+            
+            toggleInputs();
         })
     </script>
     <script>

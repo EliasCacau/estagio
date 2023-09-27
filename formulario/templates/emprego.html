@@ -1,4 +1,4 @@
-{% extends 'menu.html' %}
+{% extends 'base.html' %}
 {% load bootstrap %}
 
 {% block title %} Formulário {% endblock %}
@@ -103,7 +103,7 @@
 
     <script>
         function irParaFormulario() {
-            window.location.href = "{% url 'formulario:formulario_hobbies_clube' objeto.id %}";
+            window.location.href = "{% url 'formulario:formulario_inquerito' objeto.id %}";
         }
     </script>
 
