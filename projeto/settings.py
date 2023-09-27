@@ -227,7 +227,7 @@ JAZZMIN_SETTINGS = {
         "auth": "fas fa-users-cog",
         "auth.user": "fas fa-user",
         "auth.Group": "fas fa-users",
-        "formulario.dadoscandidato": "fas fa-calendar",
+        #"formulario.dadoscandidato": "fas fa-calendar",
     },
     # Icons that are used when one is not manually specified
     "default_icon_parents": "fas fa-chevron-circle-right",

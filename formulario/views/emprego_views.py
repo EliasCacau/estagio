@@ -54,7 +54,7 @@ def emprego_enviado(request, candidato_id):
         pagination = Pagination.objects.filter(user=request.user).first()
         to_page = Candidato.objects.filter(user=request.user).first()
         objeto = Dados.objects.filter(id=candidato_id).first()
-
+        print(candidato_id)
         # form_inquerito_1 = InqueritoForm1(request.POST, instance=objeto)
 
         form_emprego_factory = inlineformset_factory(

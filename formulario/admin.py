@@ -2,10 +2,12 @@ from django.contrib import admin
 
 from formulario.models import (Candidato, Dados, DadosAdicionais,
                                DadosBancarios, DadosCandidato,
-                               EmailRedesSociais, Emprego, Enderecos, Ensino,
-                               Filho, InformacaoCandidato, Pagination,
-                               ParentePolicial, Passagem, ProcessosIntimado,
-                               PunicaoServicoMilitar, Sindicato, Telefone)
+                               DadosPatrimoniais, EmailRedesSociais, Emprego,
+                               Enderecos, Ensino, Filho, InformacaoCandidato,
+                               Pagination, ParentePolicial, Passagem,
+                               PrestacaoDivida, ProcessosIntimado,
+                               PunicaoServicoMilitar, Sindicato, Telefone,
+                               Veiculos)
 
 
 class CandidatoAdmin(admin.ModelAdmin):
@@ -162,6 +164,11 @@ class PaginationAdmin(admin.ModelAdmin):
         "page_13",
         "page_14",
         "page_15",
+        "page_16",
+        "page_17",
+        "page_18",
+        "page_19",
+        "page_20",
     ]
 
     list_display = pagination
@@ -309,6 +316,36 @@ class EnsinoAdmin(admin.ModelAdmin):
     ]
     list_display = ensino
 
+class PrestacaoDividaAdmin(admin.ModelAdmin):
+    divida = [
+        #"dados"
+        "quando_iniciou",
+        "quantia_inicial",
+        "quantia_atual",
+        "mensalidade",
+        "nome_credor",
+        "endereco_credor",
+        "pagamento_em_dia",
+    ]
+    list_display = divida
+
+class DadosPatrimoniaisAdmin(admin.ModelAdmin):
+    patrimonio = [
+        #"dados"
+        "detalhes_patrimonio",
+    ]
+    list_display = patrimonio
+
+class VeiculosAdmin(admin.ModelAdmin):
+    veiculos = [
+        #"dados"
+        "marca_modelo",
+        "placa",
+        "cor",
+        "ano",
+        "uf_municipio",
+]
+    list_display = veiculos
 
 admin.site.register(InformacaoCandidato, InformacaoCandidatoAdmin)
 admin.site.register(Pagination, PaginationAdmin)
@@ -328,4 +365,7 @@ admin.site.register(Emprego, EmpregoAdmin)
 admin.site.register(PunicaoServicoMilitar, PunicaoServicoMilitarAdmin)
 admin.site.register(Enderecos, EnderecosAdmin)
 admin.site.register(Ensino, EnsinoAdmin)
+admin.site.register(PrestacaoDivida, PrestacaoDividaAdmin)
+admin.site.register(DadosPatrimoniais, DadosPatrimoniaisAdmin)
+admin.site.register(Veiculos, VeiculosAdmin)
 

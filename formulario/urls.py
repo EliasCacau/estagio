@@ -209,7 +209,7 @@ urlpatterns = [
         name="formulario_carta_intencao_enviado",
     ),
     path(
-        "formulario_enviado/",
+        "formulario_enviado/<int:candidato_id>/",
         enviar_formulario_views.enviar_formulario,
         name="formulario_enviado",
     ),

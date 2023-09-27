@@ -18,6 +18,8 @@ from usuarios.models import MatriculaCpf
 def informacao_candidato(request):
     if request.method == "GET":
         objeto = Dados.objects.filter(user=request.user).first()
+        if objeto.numero_protocolo:
+            return redirect("formulario:formulario_enviado", objeto.id)
         to_page = Candidato.objects.filter(user=request.user).first()
         user = request.user
         matricula_cpf = MatriculaCpf.objects.filter(user=request.user).first()

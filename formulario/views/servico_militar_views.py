@@ -76,7 +76,7 @@ def servico_militar_enviado(request, candidato_id):
             pagination.page_13 = "used"
             pagination.page_14 = "used"
             pagination.save()
-            return redirect("formulario:formulario_servico_militar", objeto.id)
+            return redirect("formulario:formulario_enderecos", objeto.id)
         else:            
             pagination.page_13 = "active"
             pagination.save()

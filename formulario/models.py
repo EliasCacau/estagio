@@ -480,9 +480,13 @@ class Dados(models.Model):
 
     carta_intencao = models.TextField(null=True, blank=True, verbose_name="Carta de intenção de ingresso")
 
+    numero_protocolo = models.CharField(max_length=6, blank=True, choices=SIM_NAO, null=True, verbose_name="Número de protocolo")
     class Meta:
         verbose_name = "Dados"
         verbose_name_plural = "Dados"
+
+    def __str__(self):
+        return str(self.user)
 
 OPCOES_SITUACAO_FILHO = [
     ("Filho legítimo", "Filho legítimo"),
@@ -594,7 +598,7 @@ OPCOES_ENSINO = [
 ]
 
 class Ensino(models.Model):
-    dados = models.ForeignKey(Dados, on_delete=models.CASCADE, null=True, blank=True, related_name='ensino')
+    dados = models.ForeignKey(Dados, on_delete=models.CASCADE, null=True, blank=True, related_name='dados_ensino')
     tipo_ensino = models.CharField(max_length=100, null=True, blank=True, choices=OPCOES_ENSINO, verbose_name="Nome do curso")
     nome_curso = models.CharField(max_length=100, null=True, blank=True, verbose_name="Nome do curso")
     nome_instituicao = models.CharField(max_length=100, null=True, blank=True, verbose_name="Nome da instituição de ensino")

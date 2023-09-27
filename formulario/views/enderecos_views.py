@@ -64,7 +64,7 @@ def enderecos_enviado(request, candidato_id):
             pagination.page_14 = "used"
             pagination.page_15 = "used"
             pagination.save()
-            return redirect("formulario:formulario_enderecos", objeto.id)
+            return redirect("formulario:formulario_ensino", objeto.id)
         else:            
             pagination.page_14 = "active"
             pagination.save()

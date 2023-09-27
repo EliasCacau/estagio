@@ -53,7 +53,7 @@ def carta_intencao_enviado(request, candidato_id):
             pagination.page_19 = "used"
             pagination.page_20 = "used"
             pagination.save()
-            return render(request, "enviar_formulario.html", locals())
+            return redirect("formulario:formulario_enviado", objeto.id)
         else:            
             pagination.page_19 = "active"
             pagination.save()
