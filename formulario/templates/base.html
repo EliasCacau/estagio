@@ -99,9 +99,9 @@
         {% endif %}
 
         {% if  pagination.page_11 == "disabled" %}
-        <li class="page-item {{pagination.page_11}}"><a class="page-link" title="Inqueritos, processos e passagens" href="#" data-toggle="tooltip">11</a></li>
+        <li class="page-item {{pagination.page_11}}"><a class="page-link" title="Emprego" href="#" data-toggle="tooltip">11</a></li>
         {% else %}
-        <li class="page-item {{pagination.page_11}}"><a class="page-link" title="Inqueritos, processos e passagens" href="{% url 'formulario:formulario_emprego' objeto.id %}" data-toggle="tooltip">11</a></li>
+        <li class="page-item {{pagination.page_11}}"><a class="page-link" title="Emprego" href="{% url 'formulario:formulario_emprego' objeto.id %}" data-toggle="tooltip">11</a></li>
         {% endif %}
 
         {% if  pagination.page_12 == "disabled" %}
@@ -114,6 +114,42 @@
         <li class="page-item {{pagination.page_13}}"><a class="page-link" title="Serviço Militar" href="#" data-toggle="tooltip">13</a></li>
         {% else %}
         <li class="page-item {{pagination.page_13}}"><a class="page-link" title="Serviço Militar" href="{% url 'formulario:formulario_servico_militar' objeto.id %}" data-toggle="tooltip">13</a></li>
+        {% endif %}
+
+        {% if  pagination.page_14 == "disabled" %}
+        <li class="page-item {{pagination.page_14}}"><a class="page-link" title="Endereços" href="#" data-toggle="tooltip">14</a></li>
+        {% else %}
+        <li class="page-item {{pagination.page_14}}"><a class="page-link" title="Endereços" href="{% url 'formulario:formulario_enderecos' objeto.id %}" data-toggle="tooltip">14</a></li>
+        {% endif %}
+
+        {% if  pagination.page_15 == "disabled" %}
+        <li class="page-item {{pagination.page_15}}"><a class="page-link" title="Ensino" href="#" data-toggle="tooltip">15</a></li>
+        {% else %}
+        <li class="page-item {{pagination.page_15}}"><a class="page-link" title="Ensino" href="{% url 'formulario:formulario_ensino' objeto.id %}" data-toggle="tooltip">15</a></li>
+        {% endif %}
+
+        {% if  pagination.page_16 == "disabled" %}
+        <li class="page-item {{pagination.page_16}}"><a class="page-link" title="Habilitação e Motorista" href="#" data-toggle="tooltip">16</a></li>
+        {% else %}
+        <li class="page-item {{pagination.page_16}}"><a class="page-link" title="Habilitação e Motorista" href="{% url 'formulario:formulario_habilitacao_motorista' objeto.id %}" data-toggle="tooltip">16</a></li>
+        {% endif %}
+
+        {% if  pagination.page_17 == "disabled" %}
+        <li class="page-item {{pagination.page_17}}"><a class="page-link" title="Protestos e Dívidas" href="#" data-toggle="tooltip">17</a></li>
+        {% else %}
+        <li class="page-item {{pagination.page_17}}"><a class="page-link" title="Protestos e Dívidas" href="{% url 'formulario:formulario_protestos_dividas' objeto.id %}" data-toggle="tooltip">17</a></li>
+        {% endif %}
+
+        {% if  pagination.page_18 == "disabled" %}
+        <li class="page-item {{pagination.page_18}}"><a class="page-link" title="Patrimônios e Veículos" href="#" data-toggle="tooltip">18</a></li>
+        {% else %}
+        <li class="page-item {{pagination.page_18}}"><a class="page-link" title="Patrimônios e Veículos" href="{% url 'formulario:formulario_patrimonio_veiculo' objeto.id %}" data-toggle="tooltip">18</a></li>
+        {% endif %}
+
+        {% if  pagination.page_19 == "disabled" %}
+        <li class="page-item {{pagination.page_19}}"><a class="page-link" title="Carta de Intenção" href="#" data-toggle="tooltip">19</a></li>
+        {% else %}
+        <li class="page-item {{pagination.page_19}}"><a class="page-link" title="Carta de Intenção" href="{% url 'formulario:formulario_carta_intencao' objeto.id %}" data-toggle="tooltip">19</a></li>
         {% endif %}
 
     </ul>

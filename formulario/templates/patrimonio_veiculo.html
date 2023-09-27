@@ -1,0 +1,261 @@
+{% extends 'base.html' %}
+{% load bootstrap %}
+
+{% block title %} Formulário {% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+            
+                <form action="{% url 'formulario:formulario_patrimonio_veiculo_enviado' to_page.id %}" method="POST">
+                    {% csrf_token %}
+
+                         
+                    <div class="row justify-content-center">
+                        <div class="col-md-6">
+                            <h1 style="font-size:190%">Patrimônios e Veículos</h1>
+                            
+                            <div class="input-group col-md-6">
+                                <label for="{{ form_patrimonio.tem_patrimonio.id_for_label }}">
+                                    {{ form_patrimonio.tem_patrimonio.label }}
+                                        {% comment %} <b style="color: #FF0000; text-decoration: none; font-size: 18px;" href="#" title="Este campo é obrigatório" data-toggle="tooltip">*</b> {% endcomment %}
+                                </label>     
+                                <div class="input-group mb-3">
+                                    {{ form_patrimonio.tem_patrimonio }}
+                                </div>  
+                                {% if form_inquerito_1.tem_intimacao_processo.help_text %}
+                                    <p class="help-text">{{ form_patrimonio.tem_patrimonio.help_text }}</p>
+                                {% endif %}
+                                {{ form_patrimonio.tem_patrimonio.errors }}
+                            </div>
+                        </div>
+                    </div>  
+
+                    <div class="row justify-content-center" id="tabela-patrimonio" style="magin-bottom: 30px;">
+                        <div class="col-md-6"> <!-- Aumentei a largura da coluna para que a tabela seja mais ampla -->
+                            {{ form_dados_patrimonio.management_form }}
+                            <div class="errorlist">
+                                {% if form_dados_patrimonio.errors %}
+                                    {% for error in form_dados_patrimonio.errors %}
+                                        {% if forloop.first %}
+                                            {{ error }}
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th colspan="2" class="text-center">
+                                            <b style="font-size: 30px;">Patrimônios</b>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for field in form_dados_patrimonio %}
+                                    <tr class="inlineform">
+                                        <td> <!-- A segunda coluna ocupa o espaço restante -->
+                                            {% for f in field.visible_fields %} 
+                                                <div class="mb-3">
+                                                    <b>{{ f.label }}: </b>
+                                                    {% if field.field.required %}
+                                                    <b style="color: #FF0000; font-size: 18px;" href="#" title="Este campo é obrigatório" data-toggle="tooltip">*</b>
+                                                    {% endif %}
+                                                    {% if f.name == "quando_iniciou" %}
+                                                        <div class="input-group mb-3">
+                                                            {{ f }}
+                                                            <span class="input-group-text" id="basic-addon2">{{ f.help_text }}</span>
+                                                        </div>
+                                                            
+                                                    {% else %}
+                                                        {{ f }}
+                                                    {% endif %}
+                                                </div> 
+                                                {% for f in field.hidden_fields %}    
+                                                {{ f }}
+                                                {% endfor %}  
+                                            {% endfor %}  
+                                        </td>
+                                    </tr>        
+                                    {% endfor %}   
+                                </tbody>
+                            </table>  
+                        </div>  
+                        <hr style="margin-top: 20px">
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-md-6">
+                            
+                            <div class="input-group col-md-6">
+                                <label for="{{ form_patrimonio.tem_veiculo.id_for_label }}">
+                                    {{ form_patrimonio.tem_veiculo.label }}
+                                        {% comment %} <b style="color: #FF0000; text-decoration: none; font-size: 18px;" href="#" title="Este campo é obrigatório" data-toggle="tooltip">*</b> {% endcomment %}
+                                </label>     
+                                <div class="input-group mb-3">
+                                    {{ form_patrimonio.tem_veiculo }}
+                                </div>  
+                                {% if form_inquerito_1.tem_intimacao_processo.help_text %}
+                                    <p class="help-text">{{ form_patrimonio.tem_veiculo.help_text }}</p>
+                                {% endif %}
+                                {{ form_patrimonio.tem_veiculo.errors }}
+                            </div>
+                        </div>
+                    </div>  
+
+                    <div class="row justify-content-center" id="tabela-veiculos" style="magin-top: 30px;">
+                        <div class="col-md-6"> <!-- Aumentei a largura da coluna para que a tabela seja mais ampla -->
+                            {{ form_veiculos.management_form }}
+                            <div class="errorlist">
+                                {% if form_veiculos.errors %}
+                                    {% for error in form_veiculos.errors %}
+                                        {% if forloop.first %}
+                                            {{ error }}
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th colspan="2" class="text-center">
+                                            <b style="font-size: 30px;">Veículos</b>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for field in form_veiculos %}
+                                    <tr class="inlineform">
+                                        <td> <!-- A segunda coluna ocupa o espaço restante -->
+                                            {% for f in field.visible_fields %} 
+                                                <div class="mb-3">
+                                                    <b>{{ f.label }}: </b>
+                                                    {% if field.field.required %}
+                                                    <b style="color: #FF0000; font-size: 18px;" href="#" title="Este campo é obrigatório" data-toggle="tooltip">*</b>
+                                                    {% endif %}
+                                                    {% if f.name == "quando_iniciou" %}
+                                                        <div class="input-group mb-3">
+                                                            {{ f }}
+                                                            <span class="input-group-text" id="basic-addon2">{{ f.help_text }}</span>
+                                                        </div>
+                                                            
+                                                    {% else %}
+                                                        {{ f }}
+                                                    {% endif %}
+                                                </div> 
+                                                {% for f in field.hidden_fields %}    
+                                                {{ f }}
+                                                {% endfor %}  
+                                            {% endfor %}  
+                                        </td>
+                                    </tr>        
+                                    {% endfor %}   
+                                </tbody>
+                            </table>  
+                        </div>  
+                    </div>
+
+                    <div class="row justify-content-center" >
+                        <div class="col-md-5">
+                            <div style="margin-top: 20px; display: flex; justify-content: space-between; margin-bottom: 90px;">
+                                <input type="button" class="btn btn-secondary btn-block" value="Anterior" style="flex: .4; margin-right: 5px" onclick="irParaFormulario()">
+                                <input type="submit" class="btn btn-primary btn-block" value="Próximo" style="flex: .4;margin-left: 5px">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
+
+{% block scripts %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.inlineform').formset({
+                prefix: '{{ form_dados_patrimonio.prefix }}',
+                addText: "Adicionar novo campo",
+                deleteText: "Remover",      
+                deleteCssClass: 'btn btn-danger',
+                addCssClass: 'btn btn-primary',          
+            });   
+            $('.datepicker').datepicker({
+                format: 'dd/mm/yyyy',
+                language : 'pt-BR'
+            }); 
+
+            var camposParaEsconder = [
+                "id_tem_patrimonio_0",
+                "id_tem_veiculo_0",
+            ];
+        
+            camposParaEsconder.forEach(function(idCampo) {
+                var fieldToHide = document.getElementById(idCampo);
+                if (fieldToHide) {
+                    fieldToHide.style.display = "none";
+        
+                    // Encontre o rótulo associado ao campo
+                    var labelForField = document.querySelector("label[for='" + idCampo + "']");
+                    if (labelForField) {
+                        labelForField.style.display = "none";
+                    }
+                }
+            });
+            
+            function toggleInputs() {
+                var radioSim = document.getElementById("id_tem_patrimonio_1");
+                var input1 = document.getElementById("tabela-patrimonio");
+            
+                if (radioSim.checked) {
+                    input1.style.display = "";
+                
+                } else {
+                    input1.style.display = "none"; // Para ocultar o elemento
+                    input1.value = radioSim.checked ? input1.value : "";
+                }
+            }
+
+            var radioSim = document.getElementById("id_tem_patrimonio_1");
+            var radioNao = document.getElementById("id_tem_patrimonio_2");
+            
+            radioSim.addEventListener("change", toggleInputs);
+            radioNao.addEventListener("change", toggleInputs);
+            
+            toggleInputs();
+
+            function toggleInputs2() {
+                var radioSim = document.getElementById("id_tem_veiculo_1");
+                var input1 = document.getElementById("tabela-veiculos");
+            
+                if (radioSim.checked) {
+                    input1.style.display = "";
+                
+                } else {
+                    input1.style.display = "none"; // Para ocultar o elemento
+                    input1.value = radioSim.checked ? input1.value : "";
+                }
+            }
+
+            var radioSim = document.getElementById("id_tem_veiculo_1");
+            var radioNao = document.getElementById("id_tem_veiculo_2");
+            
+            radioSim.addEventListener("change", toggleInputs2);
+            radioNao.addEventListener("change", toggleInputs2);
+            
+            toggleInputs2();
+
+        });
+    </script>
+    
+
+    <script>
+        function irParaFormulario() {
+            window.location.href = "{% url 'formulario:formulario_protestos_dividas' objeto.id %}";
+        }
+    </script>
+
+{% endblock scripts %}

@@ -1,0 +1,184 @@
+{% extends 'base.html' %}
+{% load bootstrap %}
+
+{% block title %} Formulário {% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+            
+                <form action="{% url 'formulario:formulario_habilitacao_motorista_enviado' to_page.id %}" method="POST">
+                    {% csrf_token %}
+
+                    <div class="row justify-content-center">
+                        <div class="col-md-6"> 
+                            <h1 style="font-size:190%">Habilitação e Motorista</h1>
+                        </div>
+                    </div>   
+                         
+                    <div class="row justify-content-center">
+                        <div class="col-md-6">
+                            {% for field in form_habilitacao %}
+                                 <div class="input-group col-md-6">
+                                    <label for="{{ field.id_for_label }}">{{ field.label }}
+                                        {% if field.field.required %}
+                                            <b style="color: #FF0000; text-decoration: none; font-size: 18px;" href="#" title="Este campo é obrigatório" data-toggle="tooltip">*</b>
+                                        {% endif %}
+                                    </label>                  
+                                    {% if field.name == "data_expedicao" %}
+                                        <div class="input-group mb-3">
+                                            {{ field }}
+                                            <span class="input-group-text" id="basic-addon2">{{ field.help_text }}</span>
+                                        </div>
+                                    {% else %}
+                                        <div class="input-group mb-3">
+                                            {{ field }}
+                                        </div>
+                                        {% if field.help_text %}
+                                            <p class="help-text">{{ field.help_text }}</p>
+                                        {% endif %}
+                                    {% endif %}
+                                    
+                                    {{ field.errors }}
+                                </div>                       
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center" >
+                        <div class="col-md-5">
+                            <div style="margin-top: 20px; display: flex; justify-content: space-between; margin-bottom: 90px;">
+                                <input type="button" class="btn btn-secondary btn-block" value="Anterior" style="flex: .4; margin-right: 5px" onclick="irParaFormulario()">
+                                <input type="submit" class="btn btn-primary btn-block" value="Próximo" style="flex: .4;margin-left: 5px">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
+
+{% block scripts %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            {% comment %} $('.inlineform').formset({
+                prefix: '{{ form_habilitacao.prefix }}',
+                addText: "Adicionar novo Endereço",
+                deleteText: "Remover",      
+                deleteCssClass: 'btn btn-danger',
+                addCssClass: 'btn btn-primary',          
+            });     {% endcomment %}
+            $('.datepicker').datepicker({
+                format: 'dd/mm/yyyy',
+                language : 'pt-BR'
+            }); 
+
+            var camposParaEsconder = [
+                "id_tem_habilitacao_0",
+                "id_cnh_suspensa_cassada_0",
+                "id_acidente_transito_0"
+            ];
+        
+            camposParaEsconder.forEach(function(idCampo) {
+                var fieldToHide = document.getElementById(idCampo);
+                if (fieldToHide) {
+                    fieldToHide.style.display = "none";
+        
+                    // Encontre o rótulo associado ao campo
+                    var labelForField = document.querySelector("label[for='" + idCampo + "']");
+                    if (labelForField) {
+                        labelForField.style.display = "none";
+                    }
+                }
+            });
+            
+            function toggleInputs() {
+                var radioSim = document.getElementById("id_tem_habilitacao_1");
+                var input1 = document.getElementById("id_numero_cnh");
+                var input2 = document.getElementById("id_numero_registro");
+                var input3 = document.getElementById("id_data_expedicao");
+                var input4 = document.getElementById("id_local_expedicao");
+                var input5 = document.getElementById("id_categoria");
+            
+                if (radioSim.checked) {
+                    input1.disabled = false;
+                    input2.disabled = false;
+                    input3.disabled = false;
+                    input4.disabled = false;
+                    input5.disabled = false;
+                
+                } else {
+                    input1.disabled = true;
+                    input1.value = radioSim.checked ? input1.value : "";
+                    input2.disabled = true;
+                    input2.value = radioSim.checked ? input2.value : "";
+                    input3.disabled = true;
+                    input3.value = radioSim.checked ? input3.value : "";
+                    input4.disabled = true;
+                    input4.value = radioSim.checked ? input4.value : "";
+                    input5.disabled = true;
+                    input5.value = radioSim.checked ? input5.value : "";
+                }
+            }
+
+            var radioSim = document.getElementById("id_tem_habilitacao_1");
+            var radioNao = document.getElementById("id_tem_habilitacao_2");
+            
+            radioSim.addEventListener("change", toggleInputs);
+            radioNao.addEventListener("change", toggleInputs);
+            
+            toggleInputs();
+
+            function toggleInputs2() {
+                var radioSim = document.getElementById("id_cnh_suspensa_cassada_1");
+                var input1 = document.getElementById("id_detalhes_suspensao_cassacao");
+
+                if (radioSim.checked) {
+                    input1.disabled = false;                
+                } else {
+                    input1.disabled = true;
+                    input1.value = radioSim.checked ? input1.value : "";
+                }
+            }
+
+            var radioSim = document.getElementById("id_cnh_suspensa_cassada_1");
+            var radioNao = document.getElementById("id_cnh_suspensa_cassada_2");
+            
+            radioSim.addEventListener("change", toggleInputs2);
+            radioNao.addEventListener("change", toggleInputs2);
+            
+            toggleInputs2();
+
+            function toggleInputs3() {
+                var radioSim = document.getElementById("id_acidente_transito_1");
+                var input1 = document.getElementById("id_detalhes_acidente");
+
+                if (radioSim.checked) {
+                    input1.disabled = false;                
+                } else {
+                    input1.disabled = true;
+                    input1.value = radioSim.checked ? input1.value : "";
+                }
+            }
+
+            var radioSim = document.getElementById("id_acidente_transito_1");
+            var radioNao = document.getElementById("id_acidente_transito_2");
+            
+            radioSim.addEventListener("change", toggleInputs3);
+            radioNao.addEventListener("change", toggleInputs3);
+            
+            toggleInputs3();
+        });
+    </script>
+    
+
+    <script>
+        function irParaFormulario() {
+            window.location.href = "{% url 'formulario:formulario_ensino' objeto.id %}";
+        }
+    </script>
+
+{% endblock scripts %}

@@ -38,6 +38,11 @@ class Pagination(models.Model):
     page_13 = models.CharField(max_length=100, null=True, blank=True, default="disabled")
     page_14 = models.CharField(max_length=100, null=True, blank=True, default="disabled")
     page_15 = models.CharField(max_length=100, null=True, blank=True, default="disabled")
+    page_16 = models.CharField(max_length=100, null=True, blank=True, default="disabled")
+    page_17 = models.CharField(max_length=100, null=True, blank=True, default="disabled")
+    page_18 = models.CharField(max_length=100, null=True, blank=True, default="disabled")
+    page_19 = models.CharField(max_length=100, null=True, blank=True, default="disabled")
+    page_20 = models.CharField(max_length=100, null=True, blank=True, default="disabled")
 
 
 
@@ -467,6 +472,7 @@ class Dados(models.Model):
     detalhes_protesto = models.TextField(null=True, blank=True, verbose_name="Detalhes do protesto")
 
     tem_pretacoes_dividas = models.CharField(max_length=3, blank=True, choices=SIM_NAO, null=True, verbose_name="Possui prestacoes/dívidas")
+    detalhes_prestacoes_dividas = models.TextField(null=True, blank=True, verbose_name="Detalhes do prestações ou dívidas")
 
     tem_patrimonio = models.CharField(max_length=3, blank=True, choices=SIM_NAO, null=True, verbose_name="Possui patrimônio")
 
@@ -563,8 +569,8 @@ class PunicaoServicoMilitar(models.Model):
 
 class Enderecos(models.Model):
     dados = models.ForeignKey(Dados, on_delete=models.CASCADE, null=True, blank=True, related_name='enderecos')
-    idade_inicio = models.CharField(max_length=3, null=True, blank=True, verbose_name="Idade inicio")
-    idade_fim = models.CharField(max_length=3, null=True, blank=True, verbose_name="Idade fim")
+    idade_inicio = models.IntegerField(null=True, blank=True, verbose_name="Idade inicial")
+    idade_fim = models.IntegerField(null=True, blank=True, verbose_name="Idade final")
     rua_endereco = models.CharField(max_length=100, null=True, blank=True, verbose_name="Rua")
     numero_endereco = models.CharField(max_length=100, null=True, blank=True, verbose_name="Número")
     complemento_endereco = models.CharField(max_length=100, null=True, blank=True, verbose_name="Complemento")
@@ -580,8 +586,16 @@ class Enderecos(models.Model):
             verbose_name_plural = "Endereços"
 
 
+OPCOES_ENSINO = [
+    ("Ensino Fundamental", "Ensino Fundamental"),
+    ("Ensino Médio", "Ensino Médio"),
+    ("Ensino Superior", "Ensino Superior"),
+    ("Pós-graduação", "Pós-graduação"),
+]
+
 class Ensino(models.Model):
     dados = models.ForeignKey(Dados, on_delete=models.CASCADE, null=True, blank=True, related_name='ensino')
+    tipo_ensino = models.CharField(max_length=100, null=True, blank=True, choices=OPCOES_ENSINO, verbose_name="Nome do curso")
     nome_curso = models.CharField(max_length=100, null=True, blank=True, verbose_name="Nome do curso")
     nome_instituicao = models.CharField(max_length=100, null=True, blank=True, verbose_name="Nome da instituição de ensino")
     endereco_instituicao = models.CharField(max_length=250, null=True, blank=True, verbose_name="Endereco instituição de ensino")
@@ -599,12 +613,12 @@ class Ensino(models.Model):
 class PrestacaoDivida(models.Model):
     dados = models.ForeignKey(Dados, on_delete=models.CASCADE, null=True, blank=True, related_name='prestacao_divida')
     quando_iniciou = models.DateField(null=True, blank=True, verbose_name="Quando iniciou")
-    quantia_inicial = models.CharField(max_length=100, null=True, blank=True, verbose_name="Quantia inicial")
-    quantia_atual = models.CharField(max_length=100, null=True, blank=True, verbose_name="Quantia atual")
+    quantia_inicial = models.CharField(max_length=100, null=True, blank=True, verbose_name="Valor inicial")
+    quantia_atual = models.CharField(max_length=100, null=True, blank=True, verbose_name="Valor atual")
     mensalidade = models.CharField(max_length=100, null=True, blank=True, verbose_name="Mensalidade")
     nome_credor = models.CharField(max_length=100, null=True, blank=True, verbose_name="Nome do credor")
     endereco_credor = models.CharField(max_length=100, null=True, blank=True, verbose_name="Endereco do credor")
-    pagamento_em_dia = models.CharField(max_length=100, null=True, blank=True, verbose_name="pagamento em dia")
+    pagamento_em_dia = models.CharField(max_length=3, blank=True, choices=SIM_NAO, null=True, verbose_name="Pagamento em dia")
 
     class Meta:
         verbose_name = "Prestação Dívida"
@@ -612,7 +626,7 @@ class PrestacaoDivida(models.Model):
 
 class DadosPatrimoniais(models.Model):
     dados = models.ForeignKey(Dados, on_delete=models.CASCADE, null=True, blank=True, related_name='dados_patrimoniais')
-    detalhes_patrimonio = models.TextField(null=True, blank=True, verbose_name="Detalhes patrimônio")
+    detalhes_patrimonio = models.TextField(null=True, blank=True, verbose_name="Detalhes do patrimônio")
     class Meta:
         verbose_name = "Dados Patrimonial"
         verbose_name_plural = "Dados Patrimoniais"
@@ -620,11 +634,11 @@ class DadosPatrimoniais(models.Model):
 
 class Veiculos(models.Model):
     dados = models.ForeignKey(Dados, on_delete=models.CASCADE, null=True, blank=True, related_name='veiculos')
-    marca_modelo = models.TextField(null=True, blank=True, verbose_name="Marca/modelo")
-    placa = models.TextField(null=True, blank=True, verbose_name="Placa")
-    cor = models.TextField(null=True, blank=True, verbose_name="cor")
-    ano = models.TextField(null=True, blank=True, verbose_name="ano")
-    uf_municipio = models.TextField(null=True, blank=True, verbose_name="UF/município")
+    marca_modelo = models.CharField(max_length=100, null=True, blank=True, verbose_name="Marca/modelo")
+    placa = models.CharField(max_length=100, null=True, blank=True, verbose_name="Placa")
+    cor = models.CharField(max_length=100, null=True, blank=True, verbose_name="cor")
+    ano = models.CharField(max_length=4, null=True, blank=True, verbose_name="ano")
+    uf_municipio = models.CharField(max_length=2, null=True, blank=True, verbose_name="UF/município")
 
     class Meta:
         verbose_name = "Veiculo"

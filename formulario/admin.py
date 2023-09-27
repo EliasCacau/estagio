@@ -2,9 +2,10 @@ from django.contrib import admin
 
 from formulario.models import (Candidato, Dados, DadosAdicionais,
                                DadosBancarios, DadosCandidato,
-                               EmailRedesSociais, Filho, InformacaoCandidato,
-                               Pagination, ParentePolicial, Passagem,
-                               ProcessosIntimado, Sindicato, Telefone)
+                               EmailRedesSociais, Emprego, Enderecos, Ensino,
+                               Filho, InformacaoCandidato, Pagination,
+                               ParentePolicial, Passagem, ProcessosIntimado,
+                               PunicaoServicoMilitar, Sindicato, Telefone)
 
 
 class CandidatoAdmin(admin.ModelAdmin):
@@ -248,6 +249,67 @@ class PassagemAdmin(admin.ModelAdmin):
     ]
     list_display = passagem
 
+class EmpregoAdmin(admin.ModelAdmin):
+    emprego = [
+        #"dados"
+        "empresa",
+        "endereco_trabalho",
+        "cidade_trabalho",
+        "estado_trabalho",
+        "cep_trabalho",
+        "inicio_periodo_tralho",
+        "fim_periodo_tralho",
+        "salario_trabalho",
+        "secao_trabalho",
+        "encargo_trabalho",
+        "motivo_demissao",
+        "punicao_sofrida",
+        "periodo_inativo",
+        "detalhes_periodo_inativo", 
+    ]
+    list_display = emprego
+class PunicaoServicoMilitarAdmin(admin.ModelAdmin):
+    punicao = [
+        "dados",
+        "punicao",
+        "motivo",
+    ]
+    list_display = punicao
+    
+class EnderecosAdmin(admin.ModelAdmin):
+    enderecos = [
+        #"dados"
+        "idade_inicio",
+        "idade_fim",
+        "rua_endereco",
+        "numero_endereco",
+        "complemento_endereco",
+        "bairro_endereco",
+        "cidade_endereco",
+        "estado_endereco",
+        "cep_endereco",
+        "com_quem_residiu",
+        "periodo",
+    ]
+    list_display = enderecos
+
+class EnsinoAdmin(admin.ModelAdmin):
+    ensino = [
+        #"dados"
+        "tipo_ensino",
+        "nome_curso",
+        "nome_instituicao",
+        "endereco_instituicao",
+        "data_inicio",
+        "data_final",
+        "ano_conclusao",
+        "cep_instituicao",
+        "cidade_instituicao",
+        "estado_instituicao",
+    ]
+    list_display = ensino
+
+
 admin.site.register(InformacaoCandidato, InformacaoCandidatoAdmin)
 admin.site.register(Pagination, PaginationAdmin)
 admin.site.register(DadosCandidato, DadosCandidatoAdmin)
@@ -262,4 +324,8 @@ admin.site.register(ParentePolicial, ParentePolicialAdmin)
 admin.site.register(Sindicato, SindicatoAdmin)
 admin.site.register(ProcessosIntimado, ProcessosIntimadoAdmin)
 admin.site.register(Passagem, PassagemAdmin)
+admin.site.register(Emprego, EmpregoAdmin)
+admin.site.register(PunicaoServicoMilitar, PunicaoServicoMilitarAdmin)
+admin.site.register(Enderecos, EnderecosAdmin)
+admin.site.register(Ensino, EnsinoAdmin)
 

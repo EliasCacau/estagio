@@ -2,12 +2,15 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path
 
-from .views import (conjuge_familia_views, dados_adicionais_views,
-                    dados_bancarios_views, dados_candidato_views,
-                    email_redes_sociais_views, emprego_views,
-                    experiencia_seguranca_views, familiares_views,
+from .views import (carta_intencao_views, conjuge_familia_views,
+                    dados_adicionais_views, dados_bancarios_views,
+                    dados_candidato_views, email_redes_sociais_views,
+                    emprego_views, enderecos_views, ensino_views,
+                    enviar_formulario_views, experiencia_seguranca_views,
+                    familiares_views, habilitacao_motorista_views,
                     hobbies_clube_views, informacao_candidato_views,
                     inquerito_views, parente_policial_amigos_views,
+                    patrimonio_veiculo_views, protestos_dividas_views,
                     servico_militar_views)
 
 app_name = "formulario"
@@ -144,5 +147,70 @@ urlpatterns = [
         "formulario_servico_militar/enviado/<int:candidato_id>/",
         servico_militar_views.servico_militar_enviado,
         name="formulario_servico_militar_enviado",
+    ),
+    path(
+        "formulario_enderecos/<int:candidato_id>/",
+        enderecos_views.enderecos,
+        name="formulario_enderecos",
+    ),
+    path(
+        "formulario_enderecos/enviado/<int:candidato_id>/",
+        enderecos_views.enderecos_enviado,
+        name="formulario_enderecos_enviado",
+    ),
+    path(
+        "formulario_ensino/<int:candidato_id>/",
+        ensino_views.ensino,
+        name="formulario_ensino",
+    ),
+    path(
+        "formulario_ensino/enviado/<int:candidato_id>/",
+        ensino_views.ensino_enviado,
+        name="formulario_ensino_enviado",
+    ),
+    path(
+        "formulario_habilitacao_motorista/<int:candidato_id>/",
+        habilitacao_motorista_views.habilitacao_motorista,
+        name="formulario_habilitacao_motorista",
+    ),
+    path(
+        "formulario_habilitacao_motorista/enviado/<int:candidato_id>/",
+        habilitacao_motorista_views.habilitacao_motorista_enviado,
+        name="formulario_habilitacao_motorista_enviado",
+    ),
+    path(
+        "formulario_protestos_dividas/<int:candidato_id>/",
+        protestos_dividas_views.protestos_dividas,
+        name="formulario_protestos_dividas",
+    ),
+    path(
+        "formulario_protestos_dividas/enviado/<int:candidato_id>/",
+        protestos_dividas_views.protestos_dividas_enviado,
+        name="formulario_protestos_dividas_enviado",
+    ),
+    path(
+        "formulario_patrimonio_veiculo/<int:candidato_id>/",
+        patrimonio_veiculo_views.patrimonio_veiculo,
+        name="formulario_patrimonio_veiculo",
+    ),
+    path(
+        "formulario_patrimonio_veiculo/enviado/<int:candidato_id>/",
+        patrimonio_veiculo_views.patrimonio_veiculo_enviado,
+        name="formulario_patrimonio_veiculo_enviado",
+    ),
+    path(
+        "formulario_carta_intencao/<int:candidato_id>/",
+        carta_intencao_views.carta_intencao,
+        name="formulario_carta_intencao",
+    ),
+    path(
+        "formulario_carta_intencao/enviado/<int:candidato_id>/",
+        carta_intencao_views.carta_intencao_enviado,
+        name="formulario_carta_intencao_enviado",
+    ),
+    path(
+        "formulario_enviado/",
+        enviar_formulario_views.enviar_formulario,
+        name="formulario_enviado",
     ),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -8,22 +8,21 @@
         <div class="row justify-content-center">
             <div class="col-md-10">
             
-                <form action="{% url 'formulario:formulario_emprego_enviado' to_page.id %}" method="POST">
+                <form action="{% url 'formulario:formulario_enderecos_enviado' to_page.id %}" method="POST">
                     {% csrf_token %}
 
                     <div class="row justify-content-center">
                         <div class="col-md-6"> 
-                            <h1 style="font-size:190%">Emprego</h1>
-                            <p>Relacione, a partir das datas mais antigas, TODOS os lugares em que esteve empregado, registrado ou não, bem como os por conta própria
-                                e os “bicos”. Não omita nenhum. Dê endereços completos e corretos e as datas de inatividades entre cada período de emprego.</p>
+                            <h1 style="font-size:190%">Endereços</h1>
+                            <p>Declarar em ordem cronológica todos os lugares onde residiu e reside, a partir dos 10 anos de idade:</p>
                         </div>
                     </div>
                     <div class="row justify-content-center">
                         <div class="col-md-6"> <!-- Aumentei a largura da coluna para que a tabela seja mais ampla -->
-                            {{ form_emprego.management_form }}
+                            {{ form_enderecos.management_form }}
                             <div class="errorlist">
-                                {% if form_emprego.errors %}
-                                    {% for error in form_emprego.errors %}
+                                {% if form_enderecos.errors %}
+                                    {% for error in form_enderecos.errors %}
                                         {% if forloop.first %}
                                             {{ error }}
                                         {% endif %}
@@ -35,12 +34,12 @@
                                 <thead>
                                     <tr>
                                         <th colspan="2" class="text-center">
-                                            <b style="font-size: 30px;">Empregos</b>
+                                            <b style="font-size: 30px;">Endereços</b>
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for field in form_emprego %}
+                                    {% for field in form_enderecos %}
                                     <tr class="inlineform">
                                         <td> <!-- A segunda coluna ocupa o espaço restante -->
                                             {% for f in field.visible_fields %} 
@@ -49,9 +48,11 @@
                                                     {% if field.field.required %}
                                                     <b style="color: #FF0000; font-size: 18px;" href="#" title="Este campo é obrigatório" data-toggle="tooltip">*</b>
                                                     {% endif %}
-                                                    {% if f.name == "inicio_periodo_tralho" or f.name == "fim_periodo_tralho" %}
+                                                    {% if f.name == "idade_inicio" or f.name == "idade_fim" %}
+                                                        <div class="input-group mb-3">
                                                             {{ f }}
                                                             <span class="input-group-text" id="basic-addon2">{{ f.help_text }}</span>
+                                                        </div>
                                                     {% else %}
                                                         {{ f }}
                                                     {% endif %}
@@ -87,8 +88,8 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $('.inlineform').formset({
-                prefix: '{{ form_emprego.prefix }}',
-                addText: "Adicionar novo Emprego",
+                prefix: '{{ form_enderecos.prefix }}',
+                addText: "Adicionar novo Endereço",
                 deleteText: "Remover",      
                 deleteCssClass: 'btn btn-danger',
                 addCssClass: 'btn btn-primary',          
@@ -103,7 +104,7 @@
 
     <script>
         function irParaFormulario() {
-            window.location.href = "{% url 'formulario:formulario_inquerito' objeto.id %}";
+            window.location.href = "{% url 'formulario:formulario_servico_militar' objeto.id %}";
         }
     </script>
 

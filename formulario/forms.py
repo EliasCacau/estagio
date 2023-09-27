@@ -5,10 +5,12 @@ from django import forms
 from django.core.exceptions import ValidationError
 
 from formulario.models import (Dados, DadosAdicionais, DadosBancarios,
-                               DadosCandidato, EmailRedesSociais, Emprego,
+                               DadosCandidato, DadosPatrimoniais,
+                               EmailRedesSociais, Emprego, Enderecos, Ensino,
                                Familiares, Filho, InformacaoCandidato,
-                               ParentePolicial, Passagem, ProcessosIntimado,
-                               PunicaoServicoMilitar, Sindicato, Telefone)
+                               ParentePolicial, Passagem, PrestacaoDivida,
+                               ProcessosIntimado, PunicaoServicoMilitar,
+                               Sindicato, Telefone, Veiculos)
 
 SIM_NAO_CHOICES = ((True, "Sim"), (False, "Não"))
 
@@ -1198,3 +1200,272 @@ class PunicaoServicoMilitarForm(forms.ModelForm):
         super(PunicaoServicoMilitarForm, self).__init__(*args, **kwargs)
         for campo in self.fields:
             self.fields[campo].widget.attrs['class'] = "form-control"
+
+class EnderecosForm(forms.ModelForm):
+    class Meta:
+        model = Enderecos
+        fields = [
+            "idade_inicio",
+            "idade_fim",
+            "rua_endereco",
+            "numero_endereco",
+            "complemento_endereco",
+            "bairro_endereco",
+            "cidade_endereco",
+            "estado_endereco",
+            "cep_endereco",
+            "com_quem_residiu",
+            "periodo",
+        ]
+        widgets = {
+            "idade_inicio": forms.NumberInput(
+                attrs={"class": "form-control"}
+            ),
+            "idade_fim": forms.NumberInput(
+                attrs={"class": "form-control"}
+            ),
+        }
+    def __init__(self, *args, **kwargs):
+        super(EnderecosForm, self).__init__(*args, **kwargs)
+        numbers = [
+            "idade_inicio",
+            "idade_fim"
+        ]
+        for campo in self.fields:
+            self.fields[campo].widget.attrs['class'] = "form-control"
+            if campo in numbers:
+                self.fields[campo].help_text = "Em anos"
+
+class EnsinoForm(forms.ModelForm):
+    class Meta:
+        model = Ensino
+        fields = [
+            "tipo_ensino",
+            "nome_curso",
+            "nome_instituicao",
+            "endereco_instituicao",
+            "data_inicio",
+            "data_final",
+            "ano_conclusao",
+            "cep_instituicao",
+            "cidade_instituicao",
+            "estado_instituicao",
+        ]
+        labels = {
+            "nome_curso" : "Nome do curso (caso possua)",
+            "endereco_instituicao" : "Endereco da Instituição de ensino"
+        }
+        widgets = {
+            "tipo_ensino": forms.Select(
+                attrs={
+                    "class": "form-select",
+                },
+            ),
+            "ano_conclusao": forms.NumberInput(
+                attrs={"class": "form-control"}
+            ),
+        }
+    def __init__(self, *args, **kwargs):
+        super(EnsinoForm, self).__init__(*args, **kwargs)
+        radio = [
+            "ano_conclusao",
+            "data_inicio",
+            "data_final",
+            "tipo_ensino"
+        ]
+        for campo in self.fields:
+            if not campo in radio:
+                self.fields[campo].widget.attrs['class'] = "form-control"
+
+        self.fields["data_inicio"].widget.attrs['class'] = "form-control datepicker"
+        self.fields["data_inicio"].help_text = "Ex: 01/01/2000"
+        self.fields["data_final"].widget.attrs['class'] = "form-control datepicker"
+        self.fields["data_final"].help_text = "Ex: 01/01/2000"
+
+class ExpulsoEnsinoForm(forms.ModelForm):
+    class Meta:
+        model = Dados
+        fields = [
+            "expulso_instituicao_ensino",
+            "detalhes_expulsao_inst_ensino"
+        ]
+        labels = {
+            "expulso_instituicao_ensino" : "Você foi expulso ou punido em qualquer estabelecimento de ensino?",
+            "detalhes_expulsao_inst_ensino" : "Em caso positivo, explique:",
+        }
+        widgets = {
+            "expulso_instituicao_ensino": forms.RadioSelect(
+                choices=((True, "Sim"), (False, "Não")),
+            ),
+            "detalhes_expulsao_inst_ensino": forms.Textarea(attrs={"class": "form-control"},),
+        }
+
+class HabilitacaoMotoristaForm(forms.ModelForm):
+    class Meta:
+        model = Dados
+        fields = [
+            "tem_habilitacao",
+            "numero_cnh",
+            "numero_registro",
+            "data_expedicao",
+            "local_expedicao",
+            "categoria",
+            "cnh_suspensa_cassada",
+            "detalhes_suspensao_cassacao",
+            "acidente_transito",
+            "detalhes_acidente",
+        ]
+        labels = {
+            "tem_habilitacao" : "Possui Habilitação?",
+            "numero_cnh" : "Número da CNH",
+            "numero_registro" : "Número de Registro",
+            "numero_cnh" : "Número da CNH",
+            "cnh_suspensa_cassada" : "Teve alguma vez a sua carteira de motorista suspensa ou cassada?",
+            "detalhes_suspensao_cassacao" : "Em caso positivo, forneça detalhes:",
+            "acidente_transito" : "Você já foi envolvido em algum acidente ao dirigir veículo?",
+        }
+        widgets = {
+            "tem_habilitacao": forms.RadioSelect(
+                choices=((True, "Sim"), (False, "Não")),
+            ),
+            "cnh_suspensa_cassada": forms.RadioSelect(
+                choices=((True, "Sim"), (False, "Não")),
+            ),
+            "acidente_transito": forms.RadioSelect(
+                choices=((True, "Sim"), (False, "Não")),
+            ),
+            "detalhes_suspensao_cassacao": forms.Textarea(attrs={"class": "form-control"},),
+            "detalhes_acidente": forms.Textarea(attrs={"class": "form-control"},),
+        }
+    def __init__(self, *args, **kwargs):
+        super(HabilitacaoMotoristaForm, self).__init__(*args, **kwargs)
+        radio = [
+            "tem_habilitacao",
+            "cnh_suspensa_cassada",
+            "acidente_transito",
+            "detalhes_suspensao_cassacao",
+            "detalhes_acidente",
+            "data_expedicao",
+        ]
+        for campo in self.fields:
+            if not campo in radio:
+                self.fields[campo].widget.attrs['class'] = "form-control"
+        self.fields["data_expedicao"].widget.attrs['class'] = "form-control datepicker"
+        self.fields["data_expedicao"].help_text = "Ex: 01/01/2000"
+
+class ProtestosDividasForm(forms.ModelForm):
+    class Meta:
+        model = Dados
+        fields = [
+            "protesto_cheque_titulo",
+            "detalhes_protesto",
+            "tem_pretacoes_dividas",
+            "detalhes_prestacoes_dividas"
+        ]
+        labels = {
+            "protesto_cheque_titulo" : "Você já teve ou tem cheques ou títulos protestados? Ou nome no SPC?",
+            "detalhes_protesto" : "Em caso positivo, forneça detalhes:",
+            "tem_pretacoes_dividas" : "Você possui prestações ou dívidas?",
+            "detalhes_prestacoes_dividas" : "Em caso positivo, forneça detalhes:",
+        }
+        widgets = {
+            "protesto_cheque_titulo": forms.RadioSelect(
+                choices=((True, "Sim"), (False, "Não")),
+            ),
+            "tem_pretacoes_dividas": forms.RadioSelect(
+                choices=((True, "Sim"), (False, "Não")),
+            ),
+            "detalhes_protesto": forms.Textarea(attrs={"class": "form-control"},),
+            "detalhes_prestacoes_dividas": forms.Textarea(attrs={"class": "form-control"},),
+        }
+
+class PrestacaoDividaForm(forms.ModelForm):
+    class Meta:
+        model = PrestacaoDivida
+        fields = [
+            "quando_iniciou",
+            "quantia_inicial",
+            "quantia_atual",
+            "mensalidade",
+            "nome_credor",
+            "endereco_credor",
+            "pagamento_em_dia",
+        ]
+        labels = {
+            "pagamento_em_dia" : "O pagamento está em dia",
+        }
+        widgets = {
+            "pagamento_em_dia" : forms.Select(
+                attrs={
+                    "class": "form-select",
+                },
+            ), 
+        }
+    def __init__(self, *args, **kwargs):
+        super(PrestacaoDividaForm, self).__init__(*args, **kwargs)
+        radio = [
+            "quando_iniciou",
+            "pagamento_em_dia",
+        ]
+        for campo in self.fields:
+            if not campo in radio:
+                self.fields[campo].widget.attrs['class'] = "form-control"
+        self.fields["quando_iniciou"].widget.attrs['class'] = "form-control datepicker"
+        self.fields["quando_iniciou"].help_text = "Ex: 01/01/2000"
+
+class PatrimonioVeiculoForm(forms.ModelForm):
+    class Meta:
+        model = Dados
+        fields = [
+            "tem_patrimonio",
+            "tem_veiculo",
+        ]
+        labels = {
+            "tem_patrimonio" : "Você possui algum Bem Imóvel, móveis, semoventes e de capital?",
+            "tem_veiculo" : "Você possui Veículo(s) ?"
+        }
+        widgets = {
+            "tem_patrimonio": forms.RadioSelect(
+                choices=((True, "Sim"), (False, "Não")),
+            ),
+            "tem_veiculo": forms.RadioSelect(
+                choices=((True, "Sim"), (False, "Não")),
+            ),
+        }
+
+class DadosPatrimoniaisForm(forms.ModelForm):
+    class Meta:
+        model = DadosPatrimoniais
+        fields = [
+            "detalhes_patrimonio",
+        ]
+        widgets = {
+            "detalhes_patrimonio": forms.Textarea(attrs={"class": "form-control"},),
+        }
+
+class VeiculoForm(forms.ModelForm):
+    class Meta:
+        model = Veiculos
+        fields = [
+            "marca_modelo",
+            "placa",
+            "cor",
+            "ano",
+            "uf_municipio",
+        ]
+    
+    def __init__(self, *args, **kwargs):
+        super(VeiculoForm, self).__init__(*args, **kwargs)
+        for campo in self.fields:
+            self.fields[campo].widget.attrs['class'] = "form-control"
+
+class CartaIntencaoForm(forms.ModelForm):
+    class Meta:
+        model = Dados
+        fields = ["carta_intencao"]
+        labels = {
+            "carta_intencao" : "Por que pretende ingressar na Polícia Civil do Estado do Acre?"
+        }
+        widgets = {
+            "carta_intencao": forms.Textarea(attrs={"class": "form-control"},),
+        }

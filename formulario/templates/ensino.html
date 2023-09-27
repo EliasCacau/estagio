@@ -8,22 +8,21 @@
         <div class="row justify-content-center">
             <div class="col-md-10">
             
-                <form action="{% url 'formulario:formulario_emprego_enviado' to_page.id %}" method="POST">
+                <form action="{% url 'formulario:formulario_ensino_enviado' to_page.id %}" method="POST">
                     {% csrf_token %}
 
                     <div class="row justify-content-center">
                         <div class="col-md-6"> 
-                            <h1 style="font-size:190%">Emprego</h1>
-                            <p>Relacione, a partir das datas mais antigas, TODOS os lugares em que esteve empregado, registrado ou não, bem como os por conta própria
-                                e os “bicos”. Não omita nenhum. Dê endereços completos e corretos e as datas de inatividades entre cada período de emprego.</p>
+                            <h1 style="font-size:190%">Ensino</h1>
+                            <p>Dados escolares:</p>
                         </div>
                     </div>
                     <div class="row justify-content-center">
                         <div class="col-md-6"> <!-- Aumentei a largura da coluna para que a tabela seja mais ampla -->
-                            {{ form_emprego.management_form }}
+                            {{ form_ensino.management_form }}
                             <div class="errorlist">
-                                {% if form_emprego.errors %}
-                                    {% for error in form_emprego.errors %}
+                                {% if form_ensino.errors %}
+                                    {% for error in form_ensino.errors %}
                                         {% if forloop.first %}
                                             {{ error }}
                                         {% endif %}
@@ -35,12 +34,12 @@
                                 <thead>
                                     <tr>
                                         <th colspan="2" class="text-center">
-                                            <b style="font-size: 30px;">Empregos</b>
+                                            <b style="font-size: 30px;">Ensino</b>
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for field in form_emprego %}
+                                    {% for field in form_ensino %}
                                     <tr class="inlineform">
                                         <td> <!-- A segunda coluna ocupa o espaço restante -->
                                             {% for f in field.visible_fields %} 
@@ -49,9 +48,12 @@
                                                     {% if field.field.required %}
                                                     <b style="color: #FF0000; font-size: 18px;" href="#" title="Este campo é obrigatório" data-toggle="tooltip">*</b>
                                                     {% endif %}
-                                                    {% if f.name == "inicio_periodo_tralho" or f.name == "fim_periodo_tralho" %}
+                                                    {% if f.name == "data_inicio" or f.name == "data_final" %}
+                                                        <div class="input-group mb-3">
                                                             {{ f }}
                                                             <span class="input-group-text" id="basic-addon2">{{ f.help_text }}</span>
+                                                        </div>
+                                                            
                                                     {% else %}
                                                         {{ f }}
                                                     {% endif %}
@@ -68,6 +70,27 @@
                         </div>  
                     </div>          
                          
+                    <div class="row justify-content-center">
+                        <div class="col-md-6">
+                            {% for field in form_expulso %}
+                                 <div class="input-group col-md-6">
+                                    <label for="{{ field.id_for_label }}">{{ field.label }}
+                                        {% if field.field.required %}
+                                            <b style="color: #FF0000; text-decoration: none; font-size: 18px;" href="#" title="Este campo é obrigatório" data-toggle="tooltip">*</b>
+                                        {% endif %}
+                                    </label>                  
+                                    <div class="input-group mb-3">
+                                        {{field}}
+                                    </div>
+                                    {% if field.help_text %}
+                                        <p class="help-text">{{ field.help_text }}</p>
+                                    {% endif %}
+                                    {{ field.errors }}
+                                </div>                       
+                            {% endfor %}
+                        </div>
+                    </div>
+
                     <div class="row justify-content-center" >
                         <div class="col-md-5">
                             <div style="margin-top: 20px; display: flex; justify-content: space-between; margin-bottom: 90px;">
@@ -87,8 +110,8 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $('.inlineform').formset({
-                prefix: '{{ form_emprego.prefix }}',
-                addText: "Adicionar novo Emprego",
+                prefix: '{{ form_ensino.prefix }}',
+                addText: "Adicionar novo Endereço",
                 deleteText: "Remover",      
                 deleteCssClass: 'btn btn-danger',
                 addCssClass: 'btn btn-primary',          
@@ -97,13 +120,51 @@
                 format: 'dd/mm/yyyy',
                 language : 'pt-BR'
             }); 
+
+            var camposParaEsconder = [
+                "id_expulso_instituicao_ensino_0",
+            ];
+        
+            camposParaEsconder.forEach(function(idCampo) {
+                var fieldToHide = document.getElementById(idCampo);
+                if (fieldToHide) {
+                    fieldToHide.style.display = "none";
+        
+                    // Encontre o rótulo associado ao campo
+                    var labelForField = document.querySelector("label[for='" + idCampo + "']");
+                    if (labelForField) {
+                        labelForField.style.display = "none";
+                    }
+                }
+            });
+            
+            function toggleInputs() {
+                var radioSim = document.getElementById("id_expulso_instituicao_ensino_1");
+                var input1 = document.getElementById("id_detalhes_expulsao_inst_ensino");
+            
+                if (radioSim.checked) {
+                    input1.disabled = false;
+                
+                } else {
+                    input1.disabled = true;
+                    input1.value = radioSim.checked ? input1.value : "";
+                }
+            }
+
+            var radioSim = document.getElementById("id_expulso_instituicao_ensino_1");
+            var radioNao = document.getElementById("id_expulso_instituicao_ensino_2");
+            
+            radioSim.addEventListener("change", toggleInputs);
+            radioNao.addEventListener("change", toggleInputs);
+            
+            toggleInputs();
         });
     </script>
     
 
     <script>
         function irParaFormulario() {
-            window.location.href = "{% url 'formulario:formulario_inquerito' objeto.id %}";
+            window.location.href = "{% url 'formulario:formulario_enderecos' objeto.id %}";
         }
     </script>
 

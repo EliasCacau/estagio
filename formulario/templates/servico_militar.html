@@ -279,7 +279,7 @@
     </script>
     <script>
         function irParaFormulario() {
-            window.location.href = "/formulario_conjuge_familia";
+            window.location.href = "{% url 'formulario:formulario_experiencia_seguranca' objeto.id %}";
         }
     </script>
 {% endblock scripts %}
