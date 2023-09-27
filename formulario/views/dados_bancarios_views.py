@@ -63,8 +63,7 @@ def dados_bancarios_enviado(request):
             pagination.page_5 = "used"
             pagination.page_6 = "used"
             pagination.save()
-            objeto = Candidato.objects.filter(user=user).first()
-            return redirect("formulario:formulario_familiares", objeto.id
+            return redirect("formulario:formulario_familiares", to_page.id
                 )
         else:
             pagination.page_5 = "active"
