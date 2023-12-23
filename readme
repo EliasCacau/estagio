@@ -1,4 +1,4 @@
 # python -m venv venv
 # venv\Scripts\activate
-# pip install -r requerements.txt
+# pip install -r requeriments.txt
 
