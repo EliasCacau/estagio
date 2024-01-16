@@ -77,10 +77,10 @@ def login(request):
             login_django(request, user)
             return redirect("formulario:formulario_informacao_candidato")
         else:
+            messages.error(request, "Usuário ou senha inválido!")
             return render(
                 request,
-                "login.html",
-                {"form": AuthenticationForm, "error": "Usuário ou senha inválido"},
+                "login.html"
             )
 
 
