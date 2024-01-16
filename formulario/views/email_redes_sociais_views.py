@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import Http404
 # from django.http import HttpResponse
 from django.shortcuts import redirect, render
-
+from django.contrib.auth.models import User
 from formulario.forms import EmailRedesSociaisForm
 from formulario.models import Candidato, Dados, EmailRedesSociais, Pagination
 
@@ -18,6 +18,7 @@ def formulario_email_redes_sociais(request):
         to_page = Candidato.objects.filter(user=request.user).first()
         dados = EmailRedesSociais.objects.filter(user=request.user).first()
         pagination = Pagination.objects.filter(user=request.user).first()
+        user = User.objects.filter(id=request.user.id).first()
 
         for (
             field_name
@@ -29,7 +30,7 @@ def formulario_email_redes_sociais(request):
         pagination.save()
 
         if not dados:
-            form = EmailRedesSociaisForm()
+             form = EmailRedesSociaisForm(initial={'email': user.email})
         else:
             form = EmailRedesSociaisForm(instance=dados)
 
@@ -42,6 +43,7 @@ def formulario_email_redes_sociais(request):
                 "dados": dados,
                 "to_page": to_page,
                 "objeto": objeto,
+                "user" : user,
             },
         )
 
