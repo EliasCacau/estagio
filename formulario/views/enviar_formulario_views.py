@@ -7,7 +7,7 @@ from django.shortcuts import redirect, render
 # Create your views here.
 from django.urls import reverse
 from django.views.generic import CreateView
-
+from datetime import date
 from formulario.models import Dados
 
 
@@ -24,9 +24,9 @@ def gerar_numero_protocolo():
 def enviar_formulario(request, candidato_id):
     if request.method == "GET":
         objeto = Dados.objects.filter(id=candidato_id).first()
-        print(objeto.user)
         if not objeto.numero_protocolo:
             num_protocolo = gerar_numero_protocolo()
+            objeto.data_protocolo = date.today()
             objeto.numero_protocolo = num_protocolo
             objeto.save()
         context = {'objeto': objeto}  # Crie um dicionário com as variáveis de contexto

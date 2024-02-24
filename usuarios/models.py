@@ -3,7 +3,6 @@ from django.db import models
 
 
 class MatriculaCpf(models.Model):
-    id = models.AutoField(primary_key=True)
     user = models.ForeignKey(
         User, null=True, blank=True, on_delete=models.CASCADE, verbose_name="Usuário"
     )
@@ -14,7 +13,6 @@ class MatriculaCpf(models.Model):
     class Meta:
         verbose_name = "Matrícula e CPF"
         verbose_name_plural = "Matrículas e CPFs"
-        # ordering = ["-data"]
 
     def __str__(self):
         return f"{self.user.username if self.user else 'Usuário não associado'} - {self.cpf}, {self.num_matricula}"

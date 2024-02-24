@@ -104,7 +104,7 @@ def matricula_enviado(request):
 
         if form.is_valid():
             form.save()
-            messages.success(request, "Seu formulário foi enviado com sucesso!")
+            messages.success(request, "Matriculado com sucesso!")
             return redirect("matricula")
         else:
             return render(

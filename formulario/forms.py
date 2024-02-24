@@ -637,7 +637,7 @@ class ConjugeFamiliaForm(forms.ModelForm):
             "utilizou_entorpecentes", # choice
             "detalhes_utilizou_entorpecentes",       # Area
             "familia_substancia_toxica", # choice
-            "detalhes_familiar_substiancia",        # Area
+            "detalhes_familiar_substancia",        # Area
         ]
         labels = {
             "morando_juntos": "Está vivendo com seu cônjuge?",
@@ -653,7 +653,7 @@ class ConjugeFamiliaForm(forms.ModelForm):
             "utilizou_entorpecentes": "Você já fez ou faz uso de substância entorpecente?",
             "detalhes_utilizou_entorpecentes": "Em caso positivo, apresente detalhes",
             "familia_substancia_toxica": " Alguém da sua família já fez ou faz uso de substância tóxica?",
-            "detalhes_familiar_substiancia": "Em caso afirmativo, forneça detalhes",
+            "detalhes_familiar_substancia": "Em caso afirmativo, forneça detalhes",
         }
         widgets = {
             "possui_conjuge": forms.RadioSelect( 
@@ -687,7 +687,7 @@ class ConjugeFamiliaForm(forms.ModelForm):
             "detalhes_caso_disturbio": forms.Textarea(attrs={"class": "form-control"},),
             "detalhes_internamento": forms.Textarea(attrs={"class": "form-control"},),
             "detalhes_utilizou_entorpecentes": forms.Textarea(attrs={"class": "form-control"},),
-            "detalhes_familiar_substiancia": forms.Textarea(attrs={"class": "form-control"},),
+            "detalhes_familiar_substancia": forms.Textarea(attrs={"class": "form-control"},),
         }
 
     def __init__(self, *args, **kwargs):

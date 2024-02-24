@@ -353,7 +353,7 @@ class Dados(models.Model):
     detalhes_utilizou_entorpecentes = models.TextField(null=True, blank=True, verbose_name="Detalhes entorpecentes")
 
     familia_substancia_toxica = models.CharField(max_length=3, choices=SIM_NAO, verbose_name="Familiar substâncias tóxicas")
-    detalhes_familiar_substiancia = models.TextField(null=True, blank=True, verbose_name="Detalhes substâncias família")
+    detalhes_familiar_substancia = models.TextField(null=True, blank=True, verbose_name="Detalhes substâncias família")
     
     # Inline
     tem_parente_policial = models.CharField(max_length=3, blank=True, choices=SIM_NAO, verbose_name="Possui parentes policiais")
@@ -481,6 +481,9 @@ class Dados(models.Model):
     carta_intencao = models.TextField(null=True, blank=True, verbose_name="Carta de intenção de ingresso")
 
     numero_protocolo = models.CharField(max_length=6, blank=True, choices=SIM_NAO, null=True, verbose_name="Número de protocolo")
+
+    data_protocolo = models.DateField(null=True, blank=True, verbose_name="Data do protocolo")
+
     class Meta:
         verbose_name = "Dados"
         verbose_name_plural = "Dados"

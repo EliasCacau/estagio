@@ -9,10 +9,8 @@
     <div class="row justify-content-center">
         <div class="col-md-6">
             <h1 style="font-size:190%">Informações do Candidato</h1>
-            
             <form action="{% url 'formulario:formulario_informacao_candidato_enviado' %}" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
-
                 {% for field in form %}
                         <div class="input-group col-md-6">
                             <label for="{{ field.id_for_label }}">{{ field.label }}
@@ -34,19 +32,14 @@
                     <strong>Imagem atualmente escolhida:</strong>
                     <br>
                     <img src="{{ image.url }}" width="400" height="400" alt="Imagem escolhida">
-                    {% comment %} <br>
-                    {{ imagem }} {% endcomment %}
                 {% endif %}
                 
                 <div style="margin-top: 20px; margin-bottom: 20px;" class="form-group">
                     <!-- Button -->
-                    {% comment %} <div class="position-fixed bottom-0 end-0 p-3"> {% endcomment %}
                     <div class="d-grid gap-2">
                         <input type="submit" class="btn btn-primary" value="Próximo">
                     </div>  
                 </div>
-
-                
             </form>
         </div>
     </div>
@@ -64,12 +57,10 @@
             }
         }
     });
-
     // Obtenha referências aos elementos DOM
     const simRadio = document.getElementById("id_portador_necess_especial_1");
     const naoRadio = document.getElementById("id_portador_necess_especial_2");
     const numCidInput = document.getElementById("id_num_cid");
-
     // Função para habilitar ou desabilitar o campo de entrada com base na seleção inicial
     function toggleNumCidInput() {
         numCidInput.disabled = !simRadio.checked; // Ativar/desativar o campo com base na seleção inicial
@@ -77,16 +68,11 @@
             numCidInput.value = ""; // Limpar o conteúdo do campo quando "não" for selecionado
         }
     }
-
     // Adicione ouvintes de eventos de mudança aos botões de rádio
     simRadio.addEventListener("change", toggleNumCidInput);
     naoRadio.addEventListener("change", toggleNumCidInput);
-
     // Chame a função inicialmente para definir o estado do campo de entrada com base na seleção inicial
     toggleNumCidInput();
-
-    
-
 </script>
 
 
