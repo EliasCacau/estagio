@@ -14,7 +14,11 @@
                 <div style="display:none" id="matricula-alert" class="alert alert-danger col-sm-12"></div>
 
                 <form action="{% url 'confirma_matricula' %}" method="POST"> 
-                    {{ error }}
+                    {% if error %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ error }}
+                        </div>
+                    {% endif %}
                     {% csrf_token %}
                     <label for="cpf_matricula" class="dark-text-emphasis-dark" style="margin-bottom:5px; font-weight: bold;">Necessário o CPF ou Número da Matrícula para se cadastrar</label>
 

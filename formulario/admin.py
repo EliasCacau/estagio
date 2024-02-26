@@ -3,7 +3,7 @@ from django.contrib import admin
 from formulario.models import (Candidato, Dados, DadosAdicionais,
                                DadosBancarios, DadosCandidato,
                                DadosPatrimoniais, EmailRedesSociais, Emprego,
-                               Enderecos, Ensino, Filho, InformacaoCandidato,
+                               Enderecos, Ensino, Familiares, Filho, InformacaoCandidato,
                                Pagination, ParentePolicial, Passagem,
                                PrestacaoDivida, ProcessosIntimado,
                                PunicaoServicoMilitar, Sindicato, Telefone,
@@ -428,6 +428,17 @@ class VeiculosAdmin(admin.ModelAdmin):
 ]
     list_display = veiculos
 
+class FamiliaresAdmin(admin.ModelAdmin):
+    familiares = [
+        "grau_parentesco",
+        "nome_parente",
+        "endereco_parente",
+        "profissao",
+        "idade" ,
+        "vivo_morto",
+    ]
+    list_display = familiares
+
 admin.site.register(InformacaoCandidato, InformacaoCandidatoAdmin)
 admin.site.register(Pagination, PaginationAdmin)
 admin.site.register(DadosCandidato, DadosCandidatoAdmin)
@@ -437,6 +448,7 @@ admin.site.register(DadosBancarios, DadosBancariosAdmin)
 admin.site.register(EmailRedesSociais, EmailRedesSociaisAdmin)
 admin.site.register(DadosAdicionais, DadosAdicionaisAdmin)
 admin.site.register(Dados, DadosAdmin)
+admin.site.register(Familiares, FamiliaresAdmin)
 admin.site.register(Filho, FilhoAdmin)
 admin.site.register(ParentePolicial, ParentePolicialAdmin)
 admin.site.register(Sindicato, SindicatoAdmin)

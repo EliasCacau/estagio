@@ -1252,6 +1252,7 @@ class EnsinoForm(forms.ModelForm):
             "estado_instituicao",
         ]
         labels = {
+            "tipo_ensino": "Tipo de ensino",
             "nome_curso" : "Nome do curso (caso possua)",
             "endereco_instituicao" : "Endereco da Instituição de ensino"
         }
