@@ -64,7 +64,7 @@ class MatriculaCpfForm(forms.ModelForm):
             "num_matricula": forms.NumberInput(
                 attrs={
                     "class": "form-control",
-                    "placeholder": "Número de matrícula",
+                    "placeholder": "Email",
                     "id": "floatingInputValue",
                     "input_type": "number",
                 }
@@ -72,7 +72,7 @@ class MatriculaCpfForm(forms.ModelForm):
             "cpf": forms.NumberInput(
                 attrs={
                     "class": "form-control",
-                    "placeholder": "CPF",
+                    "placeholder": "Email",
                     "id": "floatingInputValue",
                     "input_type": "number",
                 }
