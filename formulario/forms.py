@@ -300,6 +300,7 @@ class EmailRedesSociaisForm(forms.ModelForm):
                 attrs={
                     "class": "form-control",
                     "placeholder": "Ex: example@email.com",
+                    "disabled": "true",
                 }
             ),
             "email_2": forms.EmailInput(
