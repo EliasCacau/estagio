@@ -651,8 +651,8 @@ class ConjugeFamiliaForm(forms.ModelForm):
             "bebidas_ingeridas": "Quais?",
             "fumante": "Você fuma?",
             "utilizou_entorpecentes": "Você já fez ou faz uso de substância entorpecente?",
-            "detalhes_utilizou_entorpecentes": "Em caso positivo, apresente detalhes",
-            "familia_substancia_toxica": " Alguém da sua família já fez ou faz uso de substância tóxica?",
+            "detalhes_utilizou_entorpecentes": "Em caso positivo, forneça detalhes",
+            "familia_substancia_toxica": " Alguém da sua família já fez ou faz uso de substância entorpecente?",
             "detalhes_familiar_substancia": "Em caso afirmativo, forneça detalhes",
         }
         widgets = {
