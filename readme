@@ -2,3 +2,14 @@
 # venv\Scripts\activate
 # pip install -r requirements.txt
 
+# python manage.py makemigrations
+# python manage.py migrate
+
+# Crie um super usuário para poder acessar o painel administrativo
+# python manage.py createsuperuser
+
+# Utilize "python manage.py runserver" para colocar o site no ar
+
+# Geralmente o sistema é acessado pela url 127.0.0.1:8000
+
+# Para acessar o painel administrativo basta acessar a url 127.0.0.1:8000/admin

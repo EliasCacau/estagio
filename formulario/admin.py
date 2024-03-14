@@ -440,7 +440,7 @@ class FamiliaresAdmin(admin.ModelAdmin):
     list_display = familiares
 
 admin.site.register(InformacaoCandidato, InformacaoCandidatoAdmin)
-admin.site.register(Pagination, PaginationAdmin)
+# admin.site.register(Pagination, PaginationAdmin)
 admin.site.register(DadosCandidato, DadosCandidatoAdmin)
 admin.site.register(Telefone, TelefoneAdmin)
 admin.site.register(Candidato, CandidatoAdmin)
